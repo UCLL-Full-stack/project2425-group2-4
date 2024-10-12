@@ -87,7 +87,6 @@
 
 ![Friend Request Wireframe](Attachments/friendRequestWireFrame.png)
 
-- Clicking on a user shows a popup that allows you to send a friend request.
 
 ### Acceptance Criteria
 
