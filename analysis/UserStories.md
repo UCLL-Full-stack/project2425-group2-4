@@ -87,7 +87,10 @@
 
 ![Friend Request Wireframe](Attachments/friendRequestWireFrame.png)
 
+<<<<<<< HEAD
 - Clicking on a user shows a popup that allows you to send a friend request.
+=======
+>>>>>>> parent of 878d306 (converting & merging analysis documents into 1 'PDF' file)
 
 ### Acceptance Criteria
 
