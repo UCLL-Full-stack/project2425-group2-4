@@ -10,7 +10,8 @@
     },
     "scripts": {
         "test": "jest",
-        "start": "nodemon -L app.ts --delay 3"
+        "start": "NODE_ENV=development nodemon -L app.ts --delay 3",
+        "prod":"NODE_ENV=production nodemon -L app.ts --delay 3" 
     },
     "nodemonConfig": {
         "ext": "ts",
@@ -31,6 +32,7 @@
         "express-jwt": "^8.4.1",
         "helmet": "^7.1.0",
         "jsonwebtoken": "^9.0.0",
+        "surrealdb": "^1.0.0",
         "swagger-jsdoc": "^6.2.0",
         "swagger-ui-express": "^4.6.0"
     },
