@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  diddyscord-dev:
+    entrypoint: 
+      - /surreal 
+      - start 
+      - --user
+      - admin
+      - --pass
+      - admin
+    image: surrealdb/surrealdb:latest
+    ports:
+      - 8000:8000
+  diddyscrod-prod:
+    entrypoint: 
+      - /surreal 
+      - start 
+      - --user
+      - admin
+      - --pass
+      - admin
+    image: surrealdb/surrealdb:latest
+    ports:
+      - 8069:8069
+
+
