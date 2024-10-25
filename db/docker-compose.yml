@@ -9,7 +9,12 @@ services:
       - admin
       - --pass
       - admin
+      - --log
+      - full
+      - rocksdb:/db/mydatabase.db
     image: surrealdb/surrealdb:latest
+    volumes:
+      - ./dev:/db
     ports:
       - 8000:8000
   diddyscrod-prod:
@@ -20,8 +25,12 @@ services:
       - admin
       - --pass
       - admin
+      - rocksdb:/db/mydatabase.db
     image: surrealdb/surrealdb:latest
+    volumes:
+      - ./prod:/var/db
     ports:
       - 8069:8069
+
 
 
