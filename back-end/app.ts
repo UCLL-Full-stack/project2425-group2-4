@@ -6,6 +6,7 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import Surreal from "surrealdb";
 
+const authRouter = require('./routes/authRouter');
 
 
 const app = express();
@@ -19,36 +20,8 @@ app.get('/status', (req, res) => {
     res.json({ message: 'Back-end is running...' });
 });
 
+app.use('/auth', authRouter);
 
-app.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-    const db = new Surreal();
-    const namespace = process.env.DBNAMESPACE || "";
-    const database = process.env.DBDATABASE || "";
-    const url = process.env.DBURL || "";
-
-    await db.connect(url, {
-        namespace: namespace,
-        database: database,
-    });
-
-    const token = await db.signin({
-        namespace: namespace,
-        database: database,
-
-        // Provide the name of the access method
-        access: 'user',
-
-        // Provide the variables used by the signin query
-        variables: {
-            email: email,
-            password: password,
-        }
-    });
-
-    db.close();
-    return res.json({ token });
-});
 
 
 
