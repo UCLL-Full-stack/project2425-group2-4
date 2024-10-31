@@ -1,22 +1,29 @@
 import Link from 'next/link';
+import styles from '@styles/home.module.css';
 
 const Header: React.FC = () => {
-  return (
-    <header className="p-3 mb-3 border-bottom bg-dark bg-gradient">
-      <a className="fs-2 d-flex justify-content-center mb-2 mb-lg-0 text-white text-decoration-none">
-        {' '}
-        Diddyscord
-      </a>
-      <nav className="nav justify-content-center">
-        <Link href="/" className="nav-link px-4 fs-5 text-white">
-          Home
-        </Link>
-        <Link href="/chatroom" className="nav-link px-4 fs-5 text-white">
-          Chatrooms
-        </Link>
-      </nav>
-    </header>
-  );
+    return (
+        <header>
+            <nav id="navbar">
+                <div className={styles.navwrapper}>
+                    <ul>
+                        <li>
+                            <div className={styles.bannerlogo}>
+                                <img src="" alt="banner logo" className="banner-logo" />
+                            </div>
+                            <a id={styles.diddyscordLogo}>Diddyscord</a>
+                        </li>
+                        <li>
+                            <Link href="/">Home</Link>
+                        </li>
+                        <li>
+                            <Link href="/chatroom">Chatrooms</Link>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+    );
 };
 
 export default Header;

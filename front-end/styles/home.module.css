@@ -15,12 +15,60 @@
     margin-bottom: 1rem;
 }
 
+#diddyscordLogo {
+    color: rgb(255, 255, 255);
+}
+
+#diddyscordLogo:hover {
+    color: rgb(255, 255, 255) !important;
+    transform: none !important;
+    transition: none !important;
+    -webkit-transition: none !important;
+}
+
+.navwrapper {
+    text-align: center;
+}
+
+.bannerlogo {
+    height: 60%;
+}
+
+@media (max-width: 768px) {
+    header nav .nav-wrapper {
+        width: 90%;
+    }
+}
+@media (max-width: 638px) {
+    header nav .nav-wrapper {
+        width: 100%;
+    }
+}
+
+@media (max-width: 640px) {
+    header nav #navbar ul {
+        display: none;
+    }
+}
+@media (orientation: landscape) {
+    header nav #navbar ul {
+        display: flex;
+    }
+}
+
+.chatroomName {
+    background: #111111;
+}
+
 .description {
     text-align: center;
-    max-width: var(--max-width);
-    width: 100%;
+    width: 50%;
     z-index: 2;
     font-family: var(--font-mono);
+    background: #111111;
+    box-shadow: 0 4px 8px 0 rgb(0, 0, 0);
+    border-radius: 15px;
+    height: auto;
 }
 
 .description a {
@@ -102,7 +150,7 @@
 
 .center::before,
 .center::after {
-    content: "";
+    content: '';
     left: 50%;
     position: absolute;
     filter: blur(45px);
@@ -130,7 +178,7 @@
 
 .thirteen::before,
 .thirteen::after {
-    content: "";
+    content: '';
     position: absolute;
     z-index: -1;
 }
@@ -246,11 +294,7 @@
         inset: auto 0 0;
         padding: 2rem;
         height: 200px;
-        background: linear-gradient(
-            to bottom,
-            transparent 0%,
-            rgb(var(--background-end-rgb)) 40%
-        );
+        background: linear-gradient(to bottom, transparent 0%, rgb(var(--background-end-rgb)) 40%);
         z-index: 1;
     }
 }
@@ -263,7 +307,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-    .vercelLogo {
+    .diddyscordLogo {
         filter: invert(1);
     }
 

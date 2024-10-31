@@ -1,15 +1,13 @@
-import Header from "@components/header";
-import Head from "next/head";
-import { Component, useEffect, useState } from "react";
-import ChatroomService from "@services/ChatroomService";
-import { Chat } from "@types";
-import ChatroomData from "@components/chatrooms/ChatRoomData";
-import { error } from "console";
-
-
+import Header from '@components/header';
+import Head from 'next/head';
+import { Component, useEffect, useState } from 'react';
+// import ChatroomService from '@services/ChatroomService';
+// import ChatroomData from '@components/chatrooms/ChatRoomData';
+import { Chat } from '@types';
+import { error } from 'console';
+import styles from '@styles/home.module.css';
 
 const Chatroom: React.FC = () => {
-
     // const chatroom = useState<Array<Chatroom>>();
 
     // useEffect(() => {
@@ -22,17 +20,20 @@ const Chatroom: React.FC = () => {
     // }
 
     return (
-    <>
-        <Head>
-            <title>Chatroom</title>
-        </Head>
-        <Header />
+        <>
+            <Head>
+                <title>Chatrooms</title>
+            </Head>
+            <Header />
             <main>
-                <h1>Chatroom name</h1>
+                <h1 className={styles.chatroomName}>Chatroom name</h1>
                 <section>
                     <h2>Username, Datetime</h2>
                     <p>yappa yappa yappa yappa</p>
                 </section>
             </main>
-    </>);
-}
+        </>
+    );
+};
+
+export default Chatroom;
