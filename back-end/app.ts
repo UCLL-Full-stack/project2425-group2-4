@@ -6,6 +6,8 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import Surreal from "surrealdb";
 
+
+
 const app = express();
 dotenv.config();
 const port = process.env.APP_PORT || 3000;
@@ -18,36 +20,34 @@ app.get('/status', (req, res) => {
 });
 
 
-app.get('/test', async (req, res) => {
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
     const db = new Surreal();
-    const url: string = process.env.DBURL || "";
-    const namespace: string = process.env.DBNAMESPACE || "";
-    const database: string = process.env.DBDATABASE || "";
-    const username: string = process.env.DBUSERNAME || "";
-    const password: string = process.env.DBPASSWORD || "";
+    const namespace = process.env.DBNAMESPACE || "";
+    const database = process.env.DBDATABASE || "";
+    const url = process.env.DBURL || "";
 
-    console.log(url, namespace, database, username, password);
-
-    // Connect to the database
-    await db.connect(url);
-
-    // Select a specific namespace / database
-    await db.use({
+    await db.connect(url, {
         namespace: namespace,
-        database: database
+        database: database,
     });
 
-    // Signin as a namespace, database, or root user
-    await db.signin({
-        username: username,
-        password: password
+    const token = await db.signin({
+        namespace: namespace,
+        database: database,
+
+        // Provide the name of the access method
+        access: 'user',
+
+        // Provide the variables used by the signin query
+        variables: {
+            email: email,
+            password: password,
+        }
     });
 
-    let people = await db.select("User");
-
-    // Create a new person with a random id
     db.close();
-    res.json(people);
+    return res.json({ token });
 });
 
 
