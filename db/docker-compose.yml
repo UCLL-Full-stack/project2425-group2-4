@@ -10,7 +10,7 @@ services:
       - --pass
       - admin
       - --log
-      - full
+      - trace
       - rocksdb:/db/mydatabase.db
     image: surrealdb/surrealdb:latest
     volumes:
