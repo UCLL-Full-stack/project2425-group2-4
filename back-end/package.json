@@ -10,8 +10,7 @@
     },
     "scripts": {
         "test": "jest",
-        "start": "NODE_ENV=development nodemon -L app.ts --delay 3",
-        "prod":"NODE_ENV=production nodemon -L app.ts --delay 3" 
+        "start": "nodemon -L app.ts --delay 3"
     },
     "nodemonConfig": {
         "ext": "ts",

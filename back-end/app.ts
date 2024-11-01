@@ -6,7 +6,7 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import Surreal from "surrealdb";
 
-const authRouter = require('./routes/authRouter');
+const authRouter = require('./routes/auth');
 
 
 const app = express();
