@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from '@styles/home.module.css';
 
 const Header: React.FC = () => {
@@ -9,7 +10,11 @@ const Header: React.FC = () => {
                     <ul>
                         <li>
                             <div className={styles.bannerlogo}>
-                                <img src="" alt="banner logo" className="banner-logo" />
+                                <img
+                                    src="/images/diddyscordLogo.png"
+                                    alt="banner logo"
+                                    className={styles.bannerlogo}
+                                />
                             </div>
                             <a id={styles.diddyscordLogo}>Diddyscord</a>
                         </li>
