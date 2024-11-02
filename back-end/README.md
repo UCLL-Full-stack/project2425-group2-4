@@ -27,7 +27,7 @@ Run the following commands in a terminal (**cd in the `back-end` folder!!**), to
 First, install all required node dependencies using npm (node package manager):
 
 ```console
-> npm install
+> npm install --force
 ```
 
 Then, to start the backend server execute:
