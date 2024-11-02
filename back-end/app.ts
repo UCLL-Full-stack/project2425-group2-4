@@ -6,7 +6,8 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import Surreal from "surrealdb";
 
-const authRouter = require('./routes/auth');
+const authRouter = require('./routes/authRouter.ts');
+const chatRouter = require('./routes/chatRouter.ts');
 
 
 const app = express();
@@ -22,7 +23,7 @@ app.get('/status', (req, res) => {
 
 app.use('/auth', authRouter);
 
-app.use('/chats', require('./routes/chatRouter'));
+app.use('/chats', chatRouter);
 
 
 
