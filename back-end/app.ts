@@ -22,6 +22,8 @@ app.get('/status', (req, res) => {
 
 app.use('/auth', authRouter);
 
+app.use('/chats', require('./routes/chatRouter'));
+
 
 
 
