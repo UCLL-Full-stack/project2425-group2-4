@@ -1,0 +1,21 @@
+import create from 'zustand';
+import { persist } from 'zustand/middleware';
+
+
+interface AuthState {
+	user: { name: string; email: string } | null;
+	login: (name: string, email: string) => void;
+	logout: () => void;
+}
+
+export const useAuthStore = create<AuthState>(persist(
+	(set) => ({
+		user: null,  // Initial state: no user is logged in
+		login: (name: string, email: string) => set({ user: { name, email } }),
+		logout: () => set({ user: null })
+	}),
+	{
+		name: 'auth-storage',  // Name of the storage item
+		getStorage: () => sessionStorage  // Define the type of storage
+	}
+));

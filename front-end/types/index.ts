@@ -1,12 +1,13 @@
 export type User = {
-    id: number;
+    id: string;
     username: string;
-    password: string;
+    role: string;
     email: string;
 };
 
-export type Message =  {
-    id: number;
+export type Message = {
+    id: string;
+    messenger: User;
     text: string;
     timestamp: Date;
 };
@@ -19,7 +20,9 @@ export type FriendRequest = {
 };
 
 export type Chat = {
-    id: number;
+    id: string;
     name: string;
+    messages: Message[];
+    users: User[];
     created_at: Date;
 };
