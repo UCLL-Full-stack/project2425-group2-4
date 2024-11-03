@@ -72,6 +72,7 @@
 
 .chatRoomContainer {
     display: flex;
+    flex-direction: column;
     background-color: #111111;
     justify-content: flex-start;
     border-radius: 1rem;
