@@ -1,5 +1,6 @@
 import { Surreal } from 'surrealdb';
 import { Request, Response } from 'express';
+import { user } from '../types/user';
 
 const login = async (req: Request, res: Response) => {
     const namespace = process.env.DBNAMESPACE || "";
@@ -7,11 +8,13 @@ const login = async (req: Request, res: Response) => {
     const url = process.env.DBURL || "";
     const { email, password } = req.body;
     console.log(namespace, database, url);
+    console.log(email, password);
     const db = new Surreal();
     await db.connect(url, {
         namespace: namespace,
         database: database,
     });
+
 
     try {
 
@@ -24,11 +27,15 @@ const login = async (req: Request, res: Response) => {
                 password: password,
             }
         });
+        let user: user = new Object() as user;
+        await db.query<[user]>('SELECT * FROM $auth.id')
+            .then(users => user = users[0])
+            .catch((e) => res.status(500).json({ message: 'Error logging in.' })) || new Object();
 
         db.close();
 
-        return res.json({ token });
-    } catch (e) { res.json({ message: 'Error logging in.' }); }
+        return res.json({ accessToken: token, user: user });
+    } catch (e) { res.status(401).json({ message: 'Error logging in.', error: e }); }
 
 };
 
