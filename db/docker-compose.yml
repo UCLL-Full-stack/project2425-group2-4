@@ -28,7 +28,7 @@ services:
       - rocksdb:/db/mydatabase.db
     image: surrealdb/surrealdb:latest
     volumes:
-      - ./prod:/var/db
+      - ./prod:/db
     ports:
       - 8069:8069
 
