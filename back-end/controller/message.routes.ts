@@ -50,7 +50,7 @@ const messageRouter = express.Router();
  *                schema:
  *                  $ref: '#/components/schemas/Message'
  */
-messageRouter.post('/chats/:id', async (req: Request, res: Response, next: NextFunction) => {
+messageRouter.post('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const chatId = parseInt(req.params.id, 10);
         const message = <MessageInput>req.body;
