@@ -52,7 +52,7 @@ const getMessageById = ({ id }: { id: number }): Message | null => {
 };
 
 // Can be reworked, not that complex
-const sendMessage = (message: Message): Message => {
+const postMessage = (message: Message): Message => {
     messages.push(message);
     return message;
 }
@@ -60,5 +60,5 @@ const sendMessage = (message: Message): Message => {
 export default {
     getAllMessages,
     getMessageById,
-    sendMessage,
+    postMessage,
 }

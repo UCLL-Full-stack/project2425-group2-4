@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import messageService from '../service/message.service';
-import { MessageInput, ChatInput } from '../types';
+import { MessageInput } from '../types';
 
 /**
  * @swagger
@@ -57,6 +57,7 @@ messageRouter.post('/:id', async (req: Request, res: Response, next: NextFunctio
         const result = await messageService.postMessage(chatId, message);
         res.status(200).json(result);
     } catch (error) {
+        console.log(error);
         next(error);
     }
 });

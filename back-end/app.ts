@@ -16,6 +16,7 @@ app.use(cors({ origin: 'http://localhost:8080' }));
 app.use(bodyParser.json());
 
 app.use('/chats', chatRouter);
+app.use('/chats', messageRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Back-end is running...' });
@@ -26,7 +27,7 @@ const swaggerOpts = {
         openapi: '3.0.0',
         info: {
             title: 'Diddyscord API',
-            version: '0.5.9',
+            version: '0.7.3',
         },
     },
     apis: ['./controller/*.routes.ts'],

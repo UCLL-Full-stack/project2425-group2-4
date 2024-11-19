@@ -31,7 +31,7 @@ const postMessage = (chatId: number, {
     chat.addMessage(message);
     chatDb.updateChat(chat);
 
-    return message;
+    return messagesDb.postMessage(message);
 };
 
 export default { postMessage };
