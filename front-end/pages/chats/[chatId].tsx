@@ -28,10 +28,20 @@ const Chatroom: React.FC = () => {
         }
     }, [chatId]);
 
-    const newUser: User = { // Hard-coding as we aren't using login/security yet
+    const newUser: User = {
+        // Hard-coding as we aren't using login/security yet
         id: '1',
         username: 'guest3432',
         email: 'guest3432@gmail.com',
+    };
+
+    const handleNewMessage = (message: Message) => {
+        if (chat) {
+            setChat({
+                ...chat,
+                messages: [...chat.messages, message],
+            });
+        }
     };
 
     return (
@@ -60,7 +70,12 @@ const Chatroom: React.FC = () => {
                             alt="img"
                             className={styles.chatInputImg}
                         />
-                        <PostMessage chatId={chatId as string} user={newUser} className={styles.chatInput} />
+                        <PostMessage
+                            chatId={chatId as string}
+                            user={newUser}
+                            className={styles.chatInput}
+                            onMessagePosted={handleNewMessage}
+                        />
                     </section>
                 </div>
             </main>

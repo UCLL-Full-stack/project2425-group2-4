@@ -7,9 +7,10 @@ type Props = {
     chatId: string;
     user: User;
     className?: string;
+    onMessagePosted: (message: Message) => void; // I KNEW I WAS MISSING SOMETHING
 };
 
-const PostMessage: React.FC<Props> = ({ chatId, user, className }) => {
+const PostMessage: React.FC<Props> = ({ chatId, user, className, onMessagePosted}) => {
     const [text, setText] = useState('');
     const [error, setError] = useState<string | null>(null);
 
@@ -23,9 +24,11 @@ const PostMessage: React.FC<Props> = ({ chatId, user, className }) => {
                     messenger: user,
                     timestamp: new Date(),
                 };
-                await MessageService.postMessage(chatId, newMessage);
-                setText(''); // Clear the input field after successful post
+                const postedMessage = await MessageService.postMessage(chatId, newMessage);
+                setText(''); // clearing it out
+                onMessagePosted(postedMessage);
             } catch (err) {
+                console.log(err); // debugging
                 setError('Failed to post message');
             }
         }
