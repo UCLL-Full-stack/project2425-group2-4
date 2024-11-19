@@ -3,19 +3,19 @@ import React from 'react';
 import styles from '@styles/home.module.css';
 
 type Props = {
-    Chatroom: Chat;
-    Messages: Message[];
-    User: User;
+    chat: Chat;
+    messages: Message[];
+    users: User[];
 };
 
-const ChatRoomData: React.FC<Props> = ({ Chatroom, Messages, User }) => {
+const ChatRoomData: React.FC<Props> = ({ chat, messages, users }) => {
     return (
         <>
-            <h1 className={styles.chatroomName}>{Chatroom.name}</h1>
+            {/* <h1 className={styles.chatroomName}>{chat.name}</h1> */}
             <div className={styles.chatRoomContainer}>
-                {Messages.map((message, index) => (
+                {messages.map((message, index) => (
                     <section key={index} className={styles.chatSection}>
-                        <h2 className={styles.userName}>{User.username}</h2>
+                        <h2 className={styles.userName}>{users.find(u => u.id === message.messenger.id)?.username}</h2>
                         <h2 className={styles.dateTime}>
                             {new Date(message.timestamp).toLocaleString()}
                         </h2>

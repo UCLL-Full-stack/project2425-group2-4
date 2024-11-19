@@ -2,9 +2,9 @@
 
 ## Chatroom
 
-> As a *User*
-> I am able to *get in a chat available to me*
-> so that I can *view messages in a chatroom*
+> As a _User_
+> I am able to _get in a chat available to me_
+> so that I can _view messages in a chatroom_
 
 ### Wireframe
 
@@ -17,15 +17,15 @@
 - Orders them by most recent at the bottom.
 - The ability to scroll up to view the message history.
 
-## Overview Chatrooms
+## Overview chats
 
-> As a *User*
-> I am able to *get a list of chatrooms I am assigned to*
-> so that I can *see which chatrooms are available for me*
+> As a _User_
+> I am able to _get a list of chats I am assigned to_
+> so that I can _see which chats are available for me_
 
 ### Wireframe
 
-![Overview Chatrooms Wireframe](Attachments/OverviewChatroomsWF.png)
+![Overview chats Wireframe](Attachments/OverviewChatroomsWF.png)
 
 ### Acceptance Criteria
 
@@ -35,9 +35,9 @@
 
 ## Send Message
 
-> As a *User*
-> I am able to *send a message to another user*
-> so that I can *communicate with them*
+> As a _User_
+> I am able to _send a message to another user_
+> so that I can _communicate with them_
 
 ### Wireframe
 
@@ -51,9 +51,9 @@
 
 ## Receive Message
 
-> As a *User*
-> I am able to *receive messages from another user in real-time*
-> so that I can *communicate with them*
+> As a _User_
+> I am able to _receive messages from another user in real-time_
+> so that I can _communicate with them_
 
 ### Acceptance Criteria
 
@@ -62,9 +62,9 @@
 
 ## Friend Request
 
-> As a *User*
-> I am able to *send a friend request to another user*
-> so that I can *associate with a user*
+> As a _User_
+> I am able to _send a friend request to another user_
+> so that I can _associate with a user_
 
 ### Wireframe
 
@@ -79,18 +79,18 @@
 
 ## Overview Friend Requests
 
-> As a *User*
-> I am able to *view my friend requests*
-> so that I can *accept or reject a request*
+> As a _User_
+> I am able to _view my friend requests_
+> so that I can _accept or reject a request_
 
 ### Wireframe
 
 ![Friend Request Wireframe](Attachments/friendRequestWireFrame.png)
 
 <<<<<<< HEAD
-- Clicking on a user shows a popup that allows you to send a friend request.
-=======
->>>>>>> parent of 878d306 (converting & merging analysis documents into 1 'PDF' file)
+
+- # Clicking on a user shows a popup that allows you to send a friend request.
+  > > > > > > > parent of 878d306 (converting & merging analysis documents into 1 'PDF' file)
 
 ### Acceptance Criteria
 
@@ -103,21 +103,23 @@
 ### Endpoints:
 
 1. **User Authentication:**
-    - `POST /api/auth/register`: Register a new user.
-    - `POST /api/auth/login`: Log in a user.
-    - `POST /api/auth/logout`: Log out a user.
+
+   - `POST /api/auth/register`: Register a new user.
+   - `POST /api/auth/login`: Log in a user.
+   - `POST /api/auth/logout`: Log out a user.
 
 2. **Friend Requests:**
-    - `POST /api/friends/request`: Send a friend request.
-    - `GET /api/friends/requests`: Get pending friend requests.
-    - `POST /api/friends/requests/{requestId}/accept`: Accept a friend request.
-    - `POST /api/friends/requests/{requestId}/reject`: Reject a friend request.
+
+   - `POST /api/friends/request`: Send a friend request.
+   - `GET /api/friends/requests`: Get pending friend requests.
+   - `POST /api/friends/requests/{requestId}/accept`: Accept a friend request.
+   - `POST /api/friends/requests/{requestId}/reject`: Reject a friend request.
 
 3. **Chats:**
-    - `GET /api/chats`: Get a list of chatrooms for the user.
-    - `GET /api/chats/{chatId}`: Get messages for a specific chatroom.
-    - `POST /api/chats/{chatId}/messages`: Send a message to a chatroom.
+
+   - `GET /api/chats`: Get a list of chats for the user.
+   - `GET /api/chats/{chatId}`: Get messages for a specific chatroom.
+   - `POST /api/chats/{chatId}/messages`: Send a message to a chatroom.
 
 4. **Real-time Messaging:**
-    - Implement WebSocket in the backend for real-time messaging as the database supports WebSockets.
-
+   - Implement WebSocket in the backend for real-time messaging as the database supports WebSockets.

@@ -57,6 +57,14 @@ export class Chat {
         return this.users;
     }
 
+    // Posting the messages within the chatroom
+    addMessage(message: Message) {
+        if (!this.messages) {
+            this.messages = [];
+        }
+        this.messages.push(message);
+    }
+
     equals(chat: Chat): boolean {
         const usersEqual = (this.users?.length === chat.getUsers()?.length &&
         this.users?.every((user, index) => {

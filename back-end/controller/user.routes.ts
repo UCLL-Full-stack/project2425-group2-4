@@ -18,7 +18,7 @@
  *              description: Username.
  *            email:
  *              type: string
- *              description: Course description.
+ *              description: User's email.
  *            password:
  *              type: number
  *              description: User's password.

@@ -1,7 +1,7 @@
 export type User = {
     id: string;
     username: string;
-    role: string;
+    //role: string;
     email: string;
 };
 
@@ -15,8 +15,8 @@ export type Message = {
 export type FriendRequest = {
     id: number;
     status: string;
-    sent_at: Date;
-    responded_at: Date;
+    sentAt: Date;
+    respondedAt: Date;
 };
 
 export type Chat = {
@@ -24,5 +24,5 @@ export type Chat = {
     name: string;
     messages: Message[];
     users: User[];
-    created_at: Date;
+    createdAt: Date;
 };

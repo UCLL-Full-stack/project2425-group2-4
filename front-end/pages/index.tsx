@@ -8,7 +8,7 @@ const Home: React.FC = () => {
         <>
             <Head>
                 <title>Homepage</title>
-                <meta name="description" content="Diddyscord chatrooms" />
+                <meta name="description" content="Diddyscord chats" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 {/* <link rel="icon" href="/favicon.ico" /> */}
             </Head>

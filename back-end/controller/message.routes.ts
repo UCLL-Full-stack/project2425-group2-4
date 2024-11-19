@@ -1,29 +1,12 @@
 import express, { NextFunction, Request, Response } from 'express';
-import messagesService from '../service/messages.service';
+import messageService from '../service/message.service';
 import { MessageInput, ChatInput } from '../types';
 
 /**
  * @swagger
  *   components:
  *    schemas:
- *      ChatInput:
- *          type: object
- *          properties:
- *            id:
- *              type: number
- *              format: int64
- *            createdAt:
- *              type: string
- *              format: date-time
- *            messages:
- *              type: array
- *              items:
- *                  $ref: '#/components/schemas/Message'
- *            users:
- *              type: array
- *              items:
- *                  $ref: '#/components/schemas/User'
- *      MessageInput:
+ *      Message:
  *          type: object
  *          properties:
  *            id:
@@ -43,15 +26,22 @@ const messageRouter = express.Router();
 
 /**
  * @swagger
- * /schedules:
+ * /chats/{id}:
  *   post:
  *      summary: Send a message within an existing chatroom.
+ *      parameters:
+ *          - in: path
+ *            name: id
+ *            schema:
+ *              type: integer
+ *              required: true
+ *              description: The chat id.
  *      requestBody:
  *        required: true
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/MessageInput'
+ *              $ref: '#/components/schemas/Message'
  *      responses:
  *         200:
  *            description: The created message.
@@ -60,10 +50,11 @@ const messageRouter = express.Router();
  *                schema:
  *                  $ref: '#/components/schemas/Message'
  */
-messageRouter.post('/:id', async (req: Request, res: Response, next: NextFunction) => {
+messageRouter.post('/chats/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const chatId = parseInt(req.params.id, 10);
         const message = <MessageInput>req.body;
-        const result = await messagesService.sendMessage(message);
+        const result = await messageService.postMessage(chatId, message);
         res.status(200).json(result);
     } catch (error) {
         next(error);

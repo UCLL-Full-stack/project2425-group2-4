@@ -7,7 +7,7 @@
  *      scheme: bearer
  *      bearerFormat: JWT
  *    schemas:
- *      Lecturer:
+ *      Chat:
  *          type: object
  *          properties:
  *            id:
@@ -15,10 +15,18 @@
  *              format: int64
  *            name:
  *              type: string
- *              description: Chat name.
- *            expertise:
+ *            createdAt:
  *              type: string
- *              description: Lecturer expertise.
+ *              format: date-time
+ *            messages:
+ *              type: array
+ *              items:
+ *                  $ref: '#/components/schemas/Message'
+ *            users:
+ *              description: An array of users.
+ *              type: array
+ *              items:
+ *                  $ref: '#/components/schemas/User'
  */
 import express, { NextFunction, Request, Response } from 'express';
 import chatService from '../service/chat.service';
@@ -27,12 +35,12 @@ const chatRouter = express.Router();
 
 /**
  * @swagger
- * /chatrooms:
+ * /chats:
  *   get:
- *     summary: Get a list of all chatrooms.
+ *     summary: Get a list of all chats.
  *     responses:
  *       200:
- *         description: A list of chatrooms.
+ *         description: A list of chats.
  *         content:
  *           application/json:
  *             schema:
@@ -51,7 +59,7 @@ chatRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
 
 /**
  * @swagger
- * /lecturers/{id}:
+ * /chats/{id}:
  *  get:
  *      summary: Get a Chat by id.
  *      parameters:
