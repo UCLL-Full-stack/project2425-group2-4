@@ -24,7 +24,7 @@ const DiddyFanLogin: React.FC = () => {
         let result = true;
 
         if (!name && name.trim() === '') {
-            setNameError('Name is required');
+            setNameError('Diddy is not happy... type in a name or else...');
             result = false;
         } else {
             setNameError('');
@@ -32,7 +32,7 @@ const DiddyFanLogin: React.FC = () => {
 
         return result;
     };
-                                    //(event) IS WRONG???? BECAUSE IT HAS ANY TYPE?? WHAT
+    //(event) IS WRONG???? BECAUSE IT HAS ANY TYPE?? WHAT
     const handleSubmission = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         noMoreErrorsPlz();
@@ -72,17 +72,17 @@ const DiddyFanLogin: React.FC = () => {
                 </div>
             )}
             <form onSubmit={handleSubmission}>
-                <label htmlFor="nameInput">Diddy Fan:</label> 
+                <label htmlFor="nameInput">Diddy Fan:</label>
                 {/* className= */}
                 <div>
-                    <input 
-                    id="nameInput"
-                    type="text"
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                    //className=
+                    <input
+                        id="nameInput"
+                        type="text"
+                        value={name}
+                        onChange={(event) => setName(event.target.value)}
+                        //className=
                     />
-                    {nameError && <p className='text-red-800'>{nameError}</p>}
+                    {nameError && <p className="text-red-800">{nameError}</p>}
                 </div>
 
                 <button
