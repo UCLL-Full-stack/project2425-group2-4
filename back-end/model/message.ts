@@ -1,4 +1,9 @@
 import { User } from "./user";
+import {
+    User as UserPrisma,
+    Message as MessagePrisma,
+    Chat as ChatPrisma
+} from '@prisma/client';
 
 export class Message {
     private id?: number;
@@ -50,5 +55,19 @@ export class Message {
             this.messenger === message.getMessenger() &&
             this.timestamp === message.getTimestamp()
         );
+    }
+
+    static from({
+        id,
+        text,
+        timestamp,
+        messenger, 
+    }: MessagePrisma) {
+        return new Message({
+            id,
+            text,
+            timestamp,
+            messenger: User.from(messenger),
+        });
     }
 }

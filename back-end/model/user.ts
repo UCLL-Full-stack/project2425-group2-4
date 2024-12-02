@@ -59,4 +59,8 @@ export class User {
             this.password === user.getPassword()
         );
     }
+
+    static from ({}) {
+        
+    }
 }
