@@ -1,5 +1,10 @@
 import { Message } from "./message";
 import { User } from "./user";
+import {
+    Chat as ChatPrisma,
+    User as UserPrisma,
+    Message as MessagePrisma,
+} from '@prisma/client';
 
 export class Chat {
     private id?: number;
@@ -87,6 +92,22 @@ export class Chat {
             this.createdAt === chat.getCreatedAt() &&
             usersEqual && messagesEqual
         );
+    }
+
+    static from ({
+        id,
+        name,
+        createdAt,
+        messages,
+        users,
+    }: ChatPrisma & { users: UserPrisma[]; messages: MessagePrisma}) {
+        return new Chat({
+            id,
+            users: users.map((user) => User.from(user)),
+            name,
+            createdAt,
+            messages: messages.map((message) => Message.from(message)),
+        });
     }
 
 }
