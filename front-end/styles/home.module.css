@@ -70,20 +70,51 @@
     margin: 0.5rem;
 }
 
-.chatRoomContainer {
+.chatroomContainer {
+    max-width: 90vw;
+    display: flex;
+    flex-direction: row;
+    gap: 0px;
+}
+
+.chatRoomsOverviewContainer {
     display: flex;
     flex-direction: column;
     background-color: #111111;
     justify-content: flex-start;
-    border-radius: 1rem;
-    border-style: solid;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
     border-color: #1f1f1f;
-    width: 50rem;
+    width: 25vw;
     margin-bottom: 1rem;
     max-height: 40rem;
     overflow-x: hidden;
     overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: RGBA(65,65,65,1) RGBA(0,0,0,0);
 }
+
+.chatRoomContentContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: #111111;
+    justify-content: flex-start;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    border-style: solid;
+    border-color: #1f1f1f;
+    width: 75vw;
+    margin-bottom: 1rem;
+    max-height: 40rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: RGBA(65,65,65,1) RGBA(0,0,0,0);
+}
+
 
 .chatSection {
     display: grid;

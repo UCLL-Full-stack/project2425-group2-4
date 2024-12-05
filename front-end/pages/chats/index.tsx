@@ -9,6 +9,7 @@ import { error } from 'console';
 import styles from '@styles/home.module.css';
 import ChatOverviewData from '@components/chats/ChatOverview';
 import { useRouter } from 'next/router';
+import ChatData from '@components/chats/ChatData';
 //import ChatData from '@components/chats/ChatData';
 
 const Chatroom: React.FC = () => {
@@ -31,6 +32,8 @@ const Chatroom: React.FC = () => {
         }
     };
 
+    const [chat, setChat] = useState<Chat | null>(null);
+
     const selectChat = (chat: Chat) => {
         router.push(`/chats/${chat.id}`);
     };
@@ -43,12 +46,26 @@ const Chatroom: React.FC = () => {
             <Header />
             <main className={styles.main}>
                 <h1 className={styles.chatroomName}>Diddyscord Chatrooms</h1>
-                <div className={styles.chatRoomContainer}>
-                    {chats && chats.length > 0 ? (
-                        <ChatOverviewData chats={chats} selectChat={selectChat} />
-                    ) : (
-                        <p>No chatrooms active.</p>
-                    )}
+                <div className={styles.chatroomContainer}>
+                    <div className={styles.chatRoomsOverviewContainer}>
+                        {chats && chats.length > 0 ? (
+                            <ChatOverviewData chats={chats} selectChat={setChat} />
+                        ) : (
+                            <p>No chatrooms active.</p>
+                        )}
+
+                    </div>
+                    <div className={styles.chatRoomContentContainer}>
+                        {chat ? (
+                            <ChatData
+                                chat={chat}
+                                messages={chat?.messages || []}
+                                users={chat?.users || []}
+                            />
+                        ) : (
+                            <p>No messages to be displayed.</p>
+                        )}
+                    </div>
                 </div>
             </main>
         </>

@@ -41,14 +41,12 @@ const ChatOverviewData: React.FC<Props> = ({ chats, selectChat }: Props) => {
                     <thead>
                         <tr>
                             <th scope="col">Chat Name</th>
-                            <th scope="col">Created At</th>
                         </tr>
                     </thead>
                     <tbody>
                         {chats.map((chat, index) => (
                             <tr key={index} onClick={() => selectChat(chat)} role="button">
                                 <td>{chat.name}</td>
-                                <td>{new Date(chat.createdAt).toLocaleString()}</td>
                             </tr>
                         ))}
                     </tbody>
