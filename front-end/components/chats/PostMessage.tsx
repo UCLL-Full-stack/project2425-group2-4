@@ -10,7 +10,7 @@ type Props = {
     onMessagePosted: (message: Message) => void; // I KNEW I WAS MISSING SOMETHING
 };
 
-const PostMessage: React.FC<Props> = ({ chatId, user, className, onMessagePosted}) => {
+const PostMessage: React.FC<Props> = ({ chatId, user, className, onMessagePosted }) => {
     const [text, setText] = useState('');
     const [error, setError] = useState<string | null>(null);
 
