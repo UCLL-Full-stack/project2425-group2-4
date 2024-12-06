@@ -8,19 +8,19 @@ import {
 export class Message {
     private id?: number;
     private text: string;
-    private messenger: User;
+    private userId: number;
     private timestamp: Date;
 
     constructor(message: {
         id?: number;
         text: string;
-        messenger: User;
+        userId: number;
         timestamp: Date;
     }) {
         this.validate(message);
         this.id = message.id;
         this.text = message.text;
-        this.messenger = message.messenger;
+        this.userId = message.userId;
         this.timestamp = message.timestamp;
     }
 
@@ -41,8 +41,8 @@ export class Message {
         return this.text;
     }
 
-    getMessenger(): User {
-        return this.messenger;
+    getUserId(): number {
+        return this.userId;
     }
 
     getTimestamp(): Date {
@@ -52,22 +52,22 @@ export class Message {
     equals(message: Message): boolean {
         return (
             this.text === message.getText() &&
-            this.messenger === message.getMessenger() &&
+            this.userId === message.getUserId() &&
             this.timestamp === message.getTimestamp()
         );
     }
 
-    static from({
+    static async from({
         id,
         text,
         timestamp,
-        messenger, 
-    }: MessagePrisma) {
+        userId,
+    }: MessagePrisma): Promise<Message> {
         return new Message({
             id,
             text,
+            userId,
             timestamp,
-            messenger: User.from(messenger),
         });
     }
 }

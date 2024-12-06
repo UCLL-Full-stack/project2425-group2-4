@@ -27,7 +27,12 @@ const postMessage = (chatId: number, {
         throw new Error('Chat not found');
     }
 
-    const message = new Message({ text, messenger, timestamp });
+    const userId = messenger.getId();
+    if (userId === undefined) {
+        throw new Error('User ID is undefined');
+    }
+    
+    const message = new Message({ text, userId, timestamp });
     chat.addMessage(message);
     chatDb.updateChat(chat);
 

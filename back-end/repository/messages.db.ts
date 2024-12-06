@@ -20,25 +20,25 @@ const messages = [
     new Message({
         id: 1,
         text: "Hello!",
-        messenger: user1,
+        userId: 1,
         timestamp: new Date('2023-18-11T10:01:00Z'),
     }),
     new Message({
         id: 2,
         text: "Hello back, how are you?",
-        messenger: user2,
+        userId: 2,
         timestamp: new Date('2023-18-11T10:02:00Z'),
     }),
     new Message({
         id: 3,
         text: "Good good, weather could be better but asides that we gucci",
-        messenger: user1,
+        userId: 1,
         timestamp: new Date('2023-18-11T10:03:00Z'),
     }),
     new Message({
         id: 4,
         text: "Great to hear that ur doing well! Weather does suck right now..",
-        messenger: user2,
+        userId: 2,
         timestamp: new Date('2023-18-11T10:04:00Z'),
     }),
 ];

@@ -1,16 +1,27 @@
-// import
+import {
+    User as UserPrisma,
+    Chat as ChatPrisma,
+    Message as MessagePrisma,
+} from '@prisma/client';
+
+import { Chat } from './chat';
+import { Message } from './message';
 
 export class User {
     private id?: number;
     private username: string;
     private email: string;
     private password: string;
+    private chats?: Chat[];
+    private messages?: Message[];
 
     constructor(user: {
         id?: number;
         username: string;
         email: string;
         password: string;
+        chats?: Chat[];
+        messages?: Message[];
     }) {
         this.validate(user);
 
@@ -18,6 +29,8 @@ export class User {
         this.username = user.username;
         this.email = user.email;
         this.password = user.password;
+        this.chats = user.chats;
+        this.messages = user.messages;
     }
 
     getId(): number | undefined {
@@ -34,6 +47,14 @@ export class User {
 
     getPassword(): string {
         return this.password;
+    }
+
+    getChats(): Chat[] | undefined {
+        return this.chats;
+    }
+
+    getMessages(): Message[] | undefined {
+        return this.messages;
     }
 
     validate(user: {
@@ -60,7 +81,21 @@ export class User {
         );
     }
 
-    static from ({}) {
-        
+    static from ({
+        id,
+        username,
+        password,
+        email,
+        chats,
+        messages,
+    }: UserPrisma & { chats?: ChatPrisma[]; messages?: MessagePrisma[] }): User { 
+        return new User({
+            id,
+            username,
+            password,
+            email,
+            chats: (chats || []).map(chat => new Chat(chat)),
+            messages: (messages || []).map(message => new Message(message)),
+        });
     }
 }

@@ -100,13 +100,13 @@ export class Chat {
         createdAt,
         messages,
         users,
-    }: ChatPrisma & { users: UserPrisma[]; messages: MessagePrisma}) {
+    }: ChatPrisma & { users: UserPrisma[]; messages: MessagePrisma[]}) {
         return new Chat({
             id,
-            users: users.map((user) => User.from(user)),
+            users: (users || []).map((user) => User.from(user)),
             name,
             createdAt,
-            messages: messages.map((message) => Message.from(message)),
+            messages: (messages || []).map(message => new Message(message)),
         });
     }
 
