@@ -106,7 +106,10 @@ export class Chat {
             users: (users || []).map((user) => User.from(user)),
             name,
             createdAt,
-            messages: (messages || []).map(message => new Message(message)),
+            messages: (messages || []).map(message => new Message({
+                ...message,
+                messenger: new User({ id: message.userId, username: '', email: '', password: '' })
+            })),
         });
     }
 

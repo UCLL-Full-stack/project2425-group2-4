@@ -32,7 +32,7 @@ const postMessage = (chatId: number, {
         throw new Error('User ID is undefined');
     }
     
-    const message = new Message({ text, userId, timestamp });
+    const message = new Message({ text, messenger, timestamp });
     chat.addMessage(message);
     chatDb.updateChat(chat);
 

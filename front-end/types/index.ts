@@ -8,6 +8,7 @@ export type User = {
 
 export type Message = {
     id: string;
+    userId: number;
     messenger: User;
     text: string;
     timestamp: Date;

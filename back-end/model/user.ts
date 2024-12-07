@@ -95,7 +95,10 @@ export class User {
             password,
             email,
             chats: (chats || []).map(chat => new Chat(chat)),
-            messages: (messages || []).map(message => new Message(message)),
+            messages: (messages || []).map(message => new Message({
+                ...message,
+                messenger: new User({ id: message.userId, username: username, email: email, password: password })
+            })),
         });
     }
 }

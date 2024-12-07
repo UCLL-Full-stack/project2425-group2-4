@@ -8,19 +8,22 @@ import {
 export class Message {
     private id?: number;
     private text: string;
-    private userId: number;
+    private messenger: User;
+    //private userId: number;
     private timestamp: Date;
 
     constructor(message: {
         id?: number;
         text: string;
-        userId: number;
+        //userId: number;
+        messenger: User;
         timestamp: Date;
     }) {
         this.validate(message);
         this.id = message.id;
         this.text = message.text;
-        this.userId = message.userId;
+        //this.userId = message.userId;
+        this.messenger = message.messenger;
         this.timestamp = message.timestamp;
     }
 
@@ -41,19 +44,24 @@ export class Message {
         return this.text;
     }
 
-    getUserId(): number {
-        return this.userId;
-    }
+    // getUserId(): number {
+    //     return this.userId;
+    // }
 
     getTimestamp(): Date {
         return this.timestamp;
     }
 
+    getMessenger(): User {
+        return this.messenger;
+    }
+
     equals(message: Message): boolean {
         return (
             this.text === message.getText() &&
-            this.userId === message.getUserId() &&
-            this.timestamp === message.getTimestamp()
+            // this.userId === message.getUserId() &&
+            this.timestamp === message.getTimestamp() &&
+            this.messenger === message.getMessenger()
         );
     }
 
@@ -61,12 +69,14 @@ export class Message {
         id,
         text,
         timestamp,
-        userId,
-    }: MessagePrisma): Promise<Message> {
+        messenger,
+        // userId,
+    }: MessagePrisma & { messenger: UserPrisma }): Promise<Message>{
         return new Message({
             id,
             text,
-            userId,
+            // userId,
+            messenger: User.from(messenger),
             timestamp,
         });
     }
