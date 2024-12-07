@@ -9,6 +9,8 @@ import { error } from 'console';
 import styles from '@styles/home.module.css';
 import ChatOverviewData from '@components/chats/ChatOverview';
 import { useRouter } from 'next/router';
+import ChatData from '@components/chats/ChatData';
+import PostMessage from '@components/chats/PostMessage';
 //import ChatData from '@components/chats/ChatData';
 
 const Chatroom: React.FC = () => {
@@ -30,10 +32,24 @@ const Chatroom: React.FC = () => {
             setChats(null);
         }
     };
-
-    const selectChat = (chat: Chat) => {
-        router.push(`/chats/${chat.id}`);
+    const newUser: User = {
+        // Hard-coding as we aren't using login/security yet
+        id: '1',
+        username: 'guest3432',
+        email: 'guest3432@gmail.com',
     };
+
+    const handleNewMessage = (message: Message) => {
+        if (chat) {
+            setChat({
+                ...chat,
+                messages: [...chat.messages, message],
+            });
+        }
+    };
+
+
+    const [chat, setChat] = useState<Chat | null>(null);
 
     return (
         <>
@@ -43,12 +59,43 @@ const Chatroom: React.FC = () => {
             <Header />
             <main className={styles.main}>
                 <h1 className={styles.chatroomName}>Diddyscord Chatrooms</h1>
-                <div className={styles.chatRoomContainer}>
-                    {chats && chats.length > 0 ? (
-                        <ChatOverviewData chats={chats} selectChat={selectChat} />
-                    ) : (
-                        <p>No chatrooms active.</p>
-                    )}
+                <div className={styles.chatroomContainer}>
+                    <div className={styles.chatRoomsOverviewContainer}>
+                        {chats && chats.length > 0 ? (
+                            <ChatOverviewData chats={chats} selectChat={setChat} />
+                        ) : (
+                            <p>No chatrooms active.</p>
+                        )}
+
+                    </div>
+                    <div className={styles.chatRoomContentContainer}>
+                        <div className={styles.chatRoomContent}>
+                            {chat ? (
+                                <ChatData
+                                    chat={chat}
+                                    messages={chat?.messages || []}
+                                    users={chat?.users || []}
+                                />
+                            ) : (
+                                <p>No messages to be displayed.</p>
+                            )}
+                        </div>
+                        <div>
+                            <section className={styles.chatInputContainer}>
+                                <img
+                                    src="../images/chatInput.png"
+                                    alt="img"
+                                    className={styles.chatInputImg}
+                                />
+                                <PostMessage
+                                    chatId={chat?.id as string}
+                                    user={newUser}
+                                    className={styles.chatInput}
+                                    onMessagePosted={handleNewMessage}
+                                />
+                            </section>
+                        </div>
+                    </div>
                 </div>
             </main>
         </>
