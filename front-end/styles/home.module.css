@@ -4,6 +4,7 @@
     align-items: center;
     padding: 6rem;
     min-height: 100vh;
+    height: 100%;
 }
 
 .main h1 {
@@ -70,29 +71,73 @@
     margin: 0.5rem;
 }
 
-.chatRoomContainer {
+.chatroomContainer {
+    max-width: 90vw;
+    display: flex;
+    flex-direction: row;
+    gap: 0px;
+}
+
+.chatRoomsOverviewContainer {
     display: flex;
     flex-direction: column;
     background-color: #111111;
     justify-content: flex-start;
-    border-radius: 1rem;
-    border-style: solid;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
     border-color: #1f1f1f;
-    width: 50rem;
+    width: 25vw;
     margin-bottom: 1rem;
     max-height: 40rem;
     overflow-x: hidden;
     overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: RGBA(65,65,65,1) RGBA(0,0,0,0);
 }
 
+.chatRoomContentContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: #111111;
+    justify-content: flex-end;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    border-style: solid;
+    border-color: #1f1f1f;
+    width: 75vw;
+    margin-bottom: 1rem;
+    height: 60vh;
+}
+.chatRoomContent{
+    display: flex;
+    flex-direction: column;
+    background-color: #111111;
+    justify-content: flex-end;
+    border-radius: 1rem;
+    width: 99.8%;
+    margin-bottom: 1rem;
+    height: 60vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: RGBA(65,65,65,1) RGBA(0,0,0,0);
+}
+
+
 .chatSection {
+    width: 100%;
     display: grid;
     grid-template-columns: auto auto;
-    justify-content: start;
+    justify-content: space-between;
 }
 
 .userName {
+    color: #FFFFFF;
     margin: 1rem;
+    font-weight: 700;
 }
 
 .overviewTable {
@@ -134,11 +179,14 @@
 
 .dateTime {
     margin: 1rem;
+    color: #adadad;
+    text-align: right;
 }
 
 .chatMessages {
     grid-column: 1 / span 2;
     margin: 1rem;
+    margin-top: 0;
 }
 
 .chatInputImg {
@@ -162,8 +210,8 @@
     display: flex;
     background-color: #111111;
     justify-content: flex-start;
-    border-radius: 1rem;
-    border-style: solid;
+    border-style: none;
+    border-top-style: solid;
     border-color: #1f1f1f;
     width: 50rem;
 }
