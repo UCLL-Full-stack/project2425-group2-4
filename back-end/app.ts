@@ -7,14 +7,31 @@ import swaggerUi from 'swagger-ui-express';
 import { chatRouter } from './controller/chat.routes';
 import { messageRouter } from './controller/message.routes';
 import { userRouter } from './controller/user.routes';
+import { expressjwt } from 'express-jwt';
 
 const app = express();
 dotenv.config();
 const port = process.env.APP_PORT || 3000;
 
-app.use(cors({ origin: 'http://localhost:8080' }));
+const corsOptions = {
+    origin: 'http://localhost:8080', // Allow only this origin
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+};
+
+app.use(
+    expressjwt({
+        secret: process.env.JWT_SECRET || 'default_secret',
+        algorithms: ['HS256'],
+    }).unless({
+        path: ['/api-docs', /^\/api-docs\/.*/, '/user/login', '/user/signup', '/status'],
+    })
+);
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
+app.use('/user', userRouter);
 app.use('/chats', chatRouter);
 app.use('/chats', messageRouter);
 

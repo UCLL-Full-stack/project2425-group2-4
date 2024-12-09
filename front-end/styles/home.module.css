@@ -61,6 +61,108 @@
     }
 }
 
+.loginPageBox {
+    background: #111111;
+    width: 50vw;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #2c4766;
+    border-radius: 1rem;
+}
+
+.loginContainer {
+    position: relative;
+    width: min(400px,100%);
+}
+
+.loginHeader{
+    font-size: 2rem;
+    margin: 25px;
+}
+
+.inputContainer {
+    position: relative;
+    margin: 25px 0;
+    align-items: center;
+    
+}
+.inputContainer input {
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: 2px solid #2c4766;
+    border-radius: 40px;
+    outline: none;
+    font-size: 1rem;
+    color: #fff;
+    padding: 0 20px;
+    transition: 0.5s ease;
+
+}
+
+.inputContainer input:hover {
+    border-color: #2c5f66;
+}
+.inputContainer input:focus {
+    border-color: #2c5f66;
+}
+
+.inputContainer label {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    color: #fff;
+    pointer-events: none;
+    transition: 0.5s ease;
+}
+
+.inputContainer input:focus~label,
+.inputContainer input:valid~label {
+    top: 1px;
+    font-size: .8rem;
+    font-weight: 700;
+    background: #111111;
+    padding: 0 6px;
+    color: #2c4766;
+}
+
+.submitButton {
+    width: 100%;
+    height: 45px;
+    background: #2c4766;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    font-weight: 700;
+}
+.submitButton:hover,
+.SubmitButton:focus-within {
+    background: #2c5f66;
+    color: #fff;
+}
+.signupLinkContainer {
+    margin: 20px 0 10px;
+    text-align: center;
+}
+
+.signupLinkContainer a {
+    font-size: 1rem;
+    color: #7dd0db;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.signupLinkContainer a:hover {
+    text-decoration: underline;
+}
+
+
+
 .chatroomName {
     background: #111111;
     border-radius: 1rem;
@@ -204,6 +306,7 @@
     background-color: #111111;
     padding: 0.6rem;
     margin: 0.9rem 0.9rem 0.9rem -0.2rem;
+    width: 98%;
 }
 
 .chatInputContainer {
@@ -213,7 +316,10 @@
     border-style: none;
     border-top-style: solid;
     border-color: #1f1f1f;
-    width: 50rem;
+    width: 100%;
+}
+.chatInputContainer div {
+    width: 100%;
 }
 
 .description {
@@ -454,6 +560,7 @@
         z-index: 1;
     }
 }
+
 
 /* Tablet and Smaller Desktop */
 @media (min-width: 701px) and (max-width: 1120px) {

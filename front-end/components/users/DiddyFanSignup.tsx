@@ -1,18 +1,22 @@
-import { StatusMessage, User } from '@types';
+import { StatusMessage } from '@types';
 import classNames from 'classnames'; // CSS aka front-end usage
 import { useRouter } from 'next/router'; // proper usage of my routes within my back-end
 import { useState } from 'react'; // react.js fun lol
 import { setTimeout } from 'timers'; // Timeout for asynchronous tasks
 import styles from '@styles/home.module.css';
+import { User } from '@types';
 
-const DiddyFanLogin: React.FC = () => {
+const DiddyFanSignup: React.FC = () => {
     const router = useRouter();
 
     const [name, setName] = useState('');
     const [nameError, setNameError] = useState('');
 
     const [password, setPassword] = useState('');
+    const [verifyPassword, setVerifyPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
+
+    const [email, setEmail] = useState('');
 
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
     // makes a list grouping up status messages, straight forward ex dee
@@ -23,6 +27,16 @@ const DiddyFanLogin: React.FC = () => {
         // ??????????????????????????????
         setStatusMessages([]);
     };
+
+    const checkPassword = (passwordToCheck: string) => {
+        if (password !== passwordToCheck) {
+            setPasswordError('Diddy smirks... You can\'t type the same thing twice?');
+        }
+        else {
+            setPasswordError('');
+            setVerifyPassword(passwordToCheck);
+        }
+    }
 
     const validate = (): boolean => {
         let result = true;
@@ -37,7 +51,12 @@ const DiddyFanLogin: React.FC = () => {
         if (!password && password.trim() === '') {
             setPasswordError('Diddy is not happy... type in a password or else...');
             result = false;
-        } else {
+        }
+        else if (password !== verifyPassword) {
+            checkPassword(verifyPassword);
+            return false;
+        }
+        else {
             setPasswordError('');
         }
 
@@ -54,11 +73,12 @@ const DiddyFanLogin: React.FC = () => {
         }
 
         try {
-            const data = await fetch('http://localhost:3000/user/login', {
+            const data = await fetch('http://localhost:3000/user/signup', {
                 method: 'POST',
                 body: JSON.stringify({
                     username: name,
-                    password: password
+                    password: password,
+                    email: email
                 }),
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,10 +91,8 @@ const DiddyFanLogin: React.FC = () => {
             }
             const user: User = await data.json();
             sessionStorage.setItem('diddyfan', user.username);
-            sessionStorage.setItem('diddyId', user.id);
-            sessionStorage.setItem('token', user.token);
             setStatusMessages([
-                { type: 'success', message: 'Diddy has missed you babe. Redirecting...' },
+                { type: 'success', message: 'Diddy welcomes you to his party 😏. Redirecting...' },
             ]);
             setTimeout(() => {
                 router.push('/');
@@ -87,8 +105,27 @@ const DiddyFanLogin: React.FC = () => {
 
     return (
         <>
-            <h3 className={styles.loginHeader}>Login</h3>
+            <h3 className={styles.loginHeader}>Sign Up</h3>
+            {/* className= */}
+            {statusMessages && (
+                <div>
+                    <ul>
+                    </ul>
+                </div>
+            )}
             <form className={styles.loginContainer} onSubmit={handleSubmission}>
+                <div className={styles.inputContainer}>
+
+                    <input
+                        id="nameInput"
+                        type="email"
+                        value={email}
+                        required
+                        onChange={(event) => setEmail(event.target.value)}
+                    //className=
+                    />
+                    <label className={styles.usernameLabel} htmlFor="nameInput">email</label>
+                </div>
                 <div className={styles.inputContainer}>
 
                     <input
@@ -106,7 +143,7 @@ const DiddyFanLogin: React.FC = () => {
                 <div className={styles.inputContainer}>
 
                     <input
-                        id="passwordInput"
+                        id="nameInput"
                         type="password"
                         value={password}
                         required
@@ -116,20 +153,33 @@ const DiddyFanLogin: React.FC = () => {
                     <label className={styles.passwordLabel} htmlFor="nameInput">password</label>
                     {passwordError && <p className={styles.errorMessage}>{passwordError}</p>}
                 </div>
+                <div className={styles.inputContainer}>
+
+                    <input
+                        id="nameInput"
+                        type="password"
+                        required
+                        onChange={(event) => checkPassword(event.target.value)}
+                        className={styles.passwordInput}
+                    />
+                    <label className={styles.passwordLabel} >Confirm Password</label>
+                    {passwordError && <p className={styles.errorMessage}>{passwordError}</p>}
+                </div>
+
 
                 <button
                     className={styles.submitButton}
                     type="submit"
                 >
-                    Login
+                    Sign up
                 </button>
 
                 <div className={styles.signupLinkContainer}>
-                    <a href="/signup">Sign up</a>
+                    <a href="/login">Log In</a>
                 </div>
             </form>
         </>
     );
 };
 
-export default DiddyFanLogin;
+export default DiddyFanSignup;

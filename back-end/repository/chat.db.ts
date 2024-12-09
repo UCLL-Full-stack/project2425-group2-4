@@ -113,6 +113,7 @@ const updateChat = (updatedChat: Chat): void => {
     }
 };
 
+
 export default {
     getAllChats,
     getChatById,

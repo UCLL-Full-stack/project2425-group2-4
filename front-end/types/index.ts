@@ -1,8 +1,8 @@
 export type User = {
     id: string;
     username: string;
+    token: string;
     //role: string;
-    email: string;
 };
 
 export type Message = {
