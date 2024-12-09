@@ -4,14 +4,25 @@ import chatDb from "../repository/chat.db";
 // import usersDb from "../repository/users.db";
 // import { ChatInput, MessageInput, UserInput } from "../types"; // The "Input type" aka lab-03 reference
 
-const getAllChats = (): Chat[] => chatDb.getAllChats();
+//const getAllChats = (): Chat[] => chatDb.getAllChats();
 
-const getChatById = (id: number): Chat => {
-    const chat = chatDb.getChatById({ id });
-    if (!chat) throw new Error(`Chat with id ${id} does not exist.`);
-    return chat;
+const getAllChats = async (): Promise<Chat[]> => {
+    return chatDb.getAllChats();
 };
 
+// const getChatById = (id: number): Chat => {
+//     const chat = chatDb.getChatById({ id });
+//     if (!chat) throw new Error(`Chat with id ${id} does not exist.`);
+//     return chat;
+// };
+
+const getChatById = async (id: number): Promise<Chat> => {
+    const chat = await chatDb.getChatById({ id });
+    if (!chat) {
+        throw new Error(`Course with id ${id} does not exist.`)
+    }
+    return chat;
+};
 
 // To be worked on, for now it's just on stand-by
 
