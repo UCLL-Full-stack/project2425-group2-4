@@ -12,7 +12,7 @@ const getChats = async () => {
     return chats;
 };
 
-const getChatById = (chatId: string) => {
+const getChatById = (chatId: number) => {
     return fetch(
         process.env.NEXT_PUBLIC_API_URL + `/chats/${chatId}`,
         {

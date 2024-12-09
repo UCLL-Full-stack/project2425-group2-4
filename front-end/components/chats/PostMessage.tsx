@@ -4,22 +4,38 @@ import MessageService from '@services/MessageService';
 import styles from '@styles/home.module.css';
 
 type Props = {
-    chatId: string;
+    chatId: number;
     user: User;
     className?: string;
     onMessagePosted: (message: Message) => void; // I KNEW I WAS MISSING SOMETHING
 };
 
 const PostMessage: React.FC<Props> = ({ chatId, user, className, onMessagePosted }) => {
-    const [text, setText] = useState('');
+    const [text, setText] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
+
+    const validate = () => {
+        let result = true;
+        setError(null);
+
+        if (!text.trim()) {
+            result = false;
+        }
+
+        return result;
+    };
 
     const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             e.preventDefault();
+
+            if (!validate()) {
+                return;
+            }
+            
             try {
                 const newMessage: Message = {
-                    id: '', // Generate or assign an ID as needed
+                    id: 5,
                     text,
                     messenger: user,
                     timestamp: new Date(),

@@ -12,8 +12,9 @@ import { Message } from '@types';
 //     );
 // };
 
-const postMessage = async (chatId: string, message: Message): Promise<Message> => {
-    const response = await fetch(`/chats/${chatId}`, {
+const postMessage = async (chatId: number, message: Message): Promise<Message> => {
+    console.log(JSON.stringify(message));
+    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `/chats/${chatId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -27,6 +28,7 @@ const postMessage = async (chatId: string, message: Message): Promise<Message> =
 
     return response.json();
 };
+
 
 const MessageService = {
     //getMessages,

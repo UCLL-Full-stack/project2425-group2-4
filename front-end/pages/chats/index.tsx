@@ -16,6 +16,7 @@ import PostMessage from '@components/chats/PostMessage';
 const Chatroom: React.FC = () => {
     const [chats, setChats] = useState<Chat[] | null>(null);
     const router = useRouter();
+    const [chat, setChat] = useState<Chat | null>(null);
     //const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
@@ -32,12 +33,6 @@ const Chatroom: React.FC = () => {
             setChats(null);
         }
     };
-    const newUser: User = {
-        // Hard-coding as we aren't using login/security yet
-        id: '1',
-        username: 'guest3432',
-        email: 'guest3432@gmail.com',
-    };
 
     const handleNewMessage = (message: Message) => {
         if (chat) {
@@ -48,8 +43,10 @@ const Chatroom: React.FC = () => {
         }
     };
 
-
-    const [chat, setChat] = useState<Chat | null>(null);
+    const selectChat = (chat: Chat) => {
+        router.push(`/chats/${chat.id}`);
+        setChat(chat);
+    };
 
     return (
         <>
@@ -62,11 +59,10 @@ const Chatroom: React.FC = () => {
                 <div className={styles.chatroomContainer}>
                     <div className={styles.chatRoomsOverviewContainer}>
                         {chats && chats.length > 0 ? (
-                            <ChatOverviewData chats={chats} selectChat={setChat} />
+                            <ChatOverviewData chats={chats} selectChat={selectChat} />
                         ) : (
                             <p>No chatrooms active.</p>
                         )}
-
                     </div>
                     <div className={styles.chatRoomContentContainer}>
                         <div className={styles.chatRoomContent}>
@@ -87,12 +83,13 @@ const Chatroom: React.FC = () => {
                                     alt="img"
                                     className={styles.chatInputImg}
                                 />
-                                <PostMessage
-                                    chatId={chat?.id as string}
-                                    user={newUser}
-                                    className={styles.chatInput}
-                                    onMessagePosted={handleNewMessage}
-                                />
+                                <div>
+                                    <input
+                                        type="text"
+                                        placeholder="Type your message and press Enter"
+                                        className={styles.chatInput}
+                                    />
+                                </div>
                             </section>
                         </div>
                     </div>

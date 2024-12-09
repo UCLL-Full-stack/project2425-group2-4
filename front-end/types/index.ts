@@ -1,14 +1,14 @@
 // role
 
 export type User = {
-    id: string;
+    id: number;
     username: string;
     email: string;
 };
 
 export type Message = {
-    id: string;
-    userId: number;
+    id: number;
+    //userId: number;
     messenger: User;
     text: string;
     timestamp: Date;
@@ -22,7 +22,7 @@ export type FriendRequest = {
 };
 
 export type Chat = {
-    id: string;
+    id: number;
     name: string;
     messages: Message[];
     users: User[];
