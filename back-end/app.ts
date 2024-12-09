@@ -15,6 +15,7 @@ const port = process.env.APP_PORT || 3000;
 app.use(cors({ origin: 'http://localhost:8080' }));
 app.use(bodyParser.json());
 
+app.use('/users', userRouter);
 app.use('/chats', chatRouter);
 app.use('/chats', messageRouter);
 

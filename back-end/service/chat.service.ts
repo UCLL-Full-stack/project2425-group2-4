@@ -1,5 +1,8 @@
 import { Chat } from "../model/chat";
 import chatDb from "../repository/chat.db";
+import messagesDb from "../repository/messages.db";
+import usersDb from "../repository/users.db";
+import { ChatInput } from "../types";
 // import messagesDb from "../repository/messages.db";
 // import usersDb from "../repository/users.db";
 // import { ChatInput, MessageInput, UserInput } from "../types"; // The "Input type" aka lab-03 reference
@@ -24,7 +27,25 @@ const getChatById = async (id: number): Promise<Chat> => {
     return chat;
 };
 
-// To be worked on, for now it's just on stand-by
+const createChat = async ({ name, createdAt, users: userInputs = [], messages: messageInputs = [] }: ChatInput): Promise<Chat> => {
+    const users = await Promise.all(userInputs.map(async userInput => {
+        const user = await usersDb.getUserById({ id: userInput.id });
+        if (!user) throw new Error(`User with id ${userInput.id} not found`);
+        return user;
+    }));
+
+    const messages = await Promise.all(messageInputs.map(async messageInput => {
+        if (messageInput.id === undefined) {
+            throw new Error('Message id is undefined');
+        }
+        const message = await messagesDb.getMessageById({ id: messageInput.id });
+        if (!message) throw new Error(`Message with id ${messageInput.id} not found`);
+        return message;
+    }));
+
+    const chat = new Chat({ name, createdAt, users, messages });
+    return await chatDb.createChat(chat);
+};
 
 // const createChat = ({
 //     name,
@@ -48,5 +69,5 @@ const getChatById = async (id: number): Promise<Chat> => {
 export default { 
     getAllChats,
     getChatById,
-    //createChat,
+    createChat,
 };

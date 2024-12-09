@@ -2,7 +2,6 @@ import { Chat } from "../model/chat";
 import { Message } from "../model/message";
 import { User } from "../model/user";
 import database from "./database";
-//import database from './database';
 
 // creating hard-coded DB
 // const user1 = new User({
@@ -103,7 +102,7 @@ const getAllChats = async (): Promise<Chat[]> => {
         });
         return chatsPrisma.map((chatPrisma) => Chat.from(chatPrisma));
     } catch (error) {
-        console.log(error);
+        console.error(error);
         throw new Error('Chats couldn\'t be found. See server log for details.');
     }
 };
@@ -129,8 +128,33 @@ const getChatById = async ({ id }: { id: number }): Promise<Chat | null> => {
         })
         return chatPrisma ? Chat.from(chatPrisma) : null;
     } catch (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Chat ID not found. Check server log for details.");
+    }
+};
+
+const createChat = async ( chat : Chat): Promise<Chat> => {
+    try {
+        const chatPrisma = await database.chat.create({
+            data: {
+                name: chat.getName(),
+                createdAt: chat.getCreatedAt(),
+                users: {
+                    connect: chat.getUsers()?.map(user => ({ id: user.getId() })) || []
+                },
+                messages: {
+                    connect: chat.getMessages()?.map(message => ({ id: message.getId() })) || []
+                },
+            },
+            include: {
+                users: true,
+                messages: true,
+            }
+        });
+        return Chat.from(chatPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error("Couldn't create chat. Check server log for details.");
     }
 };
 
@@ -143,13 +167,13 @@ const getChatById = async ({ id }: { id: number }): Promise<Chat | null> => {
 //     }
 // };
 
-const updateChat = async ({ chat, }: { chat: Chat; }): Promise<Chat | null> => {
+const updateChat = async ({ chat }: { chat: Chat; }): Promise<Chat | null> => {
     try {
         const chatPrisma = await database.chat.update({
             where: { id: chat.getId() },
             data: {
                 messages: {
-                    connect: chat.getMessages()?.map((message) => ({ id: message.getId() }))
+                    connect: chat.getMessages()?.map(message => ({ id: message.getId() })).filter(message => message.id !== undefined)
                 },
             },
             include: {
@@ -159,7 +183,7 @@ const updateChat = async ({ chat, }: { chat: Chat; }): Promise<Chat | null> => {
         });
         return Chat.from(chatPrisma);
     } catch (error) {
-        console.log(error);
+        console.error(error);
         throw new Error('Chat couldn\'t be updated. Check server log for details.')
     }
 };
@@ -168,4 +192,5 @@ export default {
     getAllChats,
     getChatById,
     updateChat,
+    createChat,
 };

@@ -23,8 +23,18 @@
  *              type: number
  *              description: User's password.
  */
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
+import userService from '../service/user.service';
 
 const userRouter = express.Router();
+
+userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const chats = await userService.getAllUsers();
+        res.status(200).json(chats);
+    } catch (error) {
+        next(error);
+    }
+});
 
 export { userRouter };
