@@ -34,9 +34,18 @@ const Chatroom: React.FC = () => {
         fetchChats();
         if (chatId) {
             const getChatById = async () => {
-                const response = await ChatService.getChatById(Number(chatId));
-                const chatData = await response.json();
-                setChat(chatData);
+                try {
+                    const response = await ChatService.getChatById(Number(chatId));
+                    if (response.ok) {
+                        const chatData = await response.json();
+                        setChat(chatData);
+                    } else {
+                        setChat(null);
+                    }                           // this way we can properly show errors regarding non-existent chatrooms.
+                } catch (error) {
+                    console.error('Error fetching chat', error);
+                    setChat(null);
+                }
             };
             getChatById();
         }
@@ -65,7 +74,7 @@ const Chatroom: React.FC = () => {
     return (
         <>
             <Head>
-                <title>{chat ? chat.name : 'Chat does not exist'}</title>
+                <title>{chat ? chat.id : 'Chat does not exist'}</title>
             </Head>
             <Header />
             <main className={styles.main}>
