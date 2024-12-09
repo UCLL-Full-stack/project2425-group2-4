@@ -15,6 +15,10 @@ const postMessage = (chatId: number, {
         throw new Error('Text cannot be empty');
     }
 
+    if (!userInput.id) {
+        throw new Error('Messenger ID is required');
+    }
+
     const messenger = usersDb.getUserById({ id: userInput.id });
 
     if (!messenger) {
@@ -31,6 +35,8 @@ const postMessage = (chatId: number, {
     if (userId === undefined) {
         throw new Error('User ID is undefined');
     }
+
+    const message = new Message({ text, userId, timestamp });
     
     const message = new Message({ text, messenger, timestamp });
     chat.addMessage(message);

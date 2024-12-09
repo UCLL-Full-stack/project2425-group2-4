@@ -8,15 +8,16 @@ import { Chat } from './chat';
 import { Message } from './message';
 
 export class User {
-    private id?: number;
-    private username: string;
-    private email: string;
-    private password: string;
-    private chats?: Chat[];
-    private messages?: Message[];
+    readonly id: number;
+    readonly username: string;
+    readonly email: string;
+    readonly password: string;
+    readonly chats?: Chat[];
+    readonly messages?: Message[];
+
 
     constructor(user: {
-        id?: number;
+        id: number;
         username: string;
         email: string;
         password: string;
@@ -33,7 +34,7 @@ export class User {
         this.messages = user.messages;
     }
 
-    getId(): number | undefined {
+    getId(): number {
         return this.id;
     }
 
@@ -81,14 +82,14 @@ export class User {
         );
     }
 
-    static from ({
+    static from({
         id,
         username,
         password,
         email,
         chats,
         messages,
-    }: UserPrisma & { chats?: ChatPrisma[]; messages?: MessagePrisma[] }): User { 
+    }: UserPrisma & { chats?: ChatPrisma[]; messages?: MessagePrisma[] }): User {
         return new User({
             id,
             username,
