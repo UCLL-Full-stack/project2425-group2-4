@@ -100,17 +100,27 @@ export class Chat {
         createdAt,
         messages,
         users,
-    }: ChatPrisma & { users: UserPrisma[]; messages: MessagePrisma[]}) {
+    }: ChatPrisma & { users: UserPrisma[]; messages: MessagePrisma[] }) {
         return new Chat({
             id,
             users: (users || []).map((user) => User.from(user)),
             name,
             createdAt,
-            messages: (messages || []).map(message => new Message({
-                ...message,
-                messenger: new User({ id: message.userId, username: '', email: '', password: '' })
-            })),
+            messages: (messages || []).map(message => {
+                const messenger = users.find(user => user.id === message.userId);
+                if (!messenger) {
+                    throw new Error(`User with id ${message.userId} not found`);
+                }
+                return new Message({
+                    ...message,
+                    messenger: new User({
+                        id: messenger.id,
+                        username: messenger.username,
+                        email: messenger.email,
+                        password: messenger.password
+                    })
+                });
+            }),
         });
     }
-
 }

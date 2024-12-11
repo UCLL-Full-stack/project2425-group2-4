@@ -44,7 +44,7 @@ const swaggerOpts = {
         openapi: '3.0.0',
         info: {
             title: 'Diddyscord API',
-            version: '0.7.3',
+            version: '0.9',
         },
     },
     apis: ['./controller/*.routes.ts'],

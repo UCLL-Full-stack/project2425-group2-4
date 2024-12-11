@@ -4,11 +4,17 @@ import bcrypt from 'bcrypt';
 import { AuthenticationResponse, UserInput } from '../types';
 import { generateJwtToken } from '../util/jwt';
 
-const getAllUsers = (): User[] => usersDb.getAllUsers();
+//const getAllUsers = (): User[] => usersDb.getAllUsers();
 
-const getUserById = (id: number): User => {
-    const user = usersDb.getUserById({ id });
-    if (!user) throw new Error(`User with id ${id} does not exist.`);
+const getAllUsers = async (): Promise<User[]> => {
+    return usersDb.getAllUsers();
+};
+
+const getUserById = async (id: number): Promise<User> => {
+    const user = await usersDb.getUserById({ id });
+    if (!user) {
+        throw new Error(`User with id ${id} does not exist.`);
+    }
     return user;
 };
 

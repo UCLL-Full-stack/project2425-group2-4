@@ -34,8 +34,26 @@ const createUser = async ({
     }
 };
 
-// Logging purposes
-const getAllUsers = (): User[] => users;
+// const getAllUsers = (): User[] => users;
+
+const getAllUsers = async (): Promise<User[]> => {
+    try {
+        const usersPrisma = await database.user.findMany();
+        return usersPrisma.map((userPrisma) => User.from(userPrisma));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Couldn\'t gather the users. Check server log for details.');
+    }
+};
+
+// const getUserById = ({ id }: { id: number }): User | null => {
+//     try {
+//         return users.find((user) => user.getId() === id) || null;
+//     } catch (error) {
+//         console.error(error);
+//         throw new Error('User nonexistent');
+//     }
+// };
 
 const getUserByUsername = async ({ username }: { username: string }): Promise<UserPrisma> => {
     try {
@@ -50,14 +68,19 @@ const getUserByUsername = async ({ username }: { username: string }): Promise<Us
     }
 };
 
-const getUserById = ({ id }: { id: number }): User | null => {
+const getUserById = async ({ id }: { id: number }): Promise<User | null> => {
     try {
-        return users.find((user) => user.id === id) || null;
+        const userPrisma = await database.user.findUnique({
+            where: { id },
+        });
+
+        return userPrisma ? User.from(userPrisma) : null;
     } catch (error) {
         console.error(error);
-        throw new Error('User nonexistent');
+        throw new Error('Database error. See server log for details.');
     }
 };
+
 
 export default {
     getAllUsers,

@@ -1,7 +1,7 @@
 // role
 
 export type User = {
-    id: number;
+    id?: number;
     username: string;
     token: string;
     //role: string;
@@ -9,7 +9,7 @@ export type User = {
 };
 
 export type Message = {
-    id: number;
+    id?: number;
     //userId: number;
     messenger: User;
     text: string;
@@ -17,14 +17,14 @@ export type Message = {
 };
 
 export type FriendRequest = {
-    id: number;
+    id?: number;
     status: string;
     sentAt: Date;
     respondedAt: Date;
 };
 
 export type Chat = {
-    id: number;
+    id?: number;
     name: string;
     messages: Message[];
     users: User[];

@@ -23,7 +23,7 @@
  *              type: number
  *              description: User's password.
  */
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import userService from '../service/user.service';
 
 const userRouter = express.Router();

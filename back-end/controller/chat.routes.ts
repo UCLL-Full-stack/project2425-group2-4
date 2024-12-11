@@ -30,6 +30,7 @@
  */
 import express, { NextFunction, Request, Response } from 'express';
 import chatService from '../service/chat.service';
+import { ChatInput } from '../types';
 
 const chatRouter = express.Router();
 
@@ -83,6 +84,18 @@ chatRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
         res.status(200).json(chat);
     } catch (error) {
         next(error);
+    }
+});
+
+
+chatRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const chat = <ChatInput>req.body;
+        const result = await chatService.createChat(chat);
+        res.status(200).json(result);
+    } catch (error) {
+        const err = error as Error;
+        res.status(400).json({ status: 'error', errorMessage: err.message });
     }
 });
 

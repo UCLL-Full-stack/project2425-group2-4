@@ -35,7 +35,6 @@ const PostMessage: React.FC<Props> = ({ chatId, user, className, onMessagePosted
             
             try {
                 const newMessage: Message = {
-                    id: 5,
                     text,
                     messenger: user,
                     timestamp: new Date(),
