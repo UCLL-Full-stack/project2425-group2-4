@@ -4,9 +4,9 @@ import bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 
 const main = async () => {
-    await prisma.user.deleteMany();
-    await prisma.chat.deleteMany();
-    await prisma.message.deleteMany();
+    await prisma.user.deleteMany({});
+    await prisma.chat.deleteMany({});
+    await prisma.message.deleteMany({});
 
     const yamaha46 = await prisma.user.create({
         data: {
