@@ -23,6 +23,7 @@ const createUser = async ({
     password,
     email
 }: UserInput): Promise<UserPrisma> => {
+    if (await checkUserExistsByUsername({ username })) throw new Error('A user with this username already exists')
     try {
         const userPrisma = await database.user.create({
             data: { username, password, email },
@@ -34,7 +35,7 @@ const createUser = async ({
     }
 };
 
-// const getAllUsers = (): User[] => users;
+// const gjetAllUsers = (): User[] => users;
 
 const getAllUsers = async (): Promise<User[]> => {
     try {
@@ -54,6 +55,23 @@ const getAllUsers = async (): Promise<User[]> => {
 //         throw new Error('User nonexistent');
 //     }
 // };
+//
+const checkUserExistsByUsername = async ({ username }: { username: string }): Promise<Boolean> => {
+    try {
+        const userPrisma = await database.user.findUnique({
+            where: { username }
+        });
+        if (!userPrisma) return false;
+        return true;
+
+    } catch (error) {
+        console.error(error);
+        throw new Error('An error occured trying to fetch username: users.db::getUserByUsername');
+    }
+
+
+    return true;
+}
 
 const getUserByUsername = async ({ username }: { username: string }): Promise<UserPrisma> => {
     try {
