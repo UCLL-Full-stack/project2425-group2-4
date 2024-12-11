@@ -12,7 +12,7 @@ const main = async () => {
         data: {
             username: "yamaha46",
             email: "yamahalover46@gmail.com",
-            password: "R6fan99",
+            password: await bcrypt.hash('R6fan99', 12),
         }
     });
 
@@ -20,7 +20,7 @@ const main = async () => {
         data: {
             username: "Broski21",
             email: "broskibroski@gmail.com",
-            password: "nuggetslovr6",
+            password: await bcrypt.hash('nuggetslovr6', 12),
         }
     });
 
