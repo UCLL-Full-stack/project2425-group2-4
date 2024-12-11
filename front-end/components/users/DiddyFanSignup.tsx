@@ -91,6 +91,8 @@ const DiddyFanSignup: React.FC = () => {
             }
             const user: User = await data.json();
             sessionStorage.setItem('diddyfan', user.username);
+            if (user.id) sessionStorage.setItem('diddyid', user.id.toString());
+            if (user.token) sessionStorage.setItem('diddytoken', user.token);
             setStatusMessages([
                 { type: 'success', message: 'Diddy welcomes you to his party 😏. Redirecting...' },
             ]);

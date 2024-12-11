@@ -47,7 +47,6 @@ const createUser = async ({
     email,
     password
 }: UserInput): Promise<AuthenticationResponse> => {
-    const existingUser = usersDb.getUserByUsername({ username });
 
     const hashedPassword = await bcrypt.hash(password, 15);
     const user: UserInput = { username, email, password: hashedPassword };

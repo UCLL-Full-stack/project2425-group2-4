@@ -29,6 +29,9 @@ const getChatById = async (id: number): Promise<Chat> => {
 
 const createChat = async ({ name, createdAt, users: userInputs = [], messages: messageInputs = [] }: ChatInput): Promise<Chat> => {
     const users = await Promise.all(userInputs.map(async userInput => {
+        if (userInput.id === undefined) {
+            throw new Error('User id is undefined');
+        }
         const user = await usersDb.getUserById({ id: userInput.id });
         if (!user) throw new Error(`User with id ${userInput.id} not found`);
         return user;
@@ -66,7 +69,7 @@ const createChat = async ({ name, createdAt, users: userInputs = [], messages: m
 //     return chatDb.createChat(chat);
 // };
 
-export default { 
+export default {
     getAllChats,
     getChatById,
     createChat,
