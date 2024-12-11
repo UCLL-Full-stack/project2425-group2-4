@@ -20,39 +20,61 @@ const getUserById = async (id: number): Promise<User> => {
 
 const getUserByUsername = async ({ username }: { username: string }): Promise<User> => {
     const user = await usersDb.getUserByUsername({ username })
-    if (!user) throw new Error(`User with username: ${username} does not exist.`);
-    return User.from(user);
+    if (!user) {
+        throw new Error(`User with username: ${username} does not exist.`);
+    }
+    return user;
 }
 
+// const authenticate = async ({ username, password }: { username: string, password: string }): Promise<AuthenticationResponse> => {
+//     const user = await getUserByUsername({ username });
 
+//     const isValidPassword = await bcrypt.compare(password, user.getPassword());
+//     if (!isValidPassword) throw new Error('Incorrect password.');
 
-const authenticate = async ({ username, password }: { username: string, password: string }): Promise<AuthenticationResponse> => {
+//     const token: string = generateJwtToken({ username });
+//     return {
+//         token,
+//         id: user.id,
+//         username,
+//         email: user.email
+//     }
+
+// }
+
+const authenticate = async ({ username, password }: UserInput): Promise<AuthenticationResponse> => {
     const user = await getUserByUsername({ username });
 
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    if (!isValidPassword) throw new Error('Incorrect password.');
+    const isValidPassword = await bcrypt.compare(password, user.getPassword());
 
-    const token: string = generateJwtToken({ username });
-    return {
-        token,
-        id: user.id,
-        username,
-        email: user.email
+    if (!isValidPassword) {
+        throw new Error('Incorrect password.');
     }
-
-}
+    return {
+        token: generateJwtToken({ username, role: user.getRole() }),
+        username: username,
+        email: user.getEmail(),
+        role: user.getRole(),
+    };
+};
 
 const createUser = async ({
     username,
     email,
-    password
-}: UserInput): Promise<AuthenticationResponse> => {
+    password,
+    role,
+}: UserInput): Promise<User> => {
+    const existingUser = await usersDb.getUserByUsername({ username });
+
+    if (existingUser) {
+        throw new Error(`User with username ${username} is already registered.`);
+    }
 
     const hashedPassword = await bcrypt.hash(password, 15);
-    const user: UserInput = { username, email, password: hashedPassword };
+    const user = new User({ username, password: hashedPassword, email, role });
 
-    await usersDb.createUser(user)
-    return authenticate({ username, password })
+    return await usersDb.createUser(user);
+    //return authenticate({ username, password })
 };
 
 export default { getAllUsers, getUserById, getUserByUsername, authenticate, createUser };

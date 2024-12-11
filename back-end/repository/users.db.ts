@@ -3,35 +3,37 @@ import { User as UserPrisma } from '@prisma/client';
 import database from './database';
 import { UserInput } from "../types";
 
-const users = [
-    new User({
-        id: 1,
-        username: "yamaha46",
-        email: "yamahalover46@gmail.com",
-        password: "R6fan99",
-    }),
-    new User({
-        id: 2,
-        username: "Broski21",
-        email: "broskibroski@gmail.com",
-        password: "nuggetslovr6",
-    }),
-];
+// const createUser = async ({
+//     username,
+//     password,
+//     email
+// }: UserInput): Promise<User> => {
+//     if (await checkUserExistsByUsername({ username })) throw new Error('A user with this username already exists')
+//     try {
+//         const userPrisma = await database.user.create({
+//             data: { username, password, email },
+//         });
+//         return userPrisma;
+//     } catch (error) {
+//         console.error(error);
+//         throw new Error('An error occured trying to create user: users.db::createUser');
+//     }
+// };
 
-const createUser = async ({
-    username,
-    password,
-    email
-}: UserInput): Promise<UserPrisma> => {
-    if (await checkUserExistsByUsername({ username })) throw new Error('A user with this username already exists')
+const createUser = async (user: User): Promise<User> => {
     try {
         const userPrisma = await database.user.create({
-            data: { username, password, email },
+            data: {
+                username: user.getUsername(),
+                password: user.getPassword(),
+                email: user.getEmail(),
+                role: user.getRole(),
+            },
         });
-        return userPrisma;
+        return User.from(userPrisma);
     } catch (error) {
         console.error(error);
-        throw new Error('An error occured trying to create user: users.db::createUser');
+        throw new Error('Database error. See server log for details.');
     }
 };
 
@@ -47,39 +49,29 @@ const getAllUsers = async (): Promise<User[]> => {
     }
 };
 
-// const getUserById = ({ id }: { id: number }): User | null => {
+// const checkUserExistsByUsername = async ({ username }: { username: string }): Promise<Boolean> => {
 //     try {
-//         return users.find((user) => user.getId() === id) || null;
+//         const userPrisma = await database.user.findUnique({
+//             where: { username }
+//         });
+//         if (!userPrisma) return false;
+//         return true;
+
 //     } catch (error) {
 //         console.error(error);
-//         throw new Error('User nonexistent');
+//         throw new Error('An error occured trying to fetch username: users.db::getUserByUsername');
 //     }
-// };
-//
-const checkUserExistsByUsername = async ({ username }: { username: string }): Promise<Boolean> => {
+
+
+//     return true;
+// }
+
+const getUserByUsername = async ({ username }: { username: string }): Promise<User | null> => {
     try {
-        const userPrisma = await database.user.findUnique({
+        const userPrisma = await database.user.findFirst({
             where: { username }
         });
-        if (!userPrisma) return false;
-        return true;
-
-    } catch (error) {
-        console.error(error);
-        throw new Error('An error occured trying to fetch username: users.db::getUserByUsername');
-    }
-
-
-    return true;
-}
-
-const getUserByUsername = async ({ username }: { username: string }): Promise<UserPrisma> => {
-    try {
-        const userPrisma = await database.user.findUnique({
-            where: { username }
-        });
-        if (!userPrisma) throw new Error(`User with username: ${username} does not exist.`);
-        return userPrisma;
+        return userPrisma ? User.from(userPrisma) : null;
     } catch (error) {
         console.error(error);
         throw new Error('An error occured trying to fetch username: users.db::getUserByUsername');

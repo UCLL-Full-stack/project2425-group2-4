@@ -4,25 +4,27 @@ import {
     Message as MessagePrisma,
 } from '@prisma/client';
 
+import { Role } from '../types';
 import { Chat } from './chat';
 import { Message } from './message';
 
 export class User {
-    readonly id: number;
-    readonly username: string;
-    readonly email: string;
-    readonly password: string;
-    readonly chats?: Chat[];
-    readonly messages?: Message[];
-
+    private id?: number;
+    private username: string;
+    private email: string;
+    private password: string;
+    private chats?: Chat[];
+    private messages?: Message[];
+    private role: Role;
 
     constructor(user: {
-        id: number;
+        id?: number;
         username: string;
         email: string;
         password: string;
         chats?: Chat[];
         messages?: Message[];
+        role: Role;
     }) {
         this.validate(user);
 
@@ -32,9 +34,10 @@ export class User {
         this.password = user.password;
         this.chats = user.chats;
         this.messages = user.messages;
+        this.role = user.role;
     }
 
-    getId(): number {
+    getId(): number | undefined {
         return this.id;
     }
 
@@ -58,10 +61,15 @@ export class User {
         return this.messages;
     }
 
+    getRole(): Role {
+        return this.role;
+    }
+
     validate(user: {
         username: string;
         email: string;
         password: string;
+        role: Role;
     }) {
         if (!user.username?.trim()) {
             throw new Error('Username is required');
@@ -72,13 +80,17 @@ export class User {
         if (!user.password?.trim()) {
             throw new Error('Password is required');
         }
+        if (!user.role) {
+            throw new Error('Role is required.');
+        }
     }
 
     equals(user: User): boolean {
         return (
             this.username === user.getUsername() &&
             this.email === user.getEmail() &&
-            this.password === user.getPassword()
+            this.password === user.getPassword() &&
+            this.role === user.getRole()
         );
     }
 
@@ -89,6 +101,7 @@ export class User {
         email,
         chats,
         messages,
+        role
     }: UserPrisma & { chats?: ChatPrisma[]; messages?: MessagePrisma[] }): User {
         return new User({
             id,
@@ -98,8 +111,9 @@ export class User {
             chats: (chats || []).map(chat => new Chat(chat)),
             messages: (messages || []).map(message => new Message({
                 ...message,
-                messenger: new User({ id: message.userId, username: username, email: email, password: password })
+                messenger: new User({ id: message.userId, username: username, email: email, password: password, role: role as Role })
             })),
+            role: role as Role,
         });
     }
 }

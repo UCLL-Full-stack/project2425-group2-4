@@ -25,6 +25,7 @@
  */
 import express, { Request, Response, NextFunction } from 'express';
 import userService from '../service/user.service';
+import { UserInput } from '../types';
 
 const userRouter = express.Router();
 
@@ -59,12 +60,14 @@ const userRouter = express.Router();
  *                          $ref: '#/components/schemas/AuthenticationResponse'
  */
 
-userRouter.post('/signup', async (req: Request, res: Response) => {
-    userService.createUser(req.body)
-        .then(user => res.status(200).json({ username: user.username, email: user.email, token: user.token }))
-        .catch((err) => {
-            res.status(500).json(err)
-        });
+userRouter.post('/signup', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userInput = <UserInput>req.body;
+        const user = await userService.createUser(userInput);
+        res.status(200).json(user);
+    } catch (error) {
+        next(error);
+    }
 });
 
 /**

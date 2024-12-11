@@ -19,17 +19,18 @@ model Message {
   id        Int      @id @default(autoincrement())
   text      String
   timestamp DateTime @default(now())
-  userId    Int      @unique
+  userId    Int
   messenger User     @relation(fields: [userId], references: [id])
   chatId    Int
   chat      Chat     @relation(fields: [chatId], references: [id])
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  username String   @unique
-  email    String   @unique
+  id       Int       @id @default(autoincrement())
+  username String    @unique
+  email    String    @unique
   password String
-  Chats     Chat[]    //@relation(fields: [chatId], references: [id])
-  messages  Message[]
+  Chats    Chat[] //@relation(fields: [chatId], references: [id])
+  messages Message[]
+  role     String
 }

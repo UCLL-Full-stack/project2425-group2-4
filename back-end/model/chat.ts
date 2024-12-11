@@ -1,5 +1,6 @@
 import { Message } from "./message";
 import { User } from "./user";
+import { Role } from "../types";
 import {
     Chat as ChatPrisma,
     User as UserPrisma,
@@ -117,7 +118,8 @@ export class Chat {
                         id: messenger.id,
                         username: messenger.username,
                         email: messenger.email,
-                        password: messenger.password
+                        password: messenger.password,
+                        role: messenger.role as Role
                     })
                 });
             }),

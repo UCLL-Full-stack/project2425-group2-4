@@ -13,6 +13,7 @@ const main = async () => {
             username: "yamaha46",
             email: "yamahalover46@gmail.com",
             password: await bcrypt.hash('R6fan99', 12),
+            role: 'admin'
         }
     });
 
@@ -21,6 +22,16 @@ const main = async () => {
             username: "Broski21",
             email: "broskibroski@gmail.com",
             password: await bcrypt.hash('nuggetslovr6', 12),
+            role: 'moderator'
+        }
+    });
+
+    const gentleman43 = await prisma.user.create({
+        data: {
+            username: "gentleman43",
+            email: "gentleman43@gmail.com",
+            password: await bcrypt.hash('test123', 12),
+            role: 'user'
         }
     });
 
