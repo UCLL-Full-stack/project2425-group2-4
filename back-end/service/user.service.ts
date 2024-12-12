@@ -26,22 +26,6 @@ const getUserByUsername = async ({ username }: { username: string }): Promise<Us
     return user;
 }
 
-// const authenticate = async ({ username, password }: { username: string, password: string }): Promise<AuthenticationResponse> => {
-//     const user = await getUserByUsername({ username });
-
-//     const isValidPassword = await bcrypt.compare(password, user.getPassword());
-//     if (!isValidPassword) throw new Error('Incorrect password.');
-
-//     const token: string = generateJwtToken({ username });
-//     return {
-//         token,
-//         id: user.id,
-//         username,
-//         email: user.email
-//     }
-
-// }
-
 const authenticate = async ({ username, password }: UserInput): Promise<AuthenticationResponse> => {
     const user = await getUserByUsername({ username });
 
@@ -74,7 +58,6 @@ const createUser = async ({
     const user = new User({ username, password: hashedPassword, email, role });
 
     return await usersDb.createUser(user);
-    //return authenticate({ username, password })
 };
 
 export default { getAllUsers, getUserById, getUserByUsername, authenticate, createUser };

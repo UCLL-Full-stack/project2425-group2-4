@@ -30,7 +30,7 @@
  */
 import express, { NextFunction, Request, Response } from 'express';
 import chatService from '../service/chat.service';
-import { ChatInput } from '../types';
+import { ChatInput, Role } from '../types';
 
 const chatRouter = express.Router();
 
@@ -38,6 +38,8 @@ const chatRouter = express.Router();
  * @swagger
  * /chats:
  *   get:
+ *     security:
+ *         - bearerAuth: []
  *     summary: Get a list of all chats.
  *     responses:
  *       200:
@@ -51,7 +53,9 @@ const chatRouter = express.Router();
  */
 chatRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const chats = await chatService.getAllChats();
+        const request = req as Request & { auth: { username: string; role: Role } };
+        const { username, role } = request.auth;
+        const chats = await chatService.getChat({ username, role });
         res.status(200).json(chats);
     } catch (error) {
         next(error);
@@ -62,6 +66,9 @@ chatRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  * @swagger
  * /chats/{id}:
  *  get:
+ *      security:
+ *         - bearerAuth: []
+ * 
  *      summary: Get a Chat by id.
  *      parameters:
  *          - in: path

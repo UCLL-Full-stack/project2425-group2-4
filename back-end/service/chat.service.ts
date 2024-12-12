@@ -1,23 +1,31 @@
+import { UnauthorizedError } from "express-jwt";
 import { Chat } from "../model/chat";
 import chatDb from "../repository/chat.db";
 import messagesDb from "../repository/messages.db";
 import usersDb from "../repository/users.db";
-import { ChatInput } from "../types";
+import { ChatInput, Role } from "../types";
 // import messagesDb from "../repository/messages.db";
 // import usersDb from "../repository/users.db";
 // import { ChatInput, MessageInput, UserInput } from "../types"; // The "Input type" aka lab-03 reference
 
-//const getAllChats = (): Chat[] => chatDb.getAllChats();
-
-const getAllChats = async (): Promise<Chat[]> => {
-    return chatDb.getAllChats();
+const getChat = async ({
+    username,
+    role,
+}: {
+    username: string;
+    role: Role;
+}): Promise<Chat[]> => {
+    if (role === 'admin' || role === 'moderator') {
+        return chatDb.getAllChats();
+    } else if (role === 'user') {
+        return chatDb.getChatForUser({ username });
+    } else {
+        throw new UnauthorizedError('credentials_required', {
+            message: 'You are not authorized to access this resource.',
+        });
+    }
 };
 
-// const getChatById = (id: number): Chat => {
-//     const chat = chatDb.getChatById({ id });
-//     if (!chat) throw new Error(`Chat with id ${id} does not exist.`);
-//     return chat;
-// };
 
 const getChatById = async (chatId: number): Promise<Chat> => {
     const chat = await chatDb.getChatById(chatId);
@@ -50,27 +58,8 @@ const createChat = async ({ name, createdAt, users: userInputs = [], messages: m
     return await chatDb.createChat(chat);
 };
 
-// const createChat = ({
-//     name,
-//     createdAt,
-//     messages: messageInput,
-//     users: userInput,
-// }: ChatInput): Chat => {
-
-//     const creationTime = Date.now()
-
-//     const existingSchedule = chatDb.getChatById({
-//         chatId : ChatInput.id,
-//     });
-
-//     if (existingSchedule) throw new Error('This chat already exists.');
-
-//     const chat = new Chat({ name, createdAt: [] });
-//     return chatDb.createChat(chat);
-// };
-
 export default {
-    getAllChats,
+    getChat,
     getChatById,
     createChat,
 };
