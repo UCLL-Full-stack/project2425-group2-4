@@ -27,22 +27,6 @@ const Chatroom: React.FC = () => {
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-    const fetchAllChats = async () => {
-        try {
-            const response = await ChatService.getChats();
-
-            if (!response.ok) {
-                throw new Error('Failed to fetch chats');
-            }
-
-            const chats = await response.json();
-            console.log(chats);
-            return chats;
-        } catch (error) {
-            console.error('Error fetching chatrooms', error);
-        }
-    };
-
     const { data, isLoading, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + '/chats', fetcher);
     // I dunno why that shouldn't work? might be missing something tbhh
 

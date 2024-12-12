@@ -82,7 +82,6 @@ const Chatroom: React.FC = () => {
                                 />
                                 <PostMessage
                                     chatId={Number(chatId)}
-                                    //user={}
                                     className={styles.chatInput}
                                     onMessagePosted={handleNewMessage}
                                 />
