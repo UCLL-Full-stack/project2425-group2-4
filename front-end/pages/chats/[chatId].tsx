@@ -17,25 +17,33 @@ import useInterval from 'use-interval';
 
 const Chatroom: React.FC = () => {
     const [chat, setChat] = useState<Chat | null>(null);
-    const [diddyFan, setDiddyFan] = useState<User | null>(null); // typescript logic lol? WHY NOT JUST 'NULL'???????
-    // THIS SHIT MAKES ME SKIZO
     const router = useRouter();
     const { chatId } = router.query;
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-    const { data, isLoading, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + `/chats/${chatId}`, fetcher);
-    // I dunno why that shouldn't work? might be missing something tbhh
+    const { data: chatData, isLoading: isChatLoading, error: chatError } = useSWR(
+        chatId ? `${process.env.NEXT_PUBLIC_API_URL}/chats/${chatId}` : null,
+        fetcher
+    );
+
+    const { data: chatsData, isLoading: isChatsLoading, error: chatsError } = useSWR(
+        `${process.env.NEXT_PUBLIC_API_URL}/chats`,
+        fetcher
+    );
 
     useInterval(() => {
-        mutate(process.env.NEXT_PUBLIC_API_URL + `/chats/${chatId}`);
-    }, 1000); // ok
+        if (chatId) {
+            mutate(`${process.env.NEXT_PUBLIC_API_URL}/chats/${chatId}`);
+        }
+        mutate(`${process.env.NEXT_PUBLIC_API_URL}/chats`);
+    }, 1000);
 
     const handleNewMessage = (message: Message) => {
-        if (data) {
+        if (chatData) {
             setChat({
-                ...data,
-                messages: [...data.messages, message],
+                ...chatData,
+                messages: [...chatData.messages, message],
             });
         }
     };
@@ -48,26 +56,26 @@ const Chatroom: React.FC = () => {
     return (
         <>
             <Head>
-                <title>{data ? data?.name : 'Chat does not exist'}</title>
+                <title>{chatData ? chatData?.name : 'Chat does not exist'}</title>
             </Head>
             <Header />
             <main className={styles.main}>
-                <h1 className={styles.chatroomName}>{data ? data.name : 'Chat does not exist'}</h1>
+                <h1 className={styles.chatroomName}>{chatData ? chatData.name : 'Chat does not exist'}</h1>
                 <div className={styles.chatroomContainer}>
                     <div className={styles.chatRoomsOverviewContainer}>
-                        {data && data.length > 0 ? (
-                            <ChatOverviewData chats={data} selectChat={selectChat} />
+                        {chatsData && chatsData.length > 0 ? (
+                            <ChatOverviewData chats={chatsData} selectChat={selectChat} />
                         ) : (
                             <p>No chatrooms active.</p>
                         )}
                     </div>
                     <div className={styles.chatRoomContentContainer}>
                         <div className={styles.chatRoomContent}>
-                            {data? (
+                            {chatData? (
                                 <ChatData
-                                    chat={data}
-                                    messages={data?.messages || []}
-                                    users={data?.users || []}
+                                    chat={chatData}
+                                    messages={chatData?.messages || []}
+                                    users={chatData?.users || []}
                                 />
                             ) : (
                                 <p>No messages to be displayed.</p>

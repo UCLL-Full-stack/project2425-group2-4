@@ -15,28 +15,31 @@ import useSWR, { mutate } from 'swr';
 import useInterval from 'use-interval';
 //import ChatData from '@components/chats/ChatData';
 
-const Chatroom: React.FC = () => {
-    //const [chats, setChats] = useState<Chat[] | null>(null);
+const Chatrooms: React.FC = () => {
     const router = useRouter();
     const { chatId } = router.query;
     const [chat, setChat] = useState<Chat | null>(null);
 
-    // useEffect(() => {
-    //     fetchChats();
-    // }, []);
-
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-    const { data, isLoading, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + '/chats', fetcher);
-    // I dunno why that shouldn't work? might be missing something tbhh
+    const { data: chatData, isLoading: isChatLoading, error: chatError } = useSWR(
+        chatId ? `${process.env.NEXT_PUBLIC_API_URL}/chats/${chatId}` : null,
+        fetcher
+    );
+
+    const { data: chatsData, isLoading: isChatsLoading, error: chatsError } = useSWR(
+        `${process.env.NEXT_PUBLIC_API_URL}/chats`,
+        fetcher
+    );
 
     useInterval(() => {
-        mutate(process.env.NEXT_PUBLIC_API_URL + '/chats');
-    }, 1000); // ok
-
+        if (chatId) {
+            mutate(`${process.env.NEXT_PUBLIC_API_URL}/chats/${chatId}`);
+        }
+        mutate(`${process.env.NEXT_PUBLIC_API_URL}/chats`);
+    }, 1000);
     const selectChat = (chat: Chat) => {
         router.push(`/chats/${chat.id}`);
-        setChat(chat);
     };
 
     return (
@@ -49,22 +52,22 @@ const Chatroom: React.FC = () => {
                 <h1 className={styles.chatroomName}>Diddyscord Chatrooms</h1>
                 <div className={styles.chatroomContainer}>
                     <div className={styles.chatRoomsOverviewContainer}>
-                        {data && data.length > 0 ? (
-                            <ChatOverviewData chats={data} selectChat={selectChat} />
+                        {chatsData && chatsData.length > 0 ? (
+                            <ChatOverviewData chats={chatsData} selectChat={selectChat} />
                         ) : (
                             <p>No chatrooms active.</p>
                         )}
                     </div>
                     <div className={styles.chatRoomContentContainer}>
                         <div className={styles.chatRoomContent}>
-                            {chat ? (
+                            {chatData ? (
                                 <ChatData
-                                    chat={chat}
-                                    messages={chat?.messages || []}
-                                    users={chat?.users || []}
+                                    chat={chatData}
+                                    messages={chatData?.messages || []}
+                                    users={chatData?.users || []}
                                 />
                             ) : (
-                                <p>No messages to be displayed.</p>
+                                <p>Choose a Chatroom or make one for diddy.... Diddy will be happy if you do ;)</p>
                             )}
                         </div>
                         <div>
@@ -90,4 +93,4 @@ const Chatroom: React.FC = () => {
     );
 };
 
-export default Chatroom;
+export default Chatrooms;
