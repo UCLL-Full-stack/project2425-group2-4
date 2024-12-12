@@ -8,28 +8,42 @@ import { chatRouter } from './controller/chat.routes';
 import { messageRouter } from './controller/message.routes';
 import { userRouter } from './controller/user.routes';
 import { expressjwt } from 'express-jwt';
+import helmet from 'helmet';
 
 const app = express();
+app.use(helmet());
+
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            // Allow connections to own server and the external API
+            connectSrc: ["'self'", 'https://api.ucll.be'],
+        },
+    })
+);
+
+
 dotenv.config();
 const port = process.env.APP_PORT || 3000;
 
-const corsOptions = {
-    origin: 'http://localhost:8080', // Allow only this origin
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
-};
+// const corsOptions = {
+//     origin: 'http://localhost:8080', // Allow only this origin
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//     preflightContinue: false,
+//     optionsSuccessStatus: 200,
+// };
+app.use(cors({ origin: 'http://localhost:8080' }));
+app.use(bodyParser.json());
 
 app.use(
     expressjwt({
         secret: process.env.JWT_SECRET || 'default_secret',
         algorithms: ['HS256'],
     }).unless({
-        path: ['/api-docs', /^\/api-docs\/.*/, '/user/login', '/user/signup', '/status', '/chats', /^\/chats\/\d+$/, '/user'],
+        path: ['/api-docs', /^\/api-docs\/.*/, '/user/login', '/user/signup', '/status'],
     })
 );
-app.use(cors(corsOptions));
-app.use(bodyParser.json());
+
 
 app.use('/user', userRouter);
 app.use('/chats', chatRouter);
@@ -44,7 +58,7 @@ const swaggerOpts = {
         openapi: '3.0.0',
         info: {
             title: 'Diddyscord API',
-            version: '0.9',
+            version: '1.0',
         },
     },
     apis: ['./controller/*.routes.ts'],
