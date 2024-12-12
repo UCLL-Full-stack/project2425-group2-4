@@ -23,8 +23,8 @@
 
 // export default ChatOverviewData;
 
-import React from 'react';
-import { Chat } from '@types';
+import React, { useState, useEffect } from 'react';
+import { Chat, User } from '@types';
 import styles from '@styles/home.module.css';
 
 type Props = {
@@ -33,6 +33,13 @@ type Props = {
 };
 
 const ChatOverviewData: React.FC<Props> = ({ chats, selectChat }: Props) => {
+    const [diddyFan, setDiddyFan] = useState<User | null>(null);
+
+    useEffect(() => {
+        //setDiddyFan(JSON.parse(sessionStorage.getItem('diddyfan') || '')); // '' is correct what
+        //console.log(diddyFan);
+    }, []);
+
     return (
         <>
             {chats && (

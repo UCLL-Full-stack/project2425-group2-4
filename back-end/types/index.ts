@@ -11,7 +11,7 @@ type ChatInput = {
 type MessageInput = {
     id?: number;
     text: string;
-    messenger: { id: number };
+    messenger: { username: string };
     timestamp: Date;
 }
 

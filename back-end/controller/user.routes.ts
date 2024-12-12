@@ -31,6 +31,32 @@ const userRouter = express.Router();
 
 /**
  * @swagger
+ * /user:
+ *   get:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Get a list of all users
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                  $ref: '#/components/schemas/User'
+ */
+userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const users = await userService.getAllUsers();
+        res.status(200).json(users);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
  * /user/signup:
  *  post:
  *      summary: Sign a user up.
@@ -98,12 +124,14 @@ userRouter.post('/signup', async (req: Request, res: Response, next: NextFunctio
  *                          $ref: '#/components/schemas/AuthenticationResponse'
  */
 
-userRouter.post('/login', async (req: Request, res: Response) => {
-    userService.authenticate(req.body)
-        .then(user => res.status(200).json({ username: user.username, email: user.email, token: user.token }))
-        .catch((err) => {
-            res.status(500).json(err)
-        });
+userRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userInput = <UserInput>req.body;
+        const response = await userService.authenticate(userInput);
+        res.status(200).json({ message: 'Authentication succesful', ...response });
+    } catch (error) {
+        next(error);
+    }
 });
 
 export { userRouter };

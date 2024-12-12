@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Message, User } from '@types';
 import MessageService from '@services/MessageService';
 import styles from '@styles/home.module.css';
 
 type Props = {
     chatId: number;
-    user: User;
+    //user: User;
     className?: string;
     onMessagePosted: (message: Message) => void; // I KNEW I WAS MISSING SOMETHING
 };
 
-const PostMessage: React.FC<Props> = ({ chatId, user, className, onMessagePosted }) => {
+const PostMessage: React.FC<Props> = ({ chatId, className, onMessagePosted }) => {
     const [text, setText] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
+    const [diddyFan, setDiddyFan] = useState<User | null>(null);
+
+    useEffect(() => {
+        const user = sessionStorage.getItem('diddyfan');
+        if (user) {
+            setDiddyFan(JSON.parse(sessionStorage.getItem('diddyfan') || '')); // '' is correct what
+        }
+        //console.log(diddyFan);
+    }, []);
 
     const validate = () => {
         let result = true;
@@ -32,12 +41,18 @@ const PostMessage: React.FC<Props> = ({ chatId, user, className, onMessagePosted
             if (!validate()) {
                 return;
             }
-            
+
+            if (!diddyFan) {
+                setError('You must be logged in to post a message');
+                return;
+            }
+
             try {
                 const newMessage: Message = {
                     text,
-                    messenger: user,
+                    messenger: { username: diddyFan?.username },
                     timestamp: new Date(),
+                    chatId: Number(chatId)
                 };
                 const postedMessage = await MessageService.postMessage(chatId, newMessage);
                 setText(''); // clearing it out

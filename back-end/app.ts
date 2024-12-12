@@ -25,7 +25,7 @@ app.use(
         secret: process.env.JWT_SECRET || 'default_secret',
         algorithms: ['HS256'],
     }).unless({
-        path: ['/api-docs', /^\/api-docs\/.*/, '/user/login', '/user/signup', '/status', '/chats', /^\/chats\/\d+$/],
+        path: ['/api-docs', /^\/api-docs\/.*/, '/user/login', '/user/signup', '/status', '/chats', /^\/chats\/\d+$/, '/user'],
     })
 );
 app.use(cors(corsOptions));

@@ -19,10 +19,10 @@ const getAllChats = async (): Promise<Chat[]> => {
     }
 };
 
-const getChatById = async ({ id }: { id: number }): Promise<Chat | null> => {
+const getChatById = async (chatId: number): Promise<Chat | null> => {
     try {
         const chatPrisma = await database.chat.findUnique({
-            where: { id },
+            where: { id: chatId },
             include: {
                 users: true,
                 messages: true,

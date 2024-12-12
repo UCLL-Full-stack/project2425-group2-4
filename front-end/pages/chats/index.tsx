@@ -11,37 +11,64 @@ import ChatOverviewData from '@components/chats/ChatOverview';
 import { useRouter } from 'next/router';
 import ChatData from '@components/chats/ChatData';
 import PostMessage from '@components/chats/PostMessage';
+import useSWR, { mutate } from 'swr';
+import useInterval from 'use-interval';
 //import ChatData from '@components/chats/ChatData';
 
 const Chatroom: React.FC = () => {
-    const [chats, setChats] = useState<Chat[] | null>(null);
+    //const [chats, setChats] = useState<Chat[] | null>(null);
     const router = useRouter();
+    const { chatId } = router.query;
     const [chat, setChat] = useState<Chat | null>(null);
-    //const [user, setUser] = useState<User | null>(null);
 
-    useEffect(() => {
-        fetchChats();
-    }, []);
+    // useEffect(() => {
+    //     fetchChats();
+    // }, []);
 
-    const fetchChats = async () => {
+    const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+    const fetchAllChats = async () => {
         try {
             const response = await ChatService.getChats();
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch chats');
+            }
+
             const chats = await response.json();
-            setChats(chats);
+            console.log(chats);
+            return chats;
         } catch (error) {
             console.error('Error fetching chatrooms', error);
-            setChats(null);
         }
     };
 
-    const handleNewMessage = (message: Message) => {
-        if (chat) {
-            setChat({
-                ...chat,
-                messages: [...chat.messages, message],
-            });
-        }
-    };
+
+    // const fetchChatById = async () => {
+    //     const chatByIdResponse = await Promise.(ChatService.getChatById(chatId as string));
+
+    //     if (chatByIdResponse.ok) {
+    //         const chatById = await Promise.all(chatByIdResponse.json());
+    //         console.log(chatById);
+    //         return chatById;
+    //     }
+    // };
+
+    const { data, isLoading, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + '/chats', fetcher);
+    // I dunno why that shouldn't work? might be missing something tbhh
+
+    useInterval(() => {
+        mutate(process.env.NEXT_PUBLIC_API_URL + '/chats');
+    }, 1000); // ok
+
+    // const handleNewMessage = (message: Message) => {
+    //     if (data?.chatById) {
+    //         setChat({
+    //             ...data?.chatById,
+    //             messages: [...data?.chatById.messages, message],
+    //         });
+    //     }
+    // };
 
     const selectChat = (chat: Chat) => {
         router.push(`/chats/${chat.id}`);
@@ -58,8 +85,8 @@ const Chatroom: React.FC = () => {
                 <h1 className={styles.chatroomName}>Diddyscord Chatrooms</h1>
                 <div className={styles.chatroomContainer}>
                     <div className={styles.chatRoomsOverviewContainer}>
-                        {chats && chats.length > 0 ? (
-                            <ChatOverviewData chats={chats} selectChat={selectChat} />
+                        {data && data.length > 0 ? (
+                            <ChatOverviewData chats={data} selectChat={selectChat} />
                         ) : (
                             <p>No chatrooms active.</p>
                         )}

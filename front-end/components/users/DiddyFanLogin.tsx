@@ -4,21 +4,23 @@ import { useRouter } from 'next/router'; // proper usage of my routes within my 
 import { useState } from 'react'; // react.js fun lol
 import { setTimeout } from 'timers'; // Timeout for asynchronous tasks
 import styles from '@styles/home.module.css';
+import UserService from '@services/UserService';
 
 const DiddyFanLogin: React.FC = () => {
-    const router = useRouter();
-
     const [name, setName] = useState('');
     const [nameError, setNameError] = useState('');
 
     const [password, setPassword] = useState('');
-    const [passwordError, setPasswordError] = useState('');
+    const [passwordError, setPasswordError] = useState<string | null>(null);
 
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
+
+    const router = useRouter();
     // makes a list grouping up status messages, straight forward ex dee
 
     const noMoreErrorsPlz = () => {
         setNameError('');
+        setPasswordError(null);
         //setNameError(null); is wrong???? WTF???????????????
         // ??????????????????????????????
         setStatusMessages([]);
@@ -54,34 +56,39 @@ const DiddyFanLogin: React.FC = () => {
         }
 
         try {
-            const data = await fetch('http://localhost:3000/user/login', {
-                method: 'POST',
-                body: JSON.stringify({
-                    username: name,
-                    password: password
-                }),
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-
-            if (!data.ok) {
-                setStatusMessages(await data.json())
-                return
-            }
-            const user: User = await data.json();
-            sessionStorage.setItem('diddyfan', user.username);
-            sessionStorage.setItem('diddyId', user.id);
-            sessionStorage.setItem('token', user.token);
+            const user = { username: name, password };
+            const response = await UserService.loginDiddyFan(user);
+            if (response.status === 200) {
+              const user = await response.json();
+              sessionStorage.setItem('diddyfan', JSON.stringify({
+                token: user.token,
+                fullname: user.fullname,
+                username: user.username,
+                role: user.role,
+              }));
+            // const user: User = await data.json();
+            // sessionStorage.setItem('diddyfan', user.username);
+            // sessionStorage.setItem('diddyId', user.id);
+            // sessionStorage.setItem('token', user.token);
             setStatusMessages([
                 { type: 'success', message: 'Diddy has missed you babe. Redirecting...' },
             ]);
             setTimeout(() => {
                 router.push('/');
             }, 2500);
+            } else if (response.status === 401) {
+                setStatusMessages([
+                    { type: 'success', message: 'Diddy mad. Diddy might see you tonight...' },
+                ]);
+            }
         } catch (e) {
             console.log(e);
-            return
+            setStatusMessages([
+                {
+                    type: 'error',
+                    message: 'Diddy hella pissed. Diddy might see you tonight...'
+                },
+            ]);
         }
     };
 

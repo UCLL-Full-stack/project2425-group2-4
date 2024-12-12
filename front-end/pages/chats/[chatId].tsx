@@ -12,56 +12,85 @@ import styles from '@styles/home.module.css';
 import ChatOverviewData from '@components/chats/ChatOverview';
 import ChatData from '@components/chats/ChatData';
 import PostMessage from '@components/chats/PostMessage';
+import useSWR, { mutate } from 'swr';
+import useInterval from 'use-interval';
 
 const Chatroom: React.FC = () => {
     const [chat, setChat] = useState<Chat | null>(null);
-    const [chats, setChats] = useState<Chat[] | null>(null); // for the overview of the other chats
+    //const [chats, setChats] = useState<Chat[] | null>(null); // for the overview of the other chats
+    const [diddyFan, setDiddyFan] = useState<User | null>(null); // typescript logic lol? WHY NOT JUST 'NULL'???????
+    // THIS SHIT MAKES ME SKIZO
     const router = useRouter();
     const { chatId } = router.query;
 
-    const fetchChats = async () => {
-        try {
-            const response = await ChatService.getChats();
-            const chats = await response.json();
-            setChats(chats);
-        } catch (error) {
-            console.error('Error fetching chatrooms', error);
-            setChats(null);
-        }
-    };
+    // const fetchChats = async () => {
+    //     try {
+    //         const response = await ChatService.getChats();
+    //         const chats = await response.json();
+    //         setChats(chats);
+    //     } catch (error) {
+    //         console.error('Error fetching chatrooms', error);
+    //         setChats(null);
+    //     }
+    // };
 
-    useEffect(() => {
-        fetchChats();
-        if (chatId) {
-            const getChatById = async () => {
-                try {
-                    const response = await ChatService.getChatById(Number(chatId));
-                    if (response.ok) {
-                        const chatData = await response.json();
-                        setChat(chatData);
-                    } else {
-                        setChat(null);
-                    }                           // this way we can properly show errors regarding non-existent chatrooms.
-                } catch (error) {
-                    console.error('Error fetching chat', error);
-                    setChat(null);
-                }
-            };
-            getChatById();
-        }
-    }, [chatId]);
+    const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-    const newUser = {
-        id: 1,
-        username: 'yamaha46',
-        email: 'yamahalover46@gmail.com',
-    };
+    // const fetchChats = async () => {
+    //     const [chatResponse, chatByIdResponse] = await Promise.all([
+    //         ChatService.getChats(),
+    //         ChatService.getChatById(chatId as string) // ok, this is just retarded at this point
+    //     ]);
+
+    //     if (chatResponse.ok && chatByIdResponse.ok) {
+    //         const [chats, chatById] = await Promise.all([
+    //             chatResponse.json(),
+    //             chatByIdResponse.json()
+    //         ]); 
+    //         console.log(chats);
+    //         return { chats, chatById };
+    //     };   
+    // };
+
+    const { data, isLoading, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + `/chats/${chatId}`, fetcher);
+    // I dunno why that shouldn't work? might be missing something tbhh
+
+    useInterval(() => {
+        mutate(process.env.NEXT_PUBLIC_API_URL + `/chats/${chatId}`);
+    }, 1000); // ok
+
+    // useEffect(() => {
+    //     fetchChats();
+    //     if (chatId) {
+    //         const getChatById = async () => {
+    //             try {
+    //                 const response = await ChatService.getChatById(Number(chatId));
+    //                 if (response.ok) {
+    //                     const chatData = await response.json();
+    //                     setChat(chatData);
+    //                 } else {
+    //                     setChat(null);
+    //                 } // this way we can properly show errors regarding non-existent chatrooms.
+    //             } catch (error) {
+    //                 console.error('Error fetching chat', error);
+    //                 setChat(null);
+    //             }
+    //         };
+    //         getChatById();
+    //     }
+    // }, [chatId]);
+
+    // const newUser = {
+    //     id: 1,
+    //     username: 'yamaha46',
+    //     email: 'yamahalover46@gmail.com',
+    // };
 
     const handleNewMessage = (message: Message) => {
-        if (chat) {
+        if (data) {
             setChat({
-                ...chat,
-                messages: [...chat.messages, message],
+                ...data,
+                messages: [...data.messages, message],
             });
         }
     };
@@ -74,26 +103,26 @@ const Chatroom: React.FC = () => {
     return (
         <>
             <Head>
-                <title>{chat ? chat.id : 'Chat does not exist'}</title>
+                <title>{data ? data?.name : 'Chat does not exist'}</title>
             </Head>
             <Header />
             <main className={styles.main}>
-                <h1 className={styles.chatroomName}>{chat ? chat.name : 'Chat does not exist'}</h1>
+                <h1 className={styles.chatroomName}>{data ? data.name : 'Chat does not exist'}</h1>
                 <div className={styles.chatroomContainer}>
                     <div className={styles.chatRoomsOverviewContainer}>
-                        {chats && chats.length > 0 ? (
-                            <ChatOverviewData chats={chats} selectChat={selectChat} />
+                        {data && data.length > 0 ? (
+                            <ChatOverviewData chats={data} selectChat={selectChat} />
                         ) : (
                             <p>No chatrooms active.</p>
                         )}
                     </div>
                     <div className={styles.chatRoomContentContainer}>
                         <div className={styles.chatRoomContent}>
-                            {chat ? (
+                            {data? (
                                 <ChatData
-                                    chat={chat}
-                                    messages={chat?.messages || []}
-                                    users={chat?.users || []}
+                                    chat={data}
+                                    messages={data?.messages || []}
+                                    users={data?.users || []}
                                 />
                             ) : (
                                 <p>No messages to be displayed.</p>
@@ -107,8 +136,8 @@ const Chatroom: React.FC = () => {
                                     className={styles.chatInputImg}
                                 />
                                 <PostMessage
-                                    chatId={chatId ? Number(chatId) : 0}
-                                    user={newUser}
+                                    chatId={Number(chatId)}
+                                    //user={}
                                     className={styles.chatInput}
                                     onMessagePosted={handleNewMessage}
                                 />

@@ -3,23 +3,27 @@ import Image from 'next/image';
 import styles from '@styles/home.module.css';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { User } from "@types";
 
 
 const Header: React.FC = () => {
-    const [diddyfan, setDiddyFan] = useState<string | null>(null);
+    const [diddyfan, setDiddyFan] = useState<User | null | undefined>(undefined);
     const router = useRouter();
 
     useEffect(() => {
-        setDiddyFan(sessionStorage.getItem("diddyfan"));
-    }, []);
+        const user = sessionStorage.getItem("diddyfan");
+        if (user) {
+          setDiddyFan(JSON.parse(user));
+        }
+      }, []);
     //(event) is wrong... have to figure out why
     const handleLogout = async (event: React.MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
         sessionStorage.removeItem("diddyfan");
-        sessionStorage.removeItem("diddyId");
-        sessionStorage.removeItem("diddyToken");
+        // sessionStorage.removeItem("diddyId");
+        // sessionStorage.removeItem("diddyToken");
         setDiddyFan(null);
-        router.push("/");
+        // router.push("/");
     }
     // Extra information regarding why it should be calling event like this:
     // " The error "Parameter 'event' implicitly has an 'any' type" occurs because TypeScript
@@ -62,7 +66,7 @@ const Header: React.FC = () => {
                                         logout
                                     </a>
                                     <li>
-                                        as "{diddyfan}"!
+                                        as "{diddyfan?.username}"!
                                     </li>
                                 </>
                             )}

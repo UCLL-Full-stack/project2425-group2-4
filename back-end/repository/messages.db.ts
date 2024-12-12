@@ -40,7 +40,7 @@ const postMessage = async (message: Message, chatId: number): Promise<Message> =
         const messagePrisma = await database.message.create({
             data: {
                 text: message.getText(),
-                messenger: { connect: { id: message.getMessenger().getId() } },
+                messenger: { connect: { username: message.getMessenger().getUsername() } },
                 timestamp: message.getTimestamp(),
                 chat: { connect: { id: chatId } },
             },

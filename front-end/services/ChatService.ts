@@ -1,24 +1,26 @@
 import { Chat } from '@types';
 
 const getChats = async () => {
-    let chats = await fetch(
+    return fetch(
         process.env.NEXT_PUBLIC_API_URL + "/chats",
         {
             method: "GET",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
             }
         })
-    return chats;
 };
 
-const getChatById = (chatId: number) => {
+const getChatById = (chatId: string) => {
+    //const token = JSON.parse(sessionStorage.getItem('diddyfan') || '')?.token; // I FUCKING HATE THIS
+
     return fetch(
         process.env.NEXT_PUBLIC_API_URL + `/chats/${chatId}`,
         {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                //Authorization: `Bearer ${token}`
             }
         })
 };  

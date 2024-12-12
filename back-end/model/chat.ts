@@ -102,6 +102,8 @@ export class Chat {
         messages,
         users,
     }: ChatPrisma & { users: UserPrisma[]; messages: MessagePrisma[] }) {
+        console.log('Users:', users);
+        console.log('Messages:', messages);
         return new Chat({
             id,
             users: (users || []).map((user) => User.from(user)),

@@ -15,18 +15,18 @@ const postMessage = async (chatId: number, {
         throw new Error('Text cannot be empty');
     }
 
-    if (!userInput.id) {
-        throw new Error('Messenger ID is required');
+    if (!userInput.username) {
+        throw new Error('Messenger username is required');
     }
 
-    const messenger = await usersDb.getUserById({ id: userInput.id });
+    const messenger = await usersDb.getUserByUsername({ username: userInput.username });
 
     if (!messenger) {
-        console.error(`User with id ${userInput.id} not found`);
+        console.error(`User with id ${userInput.username} not found`);
         throw new Error('User not found');
     }
 
-    const chat = await chatDb.getChatById({ id: chatId });
+    const chat = await chatDb.getChatById(chatId);
 
     if (!chat) {
         console.error(`Chat with id ${chatId} not found`);
@@ -35,7 +35,7 @@ const postMessage = async (chatId: number, {
 
     const userId = messenger.getId();
     if (userId === undefined) {
-        throw new Error('User ID is undefined');
+        throw new Error('Username is undefined');
     }
 
 

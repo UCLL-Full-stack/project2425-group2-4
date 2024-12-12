@@ -1,5 +1,5 @@
 import { User, Message, Chat } from '@types';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '@styles/home.module.css';
 
 type Props = {
@@ -9,6 +9,13 @@ type Props = {
 };
 
 const ChatRoomData: React.FC<Props> = ({ chat, messages, users }) => {
+    const [diddyFan, setDiddyFan] = useState<User | null>(null);
+
+    // useEffect(() => {
+    //     setDiddyFan(JSON.parse(sessionStorage.getItem('diddyfan') || '')); // '' is correct what
+    //     //console.log(diddyFan);
+    // });
+
     return (
         <>
             {/* <h1 className={styles.chatroomName}>{chat.name}</h1> */}

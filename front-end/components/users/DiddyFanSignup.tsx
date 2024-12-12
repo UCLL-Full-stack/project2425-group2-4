@@ -5,6 +5,7 @@ import { useState } from 'react'; // react.js fun lol
 import { setTimeout } from 'timers'; // Timeout for asynchronous tasks
 import styles from '@styles/home.module.css';
 import { User } from '@types';
+import UserService from '@services/UserService';
 
 const DiddyFanSignup: React.FC = () => {
     const router = useRouter();
@@ -73,26 +74,21 @@ const DiddyFanSignup: React.FC = () => {
         }
 
         try {
-            const data = await fetch('http://localhost:3000/user/signup', {
-                method: 'POST',
-                body: JSON.stringify({
-                    username: name,
-                    password: password,
-                    email: email
-                }),
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-
-            if (!data.ok) {
-                setStatusMessages(await data.json())
-                return
-            }
-            const user: User = await data.json();
-            sessionStorage.setItem('diddyfan', user.username);
-            if (user.id) sessionStorage.setItem('diddyid', user.id.toString());
-            if (user.token) sessionStorage.setItem('diddytoken', user.token);
+            const user = { 
+                username: name,
+                password,
+                email,
+                role: 'user',
+            };
+            const response = await UserService.signupDiddyFan(user);
+            // if (!data.ok) {
+            //     setStatusMessages(await data.json())
+            //     return
+            // }
+            // const user: User = await data.json();
+            // sessionStorage.setItem('diddyfan', user.username);
+            // if (user.id) sessionStorage.setItem('diddyid', user.id.toString());
+            // if (user.token) sessionStorage.setItem('diddytoken', user.token);
             setStatusMessages([
                 { type: 'success', message: 'Diddy welcomes you to his party 😏. Redirecting...' },
             ]);
