@@ -22,7 +22,7 @@ const getAllChats = async (): Promise<Chat[]> => {
 const getChatById = async (chatId: number): Promise<Chat> => {
     const chat = await chatDb.getChatById(chatId);
     if (!chat) {
-        throw new Error(`Course with id ${chatId} does not exist.`)
+        throw new Error(`Chat with id ${chatId} does not exist.`)
     }
     return chat;
 };

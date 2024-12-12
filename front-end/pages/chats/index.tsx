@@ -43,32 +43,12 @@ const Chatroom: React.FC = () => {
         }
     };
 
-
-    // const fetchChatById = async () => {
-    //     const chatByIdResponse = await Promise.(ChatService.getChatById(chatId as string));
-
-    //     if (chatByIdResponse.ok) {
-    //         const chatById = await Promise.all(chatByIdResponse.json());
-    //         console.log(chatById);
-    //         return chatById;
-    //     }
-    // };
-
     const { data, isLoading, error } = useSWR(process.env.NEXT_PUBLIC_API_URL + '/chats', fetcher);
     // I dunno why that shouldn't work? might be missing something tbhh
 
     useInterval(() => {
         mutate(process.env.NEXT_PUBLIC_API_URL + '/chats');
     }, 1000); // ok
-
-    // const handleNewMessage = (message: Message) => {
-    //     if (data?.chatById) {
-    //         setChat({
-    //             ...data?.chatById,
-    //             messages: [...data?.chatById.messages, message],
-    //         });
-    //     }
-    // };
 
     const selectChat = (chat: Chat) => {
         router.push(`/chats/${chat.id}`);
