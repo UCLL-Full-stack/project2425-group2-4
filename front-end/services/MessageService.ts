@@ -1,23 +1,15 @@
 import { Message } from '@types';
 
-// const getMessages = async () => {
-//     return fetch(
-//         process.env.NEXT_PUBLIC_API_URL + "/messages",
-//         {
-//             method: "GET",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             }
-//         }
-//     );
-// };
-
 const postMessage = async (chatId: number, message: Message): Promise<Message> => {
+    console.log('API call made for:', message); // Debugging
     console.log(JSON.stringify(message));
+    const token = JSON.parse(sessionStorage.getItem('diddyfan') || '{}')?.token;
+
     const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `/chats/${chatId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(message),
     });

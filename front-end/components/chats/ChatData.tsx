@@ -10,7 +10,9 @@ type Props = {
 
 const ChatRoomData: React.FC<Props> = ({ chat, messages, users }) => {
     const [diddyFan, setDiddyFan] = useState<User | null>(null);
-
+    // console.log('Rendering messages:', messages);
+    // console.log('Rendering Chatroom');
+    
     // useEffect(() => {
     //     setDiddyFan(JSON.parse(sessionStorage.getItem('diddyfan') || '')); // '' is correct what
     //     //console.log(diddyFan);

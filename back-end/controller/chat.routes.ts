@@ -31,6 +31,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import chatService from '../service/chat.service';
 import { ChatInput, Role } from '../types';
+import { UserInput } from '../types/index';
 
 const chatRouter = express.Router();
 
@@ -87,7 +88,11 @@ chatRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  */
 chatRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const chat = await chatService.getChatById(Number(req.params.id));
+        const request = req as Request & { auth: { username: string; role: Role } };
+        const { username, role } = request.auth;
+        const chatId = Number(req.params.id);
+        //const chatId = Number(req.params.id);
+        const chat = await chatService.getChatById({ username, role, chatId });
         res.status(200).json(chat);
     } catch (error) {
         next(error);

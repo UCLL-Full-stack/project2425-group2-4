@@ -16,11 +16,32 @@ import useSWR, { mutate } from 'swr';
 import useInterval from 'use-interval';
 
 const Chatroom: React.FC = () => {
-    const [chat, setChat] = useState<Chat | null>(null);
+    //const [chat, setChat] = useState<Chat | null>(null);
     const router = useRouter();
     const { chatId } = router.query;
+    const [user, setUser] = useState<User | null>(null);
 
-    const fetcher = (url: string) => fetch(url).then((res) => res.json());
+    useEffect(() => {
+        const storedUser = sessionStorage.getItem('diddyfan');
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
+
+    const fetcher = async (url: string) => {
+        console.log('Fetching data from:', url);
+        const token = user?.token;
+        if (!token) {
+            throw new Error('No token found');
+        }
+        const res = await fetch(url, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return await res.json();
+    };
 
     const { data: chatData, isLoading: isChatLoading, error: chatError } = useSWR(
         chatId ? `${process.env.NEXT_PUBLIC_API_URL}/chats/${chatId}` : null,
@@ -34,23 +55,29 @@ const Chatroom: React.FC = () => {
 
     useInterval(() => {
         if (chatId) {
+            console.log('Mutating chat data for chatId:', chatId);
             mutate(`${process.env.NEXT_PUBLIC_API_URL}/chats/${chatId}`);
         }
+        console.log('Mutating chats data');
         mutate(`${process.env.NEXT_PUBLIC_API_URL}/chats`);
+        // mutate(`${process.env.NEXT_PUBLIC_API_URL}/chats/${chatId}`);
     }, 1000);
 
-    const handleNewMessage = (message: Message) => {
-        if (chatData) {
-            setChat({
-                ...chatData,
-                messages: [...chatData.messages, message],
-            });
+    const handleNewMessage = async (message: Message) => {
+        if (chatId) {
+            try {
+                console.log('Posting message:', message);
+                await MessageService.postMessage(Number(chatId), message);
+                
+            } catch (error) {
+                console.error('Failed to post message:', error);
+            }
         }
     };
 
     const selectChat = (chat: Chat) => {
         router.push(`/chats/${chat.id}`);
-        setChat(chat);
+        //setChat(chat);
     };
 
     return (
