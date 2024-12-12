@@ -60,6 +60,7 @@ const main = async () => {
                 connect: [
                     { id: yamaha46.id },
                     { id: broski21.id },
+                    { id: gentleman43.id },
                 ],
             },
             messages: {
