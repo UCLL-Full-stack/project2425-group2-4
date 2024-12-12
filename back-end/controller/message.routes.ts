@@ -64,4 +64,15 @@ messageRouter.post('/:id', async (req: Request, res: Response, next: NextFunctio
     }
 });
 
+
+
+// Delete message
+messageRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
+
+});
+
+
+
+
+
 export { messageRouter };
