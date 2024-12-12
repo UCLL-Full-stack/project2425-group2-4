@@ -16,11 +16,8 @@ const PostMessage: React.FC<Props> = ({ chatId, className, onMessagePosted }) =>
     const [diddyFan, setDiddyFan] = useState<User | null>(null);
 
     useEffect(() => {
-        const user = sessionStorage.getItem('diddyfan');
-        if (user) {
-            setDiddyFan(JSON.parse(sessionStorage.getItem('diddyfan') || '')); // '' is correct what
-        }
-        //console.log(diddyFan);
+        setDiddyFan(JSON.parse(sessionStorage.getItem('diddyfan') || ''));
+        console.log(diddyFan);
     }, []);
 
     const validate = () => {

@@ -3,7 +3,7 @@ export type User = {
     username?: string;
     password?: string;
     email?: string;
-    // token: string;
+    token?: string;
     role?: string;
 };
 

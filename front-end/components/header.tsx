@@ -7,14 +7,15 @@ import { User } from "@types";
 
 
 const Header: React.FC = () => {
-    const [diddyfan, setDiddyFan] = useState<User | null | undefined>(undefined);
+    const [diddyfan, setDiddyFan] = useState<User | null>(null);
     const router = useRouter();
 
     useEffect(() => {
-        const user = sessionStorage.getItem("diddyfan");
-        if (user) {
-          setDiddyFan(JSON.parse(user));
+        const storedUser = sessionStorage.getItem('diddyfan');
+        if (storedUser) {
+            setDiddyFan(JSON.parse(storedUser));
         }
+        console.log(diddyfan);
       }, []);
     //(event) is wrong... have to figure out why
     const handleLogout = async (event: React.MouseEvent<HTMLAnchorElement>) => {
