@@ -3,7 +3,6 @@ type Role = 'admin' | 'moderator' | 'user';
 type ChatInput = {
     id?: number;
     name: string;
-    createdAt: Date;
     messages?: MessageInput[];
     users?: UserInput[];
 }
@@ -19,8 +18,8 @@ type UserInput = {
     id?: number;
     username: string;
     email: string;
-    password: string;
-    role: Role; 
+    password?: string;
+    role: Role;
 }
 
 type AuthenticationResponse = {

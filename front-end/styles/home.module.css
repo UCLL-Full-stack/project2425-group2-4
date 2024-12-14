@@ -198,6 +198,78 @@
     overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: RGBA(65,65,65,1) RGBA(0,0,0,0);
+    justify-content: space-between;
+}
+
+.addChatroomButton {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    background-color: transparent;
+    border: solid;
+    border-radius: 10px;
+    border-color: #706e6e;
+}
+
+.addChatroomButton:hover {
+    border-color: white;
+}
+
+.addChatroomButton > svg {
+    width: 50px;
+    height: 50px;
+}
+
+.createChatroomContainer {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+}
+.createChatroomForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 25%;
+    height: 25%;
+    background-color: #111111;
+    padding:1rem;
+    gap: 1rem;
+}
+
+.createChatroomFormNameContainer {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-items: center;
+}
+.createChatroomFormNameContainer input {
+    color: white;
+    background-color: #111111;
+    padding: 0.5rem;
+}
+.createChatroomFormUsersContainer {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.createChatroomFormUsersContainer input {
+    color: white;
+    background-color: #111111;
+    padding: 0.5rem;
+} 
+.createChatroomFormUsersOption {
+    color: white;
+    background-color: #111111;
+    padding: 0.5rem;
 }
 
 .chatRoomContentContainer {

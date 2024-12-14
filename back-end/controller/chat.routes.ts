@@ -30,7 +30,7 @@
  */
 import express, { NextFunction, Request, Response } from 'express';
 import chatService from '../service/chat.service';
-import { ChatInput, Role } from '../types';
+import { ChatInput, Role, UserInput } from '../types';
 
 const chatRouter = express.Router();
 
@@ -94,11 +94,46 @@ chatRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
     }
 });
 
+/**
+ * @swagger
+ * /chats:
+ *  post:
+ *      security:
+ *         - bearerAuth: []
+ *      summary: Create a chatroom.
+ *      tags: [Chat]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          name:
+ *                              type: string
+ *                              example: Untitled_Chatroom
+ *                          Users:
+ *                              type: array
+ *                              example: [{"id": 1, "username": "user1", "email": "test@test.be", "role": "user" },{"id": 2, "username": "user2", "email": "test@test.be", "role": "user" },{"id": 3, "username": "user3", "email": "test@test.be", "role": "user" }]
+ *
+ *      responses:
+ *          200:
+ *              description: A User object.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Chat'
+ */
 
 chatRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const chat = <ChatInput>req.body;
-        const result = await chatService.createChat(chat);
+        const request = req as Request & { auth: { id: number, username: string, email: string, role: Role } };
+        console.log(request.auth);
+        const chatname = request.body.name;
+        const users: Array<UserInput> = request.body.users;
+        users.push({ id: request.auth.id, username: request.auth.username, email: request.auth.email, role: request.auth.role });
+        const result = await chatService.createChat({ name: chatname, users: users });
+        console.log(result);
         res.status(200).json(result);
     } catch (error) {
         const err = error as Error;

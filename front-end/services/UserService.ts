@@ -21,9 +21,23 @@ const signupDiddyFan = (diddy: User) => {
     });
 }
 
+const getAllUsers = async (): Promise<User[]> => {
+    const token = JSON.parse(sessionStorage.getItem('diddyfan') || '{}')?.token;
+    const users = await fetch(process.env.NEXT_PUBLIC_API_URL + '/user', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        }
+    })
+    if (users.ok) { return users.json(); }
+    throw new Error('Failed to get users');
+
+}
 const UserService = {
     loginDiddyFan,
     signupDiddyFan,
+    getAllUsers
 }
 
 export default UserService;

@@ -1,9 +1,10 @@
 import { UnauthorizedError } from "express-jwt";
 import { Chat } from "../model/chat";
+import { Message } from "../model/message";
 import chatDb from "../repository/chat.db";
 import messagesDb from "../repository/messages.db";
 import usersDb from "../repository/users.db";
-import { ChatInput, Role } from "../types";
+import { ChatInput, MessageInput, Role } from "../types";
 // import messagesDb from "../repository/messages.db";
 // import usersDb from "../repository/users.db";
 // import { ChatInput, MessageInput, UserInput } from "../types"; // The "Input type" aka lab-03 reference
@@ -35,27 +36,23 @@ const getChatById = async (chatId: number): Promise<Chat> => {
     return chat;
 };
 
-const createChat = async ({ name, createdAt, users: userInputs = [], messages: messageInputs = [] }: ChatInput): Promise<Chat> => {
+const createChat = async ({ name, users: userInputs = [] }: ChatInput): Promise<Chat> => {
+    console.log(userInputs);
     const users = await Promise.all(userInputs.map(async userInput => {
-        if (userInput.id === undefined) {
-            throw new Error('User id is undefined');
+        if (userInput.username === undefined) {
+            console.log('Username is undefined');
+            throw new Error('Username id is undefined');
         }
-        const user = await usersDb.getUserById({ id: userInput.id });
-        if (!user) throw new Error(`User with id ${userInput.id} not found`);
+        const user = await usersDb.getUserByUsername({ username: userInput.username })
+        if (!user) throw new Error(`User with username ${userInput.username} not found`);
         return user;
     }));
 
-    const messages = await Promise.all(messageInputs.map(async messageInput => {
-        if (messageInput.id === undefined) {
-            throw new Error('Message id is undefined');
-        }
-        const message = await messagesDb.getMessageById({ id: messageInput.id });
-        if (!message) throw new Error(`Message with id ${messageInput.id} not found`);
-        return message;
-    }));
+    console.log(users);
 
-    const chat = new Chat({ name, createdAt, users, messages });
-    return await chatDb.createChat(chat);
+    const messages = new Array<MessageInput>();
+
+    return await chatDb.createChat({ name: name, users: users, messages: messages });
 };
 
 export default {

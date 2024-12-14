@@ -13,12 +13,15 @@ import ChatData from '@components/chats/ChatData';
 import PostMessage from '@components/chats/PostMessage';
 import useSWR, { mutate } from 'swr';
 import useInterval from 'use-interval';
+import CreateChatroom from '@components/chats/CreateChatroom';
+import { Button } from '@headlessui/react';
 //import ChatData from '@components/chats/ChatData';
 
 const Chatrooms: React.FC = () => {
     const router = useRouter();
     const { chatId } = router.query;
     const [user, setUser] = useState<User | null>(null);
+    const [newChatVisible, setNewChatVisible] = useState<Boolean>(false);
 
     useEffect(() => {
         const storedUser = sessionStorage.getItem('diddyfan');
@@ -26,6 +29,11 @@ const Chatrooms: React.FC = () => {
             setUser(JSON.parse(storedUser));
         }
     }, []);
+
+    const toggleNewChatPopup = () => {
+        newChatVisible ? setNewChatVisible(false) : setNewChatVisible(true);
+
+    }
 
     const fetcher = (url: string) => {
         const token = user?.token;
@@ -62,6 +70,12 @@ const Chatrooms: React.FC = () => {
 
     return (
         <>
+            {newChatVisible ? (
+                <CreateChatroom />
+            ) : (
+                <div></div>
+            )
+            }
             <Head>
                 <title>Diddyscord Chatrooms</title>
             </Head>
@@ -70,11 +84,14 @@ const Chatrooms: React.FC = () => {
                 <h1 className={styles.chatroomName}>Diddyscord Chatrooms</h1>
                 <div className={styles.chatroomContainer}>
                     <div className={styles.chatRoomsOverviewContainer}>
-                        {chatsData && chatsData.length > 0 ? (
-                            <ChatOverviewData chats={chatsData} selectChat={selectChat} />
-                        ) : (
-                            <p>No chatrooms active.</p>
-                        )}
+                        <div className={styles.chatroomsOverviewList}>
+                            {chatsData && chatsData.length > 0 ? (
+                                <ChatOverviewData chats={chatsData} selectChat={selectChat} />
+                            ) : (
+                                <p>No chatrooms active.</p>
+                            )}
+                        </div>
+                        <Button className={styles.addChatroomButton} onClick={toggleNewChatPopup}> <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="12" r="10" stroke="#ffffff" stroke-width="1.5"></circle> <path d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>Add ChatRoom</Button>
                     </div>
                     <div className={styles.chatRoomContentContainer}>
                         <div className={styles.chatRoomContent}>

@@ -7,7 +7,16 @@ import { generateJwtToken } from '../util/jwt';
 //const getAllUsers = (): User[] => usersDb.getAllUsers();
 
 const getAllUsers = async (): Promise<User[]> => {
-    return usersDb.getAllUsers();
+    const usersFromDB = await usersDb.getAllUsers();
+    const usersToReturn: User[] = [];
+
+    usersFromDB.forEach((user) => {
+        const userToPush: User = new User({ username: user.username, id: user.id, email: user.email, role: user.role, password: "redacted" })
+        usersToReturn.push(userToPush)
+    })
+
+
+    return usersToReturn;
 };
 
 const getUserById = async (id: number): Promise<User> => {
@@ -28,6 +37,9 @@ const getUserByUsername = async ({ username }: { username: string }): Promise<Us
 
 const authenticate = async ({ username, password }: UserInput): Promise<AuthenticationResponse> => {
     const user = await getUserByUsername({ username });
+    if (password === undefined) {
+        throw new Error('Password is required.');
+    }
 
     const isValidPassword = await bcrypt.compare(password, user.getPassword());
 
@@ -52,6 +64,9 @@ const createUser = async ({
 
     if (existingUser) {
         throw new Error(`User with username ${username} is already registered.`);
+    }
+    if (password === undefined) {
+        throw new Error('Password is required.');
     }
 
     const hashedPassword = await bcrypt.hash(password, 15);

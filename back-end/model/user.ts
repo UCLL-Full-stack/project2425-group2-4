@@ -9,13 +9,13 @@ import { Chat } from './chat';
 import { Message } from './message';
 
 export class User {
-    private id?: number;
-    private username: string;
-    private email: string;
-    private password: string;
-    private chats?: Chat[];
-    private messages?: Message[];
-    private role: Role;
+    readonly id?: number;
+    readonly username: string;
+    readonly email: string;
+    readonly password: string;
+    readonly chats?: Chat[];
+    readonly messages?: Message[];
+    readonly role: Role;
 
     constructor(user: {
         id?: number;

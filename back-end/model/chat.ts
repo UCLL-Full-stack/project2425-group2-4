@@ -41,7 +41,7 @@ export class Chat {
         if (!chat.createdAt) {
             throw new Error('Date is incorrect');
         }
-    }  
+    }
 
     getId(): number | undefined {
         return this.id;
@@ -73,16 +73,16 @@ export class Chat {
 
     equals(chat: Chat): boolean {
         const usersEqual = (this.users?.length === chat.getUsers()?.length &&
-        this.users?.every((user, index) => {
-            const chatUser = chat.getUsers()?.[index];
-            return chatUser ? user.equals(chatUser) : false;
-        })) ?? false;
+            this.users?.every((user, index) => {
+                const chatUser = chat.getUsers()?.[index];
+                return chatUser ? user.equals(chatUser) : false;
+            })) ?? false;
 
         const messagesEqual = (this.messages?.length === chat.getMessages()?.length &&
-        this.messages?.every((message, index) => {
-            const chatMessage = chat.getMessages()?.[index];
-            return chatMessage ? message.equals(chatMessage) : false;
-        })) ?? false;
+            this.messages?.every((message, index) => {
+                const chatMessage = chat.getMessages()?.[index];
+                return chatMessage ? message.equals(chatMessage) : false;
+            })) ?? false;
         // making separate variables to avoid making the code messy & make it more readable,
         // it's mainly checking if the users & messages are equal to the getters of the type.
         // And since boolean can only be determined as True/False, this is the perfect solution.
@@ -95,7 +95,7 @@ export class Chat {
         );
     }
 
-    static from ({
+    static from({
         id,
         name,
         createdAt,

@@ -1,6 +1,6 @@
 export type User = {
     id?: number;
-    username?: string;
+    username: string;
     password?: string;
     email?: string;
     token?: string;
@@ -28,7 +28,7 @@ export type Chat = {
     name: string;
     messages: Message[];
     users: User[];
-    createdAt: Date;
+    createdAt?: Date;
 };
 
 export type StatusMessage = {

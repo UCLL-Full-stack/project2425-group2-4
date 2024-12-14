@@ -1,6 +1,7 @@
 import { Chat } from "../model/chat";
 import { Message } from "../model/message";
 import { User } from "../model/user";
+import { ChatInput } from "../types";
 import database from "./database";
 
 // To show all chats within the page
@@ -55,17 +56,18 @@ const getChatForUser = async ({ username }: { username: string }): Promise<Chat[
     }
 };
 
-const createChat = async ( chat : Chat): Promise<Chat> => {
+const createChat = async (chat: ChatInput): Promise<Chat> => {
     try {
+        const timestamp = new Date(Date.now()).toISOString();
         const chatPrisma = await database.chat.create({
             data: {
-                name: chat.getName(),
-                createdAt: chat.getCreatedAt(),
+                name: chat.name,
+                createdAt: timestamp,
                 users: {
-                    connect: chat.getUsers()?.map(user => ({ id: user.getId() })) || []
+                    connect: chat.users?.map(user => ({ id: user.id })) || []
                 },
                 messages: {
-                    connect: chat.getMessages()?.map(message => ({ id: message.getId() })) || []
+                    connect: chat.messages?.map(message => ({ id: message.id })) || []
                 },
             },
             include: {

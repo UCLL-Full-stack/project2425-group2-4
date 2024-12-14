@@ -33,8 +33,8 @@ const userRouter = express.Router();
  * @swagger
  * /user:
  *   get:
- *     security:
- *       - bearerAuth: []
+ *   security:
+ *   - bearerAuth: []
  *     summary: Get a list of all users
  *     responses:
  *       200:
@@ -48,6 +48,7 @@ const userRouter = express.Router();
  */
 userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const request = req as Request & { auth: UserInput };
         const users = await userService.getAllUsers();
         res.status(200).json(users);
     } catch (error) {

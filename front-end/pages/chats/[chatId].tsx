@@ -17,10 +17,29 @@ import useInterval from 'use-interval';
 
 const Chatroom: React.FC = () => {
     const [chat, setChat] = useState<Chat | null>(null);
+    const [user, setUser] = useState<User | null>(null);
     const router = useRouter();
     const { chatId } = router.query;
 
-    const fetcher = (url: string) => fetch(url).then((res) => res.json());
+    useEffect(() => {
+        const storedUser = sessionStorage.getItem('diddyfan');
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
+
+    const fetcher = (url: string) => {
+        const token = user?.token;
+        if (!token) {
+            throw new Error('No token found');
+        }
+        return fetch(url, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        }).then((res) => res.json());
+    };
 
     const { data: chatData, isLoading: isChatLoading, error: chatError } = useSWR(
         chatId ? `${process.env.NEXT_PUBLIC_API_URL}/chats/${chatId}` : null,
@@ -71,7 +90,7 @@ const Chatroom: React.FC = () => {
                     </div>
                     <div className={styles.chatRoomContentContainer}>
                         <div className={styles.chatRoomContent}>
-                            {chatData? (
+                            {chatData ? (
                                 <ChatData
                                     chat={chatData}
                                     messages={chatData?.messages || []}
