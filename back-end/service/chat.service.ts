@@ -28,12 +28,26 @@ const getChat = async ({
 };
 
 
-const getChatById = async (chatId: number): Promise<Chat> => {
+const getChatById = async ({
+    username,
+    role,
+    chatId,
+}: {
+    username: string;
+    role: Role;
+    chatId: number;
+}): Promise<Chat> => {
     const chat = await chatDb.getChatById(chatId);
-    if (!chat) {
-        throw new Error(`Chat with id ${chatId} does not exist.`)
+    if (role === 'admin' || role === 'moderator' || role === 'user') {
+        if (!chat) {
+            throw new Error(`Chat with id ${chatId} does not exist.`);
+        }
+        return chat;
+    } else {
+        throw new UnauthorizedError('credentials_required', {
+            message: 'You are not authorized to access this resource.',
+        });
     }
-    return chat;
 };
 
 const createChat = async ({ name, users: userInputs = [] }: ChatInput): Promise<Chat> => {

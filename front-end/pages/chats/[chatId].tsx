@@ -12,14 +12,16 @@ import styles from '@styles/home.module.css';
 import ChatOverviewData from '@components/chats/ChatOverview';
 import ChatData from '@components/chats/ChatData';
 import PostMessage from '@components/chats/PostMessage';
+import DeleteMessage from '@components/chats/DeleteMessage';
+
 import useSWR, { mutate } from 'swr';
 import useInterval from 'use-interval';
 
 const Chatroom: React.FC = () => {
-    const [chat, setChat] = useState<Chat | null>(null);
-    const [user, setUser] = useState<User | null>(null);
+    //const [chat, setChat] = useState<Chat | null>(null);
     const router = useRouter();
     const { chatId } = router.query;
+    const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
         const storedUser = sessionStorage.getItem('diddyfan');
@@ -28,17 +30,19 @@ const Chatroom: React.FC = () => {
         }
     }, []);
 
-    const fetcher = (url: string) => {
+    const fetcher = async (url: string) => {
+        //console.log('Fetching data from:', url);
         const token = user?.token;
         if (!token) {
             throw new Error('No token found');
         }
-        return fetch(url, {
+        const res = await fetch(url, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
             },
-        }).then((res) => res.json());
+        });
+        return await res.json();
     };
 
     const { data: chatData, isLoading: isChatLoading, error: chatError } = useSWR(
@@ -53,23 +57,41 @@ const Chatroom: React.FC = () => {
 
     useInterval(() => {
         if (chatId) {
+            //console.log('Mutating chat data for chatId:', chatId);
             mutate(`${process.env.NEXT_PUBLIC_API_URL}/chats/${chatId}`);
         }
+        //console.log('Mutating chats data');
         mutate(`${process.env.NEXT_PUBLIC_API_URL}/chats`);
+        // mutate(`${process.env.NEXT_PUBLIC_API_URL}/chats/${chatId}`);
     }, 1000);
 
-    const handleNewMessage = (message: Message) => {
-        if (chatData) {
-            setChat({
-                ...chatData,
-                messages: [...chatData.messages, message],
-            });
+    const handleNewMessage = async (message: Message) => {
+        if (chatId) {
+            try {
+                console.log('Posting message:', message);
+                await MessageService.postMessage(Number(chatId), message);
+                
+            } catch (error) {
+                console.error('Failed to post message:', error);
+            }
         }
     };
 
+    const deleteMessage = async (message: Message) => {
+        if (chatId) {
+            try {
+                console.log('Deleting message:', message);
+                await MessageService.deleteMessage(Number(chatId), message);
+
+            } catch (error) {
+                console.error('Failed to delete message:', error);
+            }
+        }
+    }
+
     const selectChat = (chat: Chat) => {
         router.push(`/chats/${chat.id}`);
-        setChat(chat);
+        //setChat(chat);
     };
 
     return (

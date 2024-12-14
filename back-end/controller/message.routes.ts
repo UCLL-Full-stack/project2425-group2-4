@@ -28,6 +28,8 @@ const messageRouter = express.Router();
  * @swagger
  * /chats/{id}:
  *   post:
+ *      security:
+ *         - bearerAuth: []
  *      summary: Send a message within an existing chatroom.
  *      parameters:
  *          - in: path
@@ -57,9 +59,28 @@ messageRouter.post('/:id', async (req: Request, res: Response, next: NextFunctio
         const result = await messageService.postMessage(chatId, message);
         res.status(200).json(result);
     } catch (error) {
-        console.log(error);
-        next(error);
+        const err = error as Error;
+        res.status(400).json({ status: 'error', errorMessage: err.message });
     }
 });
+
+
+
+// Delete message
+messageRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const chatId = parseInt(req.params.id, 10);
+        const { id: messageId } = req.body;
+        const result = await messageService.deleteMessage(chatId , messageId);
+        res.status(200).json(result);
+    } catch (error) {
+        const err = error as Error;
+        res.status(400).json({ status: 'error', errorMessage: err.message });
+    }
+});
+
+
+
+
 
 export { messageRouter };

@@ -14,6 +14,7 @@ const PostMessage: React.FC<Props> = ({ chatId, className, onMessagePosted }) =>
     const [text, setText] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const [diddyFan, setDiddyFan] = useState<User | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false); // This prevents deduplicate calls with the state
 
     useEffect(() => {
         setDiddyFan(JSON.parse(sessionStorage.getItem('diddyfan') || ''));
@@ -33,30 +34,26 @@ const PostMessage: React.FC<Props> = ({ chatId, className, onMessagePosted }) =>
 
     const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            e.preventDefault();
-
-            if (!validate()) {
-                return;
-            }
-
-            if (!diddyFan) {
-                setError('You must be logged in to post a message');
-                return;
-            }
-
+            if (isSubmitting) return; // Prevent duplicate submissions by turning on the state
+            setIsSubmitting(true);
+    
             try {
+                e.preventDefault(); // It's most definitely thanks to this.
+                if (!validate()) return;
+    
                 const newMessage: Message = {
                     text,
                     messenger: { username: diddyFan?.username },
                     timestamp: new Date(),
-                    chatId: Number(chatId)
+                    chatId: Number(chatId),
                 };
-                const postedMessage = await MessageService.postMessage(chatId, newMessage);
-                setText(''); // clearing it out
-                onMessagePosted(postedMessage);
+    
+                await MessageService.postMessage(chatId, newMessage);
+                setText('');
             } catch (err) {
-                console.log(err); // debugging
                 setError('Failed to post message');
+            } finally {
+                setIsSubmitting(false);
             }
         }
     };
