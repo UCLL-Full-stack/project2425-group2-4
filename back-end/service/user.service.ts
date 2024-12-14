@@ -11,7 +11,7 @@ const getAllUsers = async (): Promise<User[]> => {
     const usersToReturn: User[] = [];
 
     usersFromDB.forEach((user) => {
-        const userToPush: User = new User({ username: user.username, id: user.id, email: user.email, role: user.role, password: "redacted" })
+        const userToPush: User = new User({ username: user.username, id: user.id, email: user.email, role: user.role, password: user.password })
         usersToReturn.push(userToPush)
     })
 
@@ -62,11 +62,12 @@ const createUser = async ({
 }: UserInput): Promise<User> => {
     const existingUser = await usersDb.getUserByUsername({ username });
 
-    if (existingUser) {
-        throw new Error(`User with username ${username} is already registered.`);
-    }
     if (password === undefined) {
         throw new Error('Password is required.');
+    }
+
+    if (existingUser) {
+        throw new Error(`User with username ${username} is already registered.`);
     }
 
     const hashedPassword = await bcrypt.hash(password, 15);
