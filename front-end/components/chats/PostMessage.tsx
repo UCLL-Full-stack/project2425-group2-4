@@ -43,7 +43,7 @@ const PostMessage: React.FC<Props> = ({ chatId, className, onMessagePosted }) =>
     
                 const newMessage: Message = {
                     text,
-                    messenger: { username: diddyFan?.username },
+                    messenger: { username: diddyFan?.username || '' },
                     timestamp: new Date(),
                     chatId: Number(chatId),
                 };
