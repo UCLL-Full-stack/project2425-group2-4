@@ -71,7 +71,14 @@ const Chatrooms: React.FC = () => {
     return (
         <>
             {newChatVisible ? (
-                <CreateChatroom />
+
+                <div className={styles.createChatroomContainer} onClick={(e) => {
+                    if (e.target === e.currentTarget) {
+                        toggleNewChatPopup();
+                    }
+                }}>
+                    <CreateChatroom />
+                </div>
             ) : (
                 <div></div>
             )

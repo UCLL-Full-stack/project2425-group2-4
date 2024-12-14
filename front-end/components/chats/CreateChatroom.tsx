@@ -8,6 +8,9 @@ import UserService from '@services/UserService';
 import ChatService from '@services/ChatService';
 import { Router, useRouter } from 'next/router';
 
+type props = {
+
+}
 
 const CreateChatroom: React.FC = () => {
 
@@ -54,42 +57,40 @@ const CreateChatroom: React.FC = () => {
 
     return (
         <>
-            <div className={styles.createChatroomContainer}>
-                <form className={styles.createChatroomForm} onSubmit={handleSubmission}>
-                    <div className={styles.createChatroomFormNameContainer}>
-                        <input
-                            id='ChatroomName'
-                            onChange={(e) => setChatroomName(e.target.value)}
-                            value={chatroomName}
-                            type="text"
-                            required
+            <form className={styles.createChatroomForm} onSubmit={handleSubmission}>
+                <div className={styles.createChatroomFormNameContainer}>
+                    <input
+                        id='ChatroomName'
+                        onChange={(e) => setChatroomName(e.target.value)}
+                        value={chatroomName}
+                        type="text"
+                        required
+                    />
+                    <label htmlFor='#ChatroomName'>Chatroom Name</label>
+                </div>
+                <div className={styles.createChatroomFormUsersContainer}>
+                    <Combobox
+                        value={selectedUser}
+                        onChange={setSelectedUser}
+                    >
+                        <ComboboxInput
+                            aria-label="Assignee"
+                            displayValue={(user: User) => user?.username}
+                            onChange={(event) => setQuery(event.target.value)}
                         />
-                        <label htmlFor='#ChatroomName'>Chatroom Name</label>
-                    </div>
-                    <div className={styles.createChatroomFormUsersContainer}>
-                        <Combobox
-                            value={selectedUser}
-                            onChange={setSelectedUser}
-                        >
-                            <ComboboxInput
-                                aria-label="Assignee"
-                                displayValue={(user: User) => user?.username}
-                                onChange={(event) => setQuery(event.target.value)}
-                            />
-                            <ComboboxOptions anchor="bottom" className="border empty:invisible">
-                                {filteredUsers.map((user) => (
-                                    <ComboboxOption key={user.id} value={user} className={styles.createChatroomFormUsersOption}>
-                                        {user.username}
-                                    </ComboboxOption>
-                                ))}
-                            </ComboboxOptions>
-                        </Combobox>
-                        <label> Users</label>
+                        <ComboboxOptions anchor="bottom" className="border empty:invisible">
+                            {filteredUsers.map((user) => (
+                                <ComboboxOption key={user.id} value={user} className={styles.createChatroomFormUsersOption}>
+                                    {user.username}
+                                </ComboboxOption>
+                            ))}
+                        </ComboboxOptions>
+                    </Combobox>
+                    <label> Users</label>
 
-                    </div>
-                    <button type="submit" > Create Chatroom </button>
-                </form>
-            </div>
+                </div>
+                <button type="submit" > Create Chatroom </button>
+            </form>
         </>
     );
 };
