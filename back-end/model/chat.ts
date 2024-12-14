@@ -21,10 +21,7 @@ export class Chat {
         messages?: Message[];
         users?: User[];
     }) {
-        this.validate(chat); // Validation isn't sure for now
-        // unless we change the way of this working completely & not making them undefinable
-        // aka required messages & users for example, meaning to completely revamp our models.
-        // which would take a lot of time & effort put into, so we need to take care of this
+        this.validate(chat);
 
         this.id = chat.id;
         this.name = chat.name;
