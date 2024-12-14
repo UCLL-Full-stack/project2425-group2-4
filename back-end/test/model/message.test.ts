@@ -8,6 +8,7 @@ test('given: valid values for message, when: message is created, then: message i
         username: 'yamaha46',
         email: 'yamahalover46@gmail.com',
         password: 'R6fan99',
+        role: 'admin'
     });
     const messageData = {
         id: 1,
@@ -33,6 +34,7 @@ test('given: missing text, when: message is created, then: an error is thrown', 
         username: 'yamaha46',
         email: 'yamahalover46@gmail.com',
         password: 'R6fan99',
+        role: 'admin'
     });
     const messageData = {
         messenger: user,
@@ -53,6 +55,7 @@ test('given: missing timestamp, when: message is created, then: an error is thro
         username: 'yamaha46',
         email: 'yamahalover46@gmail.com',
         password: 'R6fan99',
+        role: 'admin'
     });
     const messageData = {
         text: 'Hello!',
@@ -64,4 +67,41 @@ test('given: missing timestamp, when: message is created, then: an error is thro
 
     // then
     expect(createMessage).toThrow('Date is incorrect');
+});
+
+test('given: missing messenger, when: message is created, then: an error is thrown', () => {
+    // given
+    const messageData = {
+        text: 'Hello!',
+        timestamp: new Date('2023-11-18T10:01:00Z'),
+    };
+
+    // when
+    const createMessage = () => new Message(messageData as any);
+
+    // then
+    expect(createMessage).toThrow('User doesn\'t exist');
+});
+
+test('given: a message, when: getMessenger is called, then: it returns the correct user', () => {
+    // given
+    const user = new User({
+        id: 1,
+        username: 'yamaha46',
+        email: 'yamahalover46@gmail.com',
+        password: 'R6fan99',
+        role: 'admin'
+    });
+    const messageData = {
+        id: 1,
+        text: 'Hello!',
+        messenger: user,
+        timestamp: new Date('2023-11-18T10:01:00Z'),
+    };
+
+    // when
+    const message = new Message(messageData);
+
+    // then
+    expect(message.getMessenger()).toEqual(user);
 });

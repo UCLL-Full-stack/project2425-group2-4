@@ -5,13 +5,18 @@ import { Chat } from '../../model/chat';
 import chatDb from '../../repository/chat.db';
 import messagesDb from '../../repository/messages.db';
 import usersDb from '../../repository/users.db';
-import MessageService from '../../service/message.service';
+import messageService from '../../service/message.service';
+
+jest.mock('../../repository/chat.db');
+jest.mock('../../repository/messages.db');
+jest.mock('../../repository/users.db');
 
 const user1 = new User({
     id: 1,
     username: 'yamaha46',
     email: 'yamahalover46@gmail.com',
     password: 'R6fan99',
+    role: 'admin'
 });
 
 const user2 = new User({
@@ -19,16 +24,12 @@ const user2 = new User({
     username: 'Broski21',
     email: 'broskibroski@gmail.com',
     password: 'nuggetslovr6',
+    role: 'moderator'
 });
 
 const messageData = {
     text: 'Hello!',
-    messenger: {
-        id: 1,
-        username: 'yamaha46',
-        email: 'yamahalover46@gmail.com',
-        password: 'R6fan99',
-    },
+    messenger: { username: 'yamaha46' },
     timestamp: set(new Date(), { year: 2023, month: 10, date: 18, hours: 10, minutes: 1 }),
 };
 
@@ -49,69 +50,100 @@ const chatData = {
 
 const chat = new Chat(chatData);
 
-let mockChatDbGetChatById: jest.Mock;
-let mockChatDbUpdateChat: jest.Mock;
-let mockMessagesDbPostMessage: jest.Mock;
-let mockUsersDbGetUserById: jest.Mock;
-
 beforeEach(() => {
-    mockChatDbGetChatById = jest.fn();
-    mockChatDbUpdateChat = jest.fn();
-    mockMessagesDbPostMessage = jest.fn();
-    mockUsersDbGetUserById = jest.fn();
-});
-
-afterEach(() => {
     jest.clearAllMocks();
 });
 
-test('given valid message data, when postMessage is called, then the message is posted', () => {
+test('given valid message data, when postMessage is called, then the message is posted', async () => {
     // given
-    usersDb.getUserById = mockUsersDbGetUserById.mockReturnValue(user1);
-    chatDb.getChatById = mockChatDbGetChatById.mockReturnValue(chat);
-    messagesDb.postMessage = mockMessagesDbPostMessage.mockReturnValue(message);
+    (usersDb.getUserByUsername as jest.Mock).mockResolvedValue(user1);
+    (chatDb.getChatById as jest.Mock).mockResolvedValue(chat);
+    (messagesDb.postMessage as jest.Mock).mockResolvedValue(message);
 
     // when
-    const result = MessageService.postMessage(chatData.id, messageData);
+    const result = await messageService.postMessage(chatData.id, messageData);
 
     // then
     expect(result).toEqual(message);
-    expect(mockUsersDbGetUserById).toHaveBeenCalledWith({ id: messageData.messenger.id });
-    expect(mockChatDbGetChatById).toHaveBeenCalledWith({ id: chatData.id });
-    expect(mockMessagesDbPostMessage).toHaveBeenCalledWith(message);
-    expect(mockChatDbUpdateChat).toHaveBeenCalledWith(chat);
+    expect(usersDb.getUserByUsername).toHaveBeenCalledWith({ username: messageData.messenger.username });
+    expect(chatDb.getChatById).toHaveBeenCalledWith(chatData.id);
+    expect(messagesDb.postMessage).toHaveBeenCalledWith(expect.any(Message), chatData.id);
+    expect(chatDb.updateChat).toHaveBeenCalledWith({ chat });
 });
 
-test('given missing text, when postMessage is called, then an error is thrown', () => {
+test('given missing text, when postMessage is called, then an error is thrown', async () => {
     // given
     const invalidMessageData = { ...messageData, text: '' };
 
     // when
-    const postMessage = () => MessageService.postMessage(chatData.id, invalidMessageData);
+    const postMessage = messageService.postMessage(chatData.id, invalidMessageData);
 
     // then
-    expect(postMessage).toThrow('Text cannot be empty');
+    await expect(postMessage).rejects.toThrow('Text cannot be empty');
 });
 
-test('given invalid user id, when postMessage is called, then an error is thrown', () => {
+test('given invalid user id, when postMessage is called, then an error is thrown', async () => {
     // given
-    usersDb.getUserById = mockUsersDbGetUserById.mockReturnValue(null);
+    (usersDb.getUserByUsername as jest.Mock).mockResolvedValue(null);
 
     // when
-    const postMessage = () => MessageService.postMessage(chatData.id, messageData);
+    const postMessage = messageService.postMessage(chatData.id, messageData);
 
     // then
-    expect(postMessage).toThrow('User not found');
+    await expect(postMessage).rejects.toThrow('User not found');
 });
 
-test('given invalid chat id, when postMessage is called, then an error is thrown', () => {
+test('given invalid chat id, when postMessage is called, then an error is thrown', async () => {
     // given
-    usersDb.getUserById = mockUsersDbGetUserById.mockReturnValue(user1);
-    chatDb.getChatById = mockChatDbGetChatById.mockReturnValue(null);
+    (usersDb.getUserByUsername as jest.Mock).mockResolvedValue(user1);
+    (chatDb.getChatById as jest.Mock).mockResolvedValue(null);
 
     // when
-    const postMessage = () => MessageService.postMessage(chatData.id, messageData);
+    const postMessage = messageService.postMessage(chatData.id, messageData);
 
     // then
-    expect(postMessage).toThrow('Chat not found');
+    await expect(postMessage).rejects.toThrow('Chat not found');
+});
+
+test('given valid chat and message id, when deleteMessage is called, then the message is deleted', async () => {
+    // given
+    const messageId = 1;
+    (chatDb.getChatById as jest.Mock).mockResolvedValue(chat);
+    (messagesDb.getMessageById as jest.Mock).mockResolvedValue(message);
+    (messagesDb.deleteMessage as jest.Mock).mockResolvedValue(null);
+
+    // when
+    const result = await messageService.deleteMessage(chatData.id, messageId);
+
+    // then
+    expect(result).toEqual('Message has been successfully deleted.');
+    expect(chatDb.getChatById).toHaveBeenCalledWith(chatData.id);
+    expect(messagesDb.getMessageById).toHaveBeenCalledWith({ id: messageId });
+    expect(messagesDb.deleteMessage).toHaveBeenCalledWith(message);
+    expect(chatDb.updateChat).toHaveBeenCalledWith({ chat });
+});
+
+test('given invalid chat id, when deleteMessage is called, then an error is thrown', async () => {
+    // given
+    const messageId = 1;
+    (chatDb.getChatById as jest.Mock).mockResolvedValue(null);
+
+    // when
+    const deleteMessage = messageService.deleteMessage(chatData.id, messageId);
+
+    // then
+    await expect(deleteMessage).rejects.toThrow('Chat not found');
+});
+
+test('given invalid message id, when deleteMessage is called, then an error is thrown', async () => {
+    // given
+    const messageId = 1;
+    (chatDb.getChatById as jest.Mock).mockResolvedValue(chat);
+    (messagesDb.getMessageById as jest.Mock).mockResolvedValue(null);
+
+    // when
+    const deleteMessage = messageService.deleteMessage(chatData.id, messageId);
+
+    // then
+    await expect(deleteMessage).rejects.toThrow('Message not found');
 });

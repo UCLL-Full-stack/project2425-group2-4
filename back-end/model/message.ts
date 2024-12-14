@@ -9,30 +9,30 @@ export class Message {
     private id?: number;
     private text: string;
     private messenger: User;
-    //private userId: number;
     private timestamp: Date;
 
     constructor(message: {
         id?: number;
         text: string;
-        //userId: number;
         messenger: User;
         timestamp: Date;
     }) {
         this.validate(message);
         this.id = message.id;
         this.text = message.text;
-        //this.userId = message.userId;
         this.messenger = message.messenger;
         this.timestamp = message.timestamp;
     }
 
-    validate(chat: { text: string; timestamp: Date }) {
+    validate(chat: { text: string; timestamp: Date; messenger: User }) {
         if (!chat.text) {
             throw new Error("Can't send empty messages");
         }
         if (!chat.timestamp) {
             throw new Error('Date is incorrect');
+        }
+        if (!chat.messenger) {
+            throw new Error('User doesn\'t exist');
         }
     }  
 
@@ -43,10 +43,6 @@ export class Message {
     getText(): string {
         return this.text;
     }
-
-    // getUserId(): number {
-    //     return this.userId;
-    // }
 
     getTimestamp(): Date {
         return this.timestamp;
@@ -70,12 +66,10 @@ export class Message {
         text,
         timestamp,
         messenger,
-        // userId,
     }: MessagePrisma & { messenger: UserPrisma }): Promise<Message>{
         return new Message({
             id,
             text,
-            // userId,
             messenger: User.from(messenger),
             timestamp,
         });

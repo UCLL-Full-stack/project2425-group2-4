@@ -10,12 +10,14 @@ test('given: valid values for chat, when: chat is created, then: chat is created
         username: 'yamaha46',
         email: 'yamahalover46@gmail.com',
         password: 'R6fan99',
+        role: 'admin'
     });
     const user2 = new User({
         id: 2,
         username: 'Broski21',
         email: 'broskibroski@gmail.com',
         password: 'nuggetslovr6',
+        role: 'moderator'
     });
     const message1 = new Message({
         id: 1,
@@ -81,12 +83,14 @@ test('given: an existing chat, when: adding a message to chat, then: message is 
         username: 'yamaha46',
         email: 'yamahalover46@gmail.com',
         password: 'R6fan99',
+        role: 'admin'
     });
     const user2 = new User({
         id: 2,
         username: 'Broski21',
         email: 'broskibroski@gmail.com',
         password: 'nuggetslovr6',
+        role: 'moderator'
     });
     const message1 = new Message({
         id: 1,
@@ -113,4 +117,73 @@ test('given: an existing chat, when: adding a message to chat, then: message is 
 
     // then
     expect(chat.getMessages()).toContain(newMessage);
+});
+
+test('given: a chat with messages, when: getMessages is called, then: it returns the correct messages', () => {
+    // given
+    const user = new User({
+        id: 1,
+        username: 'yamaha46',
+        email: 'yamahalover46@gmail.com',
+        password: 'R6fan99',
+        role: 'admin'
+    });
+    const message1 = new Message({
+        id: 1,
+        text: 'Hello!',
+        messenger: user,
+        timestamp: new Date('2023-11-18T10:01:00Z'),
+    });
+    const message2 = new Message({
+        id: 2,
+        text: 'Hi!',
+        messenger: user,
+        timestamp: new Date('2023-11-18T10:02:00Z'),
+    });
+    const chatData = {
+        id: 1,
+        name: 'Chat 1',
+        createdAt: new Date('2023-11-18T10:00:00Z'),
+        messages: [message1, message2],
+        users: [user],
+    };
+    const chat = new Chat(chatData);
+
+    // when
+    const messages = chat.getMessages();
+
+    // then
+    expect(messages).toEqual([message1, message2]);
+});
+
+test('given: a chat with users, when: getUsers is called, then: it returns the correct users', () => {
+    // given
+    const user1 = new User({
+        id: 1,
+        username: 'yamaha46',
+        email: 'yamahalover46@gmail.com',
+        password: 'R6fan99',
+        role: 'admin'
+    });
+    const user2 = new User({
+        id: 2,
+        username: 'yamaha47',
+        email: 'yamahalover47@gmail.com',
+        password: 'R6fan100',
+        role: 'user'
+    });
+    const chatData = {
+        id: 1,
+        name: 'Chat 1',
+        createdAt: new Date('2023-11-18T10:00:00Z'),
+        messages: [],
+        users: [user1, user2],
+    };
+    const chat = new Chat(chatData);
+
+    // when
+    const users = chat.getUsers();
+
+    // then
+    expect(users).toEqual([user1, user2]);
 });

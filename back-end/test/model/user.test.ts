@@ -1,4 +1,5 @@
 import { User } from "../../model/user";
+import { Role } from "../../types";
 
 test('given: valid values for user, when: user is created, then: user is created with those values', () => {
     // given
@@ -7,6 +8,7 @@ test('given: valid values for user, when: user is created, then: user is created
         username: 'yamaha46',
         email: 'yamahalover46@gmail.com',
         password: 'R6fan99',
+        role: 'admin' as Role
     };
 
     // when
@@ -17,6 +19,7 @@ test('given: valid values for user, when: user is created, then: user is created
     expect(user.getUsername()).toEqual(userData.username);
     expect(user.getEmail()).toEqual(userData.email);
     expect(user.getPassword()).toEqual(userData.password);
+    expect(user.getRole()).toEqual(userData.role);
 });
 
 test('given: missing username, when: user is created, then: an error is thrown', () => {
@@ -59,4 +62,19 @@ test('given: missing password, when: user is created, then: an error is thrown',
 
     // then
     expect(createUser).toThrow('Password is required');
+});
+
+test('given: missing role, when: user is created, then: an error is thrown', () => {
+    // given
+    const userData = {
+        username: 'yamaha46',
+        email: 'yamahalover46@gmail.com',
+        password: 'R6fan99',
+    };
+
+    // when
+    const createUser = () => new User(userData as any);
+
+    // then
+    expect(createUser).toThrow('Role is required.');
 });

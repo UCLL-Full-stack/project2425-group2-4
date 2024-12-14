@@ -3,13 +3,20 @@ import { Chat } from '../../model/chat';
 import { Message } from '../../model/message';
 import { User } from '../../model/user';
 import chatDb from '../../repository/chat.db';
-import ChatService from '../../service/chat.service';
+import usersDb from '../../repository/users.db';
+import chatService from '../../service/chat.service';
+import { UnauthorizedError } from 'express-jwt';
+import { ChatInput, Role } from '../../types';
+
+jest.mock('../../repository/chat.db');
+jest.mock('../../repository/users.db');
 
 const user1 = new User({
     id: 1,
     username: 'yamaha46',
     email: 'yamahalover46@gmail.com',
     password: 'R6fan99',
+    role: 'admin'
 });
 
 const user2 = new User({
@@ -17,7 +24,16 @@ const user2 = new User({
     username: 'Broski21',
     email: 'broskibroski@gmail.com',
     password: 'nuggetslovr6',
+    role: 'moderator'
 });
+
+const user3 = new User({
+    id: 3,
+    username: 'test',
+    email: 'test@test.be',
+    password: 'test123',
+    role: 'user'
+})
 
 const message1 = new Message({
     id: 1,
@@ -50,49 +66,123 @@ const chatData = {
 
 const chat = new Chat(chatData);
 
-let mockChatDbGetAllChats: jest.Mock;
-let mockChatDbGetChatById: jest.Mock;
-let mockChatDbUpdateChat: jest.Mock;
-
 beforeEach(() => {
-    mockChatDbGetAllChats = jest.fn();
-    mockChatDbGetChatById = jest.fn();
-    mockChatDbUpdateChat = jest.fn();
-});
-
-afterEach(() => {
     jest.clearAllMocks();
 });
 
-test('when getAllChats is called, then all chats are returned', () => {
+test('when getAllChats is called, then all chats are returned', async () => {
     // given
-    chatDb.getAllChats = mockChatDbGetAllChats.mockReturnValue([chat]);
+    (chatDb.getAllChats as jest.Mock).mockResolvedValue([chat]);
 
     // when
-    const result = ChatService.getAllChats();
+    const result = await chatService.getChat({ username: 'yamaha46', role: 'admin' });
 
     // then
     expect(result).toEqual([chat]);
+    expect(chatDb.getAllChats).toHaveBeenCalled();
 });
 
-test('given a valid chat id, when getChatById is called, then the chat is returned', () => {
+test('given a user role, when getChat is called, then the user\'s chats are returned', async () => {
     // given
-    chatDb.getChatById = mockChatDbGetChatById.mockReturnValue(chat);
+    (chatDb.getChatForUser as jest.Mock).mockResolvedValue([chat]);
 
     // when
-    const result = ChatService.getChatById(chatData.id);
+    const result = await chatService.getChat({ username: 'Broski21', role: 'user' });
+
+    // then
+    expect(result).toEqual([chat]);
+    expect(chatDb.getChatForUser).toHaveBeenCalledWith({ username: 'Broski21' });
+});
+
+test('given a valid chat id, when getChatById is called, then the chat is returned', async () => {
+    // given
+    (chatDb.getChatById as jest.Mock).mockResolvedValue(chat);
+
+    // when
+    const result = await chatService.getChatById({ username: 'yamaha46', role: 'admin', chatId: chatData.id });
 
     // then
     expect(result).toEqual(chat);
+    expect(chatDb.getChatById).toHaveBeenCalledWith(chatData.id);
 });
 
-test('given an invalid chat id, when getChatById is called, then an error is thrown', () => {
+test('given an invalid chat id, when getChatById is called, then an error is thrown', async () => {
     // given
-    chatDb.getChatById = mockChatDbGetChatById.mockReturnValue(null);
+    (chatDb.getChatById as jest.Mock).mockResolvedValue(null);
 
     // when
-    const getChatById = () => ChatService.getChatById(999);
+    const getChatById = chatService.getChatById({ username: 'admin', role: 'admin', chatId: 999 });
 
     // then
-    expect(getChatById).toThrow('Chat with id 999 does not exist.');
+    await expect(getChatById).rejects.toThrow('Chat with id 999 does not exist.');
+});
+
+test('given a user role, when getChatById is called for a chat that isn\'t for his role, then it should give an error that it doesn\'t exist', async () => {
+    // when
+    const getChatById = chatService.getChatById({ username: 'test', role: 'user', chatId: 1 });
+
+    // then
+    await expect(getChatById).rejects.toThrow('Chat with id 1 does not exist.');
+});
+
+test('when createChat is called with valid data, then the chat is created successfully', async () => {
+    // given
+    const chatInput: ChatInput = {
+        name: 'Developer life',
+        users: [ user1, user2 ]
+    };
+
+    (usersDb.getUserByUsername as jest.Mock).mockImplementation(({ username }) => {
+        if (username === 'yamaha46') return user1;
+        if (username === 'Broski21') return user2;
+        return null;
+    });
+
+    (chatDb.createChat as jest.Mock).mockResolvedValue(chat);
+
+    // when
+    const result = await chatService.createChat(chatInput);
+
+    // then
+    expect(result).toEqual(chat);
+    expect(usersDb.getUserByUsername).toHaveBeenCalledWith({ username: 'yamaha46' });
+    expect(usersDb.getUserByUsername).toHaveBeenCalledWith({ username: 'Broski21' });
+    expect(chatDb.createChat).toHaveBeenCalledWith({
+        name: 'Developer life',
+        users: [user1, user2],
+        messages: []
+    });
+});
+
+test('when createChat is called with a non-existent user, then an error is thrown', async () => {
+    // given
+    const chatInput: ChatInput = {
+        name: 'Developer life',
+        users: [ ]
+    };
+
+    (usersDb.getUserByUsername as jest.Mock).mockImplementation(({ username }) => {
+        if (username === 'yamaha46') return user1;
+        return null;
+    });
+
+    // when
+    const createChat = chatService.createChat(chatInput);
+
+    // then
+    await expect(createChat).rejects.toThrow('User with username unknown not found');
+});
+
+test('when createChat is called with an undefined username, then an error is thrown', async () => {
+    // given
+    const chatInput: ChatInput = {
+        name: 'Developer life',
+        users: [ ]
+    };
+
+    // when
+    const createChat = chatService.createChat(chatInput);
+
+    // then
+    await expect(createChat).rejects.toThrow('Username id is undefined');
 });
