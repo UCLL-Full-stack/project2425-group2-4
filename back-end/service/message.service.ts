@@ -4,6 +4,21 @@ import chatDb from '../repository/chat.db';
 import messagesDb from '../repository/messages.db';
 import usersDb from '../repository/users.db';
 import { MessageInput } from '../types';
+import database from '../repository/database';
+
+
+
+// const getMessageById = async (messageId: number): Promise<Message | null> => {
+//     const message = await messagesDb.getMessageById({ id: Number(messageId) });
+//     if (!message) {
+//         throw new Error(`Message with id ${messageId} doesn't exist.`);
+//     }
+//     return message;
+// };
+
+
+
+
 
 const postMessage = async (chatId: number, {
     text,
@@ -47,7 +62,7 @@ const postMessage = async (chatId: number, {
 };
 
 
-const deleteMessage = async (chatId: number, message: Message): Promise<void> => {
+const deleteMessage = async (chatId: number, messageId: number): Promise<string> => {
     const chat = await chatDb.getChatById(chatId);
 
     if (!chat) {
@@ -55,10 +70,6 @@ const deleteMessage = async (chatId: number, message: Message): Promise<void> =>
         throw new Error('Chat not found');
     }
 
-    const messageId = message.getId();
-    if (messageId === undefined) {
-        throw new Error('Message id is undefined');
-    }
     const existingMessage = await messagesDb.getMessageById({ id: messageId });
 
     if (!existingMessage) {
@@ -68,7 +79,9 @@ const deleteMessage = async (chatId: number, message: Message): Promise<void> =>
 
     // Maybe implement a removeMessage within the chatDb as well?
     await chatDb.updateChat({ chat });
-    await messagesDb.deleteMessage(message, chatId);
+    await messagesDb.deleteMessage(existingMessage);
+
+    return 'Message has been successfully deleted.';
 };
 
 

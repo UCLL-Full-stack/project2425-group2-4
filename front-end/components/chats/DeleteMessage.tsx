@@ -10,11 +10,26 @@ type Props = {
 }
 
 const DeleteMessage: React.FC<Props> = ({ chatId, className, message }) => {
+    const [diddyFan, setDiddyFan] = useState<User | null>(null);
+    const [error, setError] = useState<string | null>(null);
+    
+    useEffect(() => {
+        setDiddyFan(JSON.parse(sessionStorage.getItem('diddyfan') || ''));
+        console.log(diddyFan);
+    });
+
+    const validate = () => {
+        let result = true;
+        setError(null);
+
+        return result;
+    };
+
+    // const deleteMessage = async ()   hm
+
     return (
         <div className={className}>
-            <p>yapping</p>
-            {/* <p>Message: {message.content}</p> */}
-            {/* <button onClick={() => MessageService.deleteMessage(chatId, message.id)}>Delete</button> */}
+            <button onClick={() => MessageService.deleteMessage(chatId, message)}>Delete</button>
         </div>
     );
 }

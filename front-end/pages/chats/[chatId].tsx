@@ -12,6 +12,8 @@ import styles from '@styles/home.module.css';
 import ChatOverviewData from '@components/chats/ChatOverview';
 import ChatData from '@components/chats/ChatData';
 import PostMessage from '@components/chats/PostMessage';
+import DeleteMessage from '@components/chats/DeleteMessage';
+
 import useSWR, { mutate } from 'swr';
 import useInterval from 'use-interval';
 
@@ -29,7 +31,7 @@ const Chatroom: React.FC = () => {
     }, []);
 
     const fetcher = async (url: string) => {
-        console.log('Fetching data from:', url);
+        //console.log('Fetching data from:', url);
         const token = user?.token;
         if (!token) {
             throw new Error('No token found');
@@ -55,10 +57,10 @@ const Chatroom: React.FC = () => {
 
     useInterval(() => {
         if (chatId) {
-            console.log('Mutating chat data for chatId:', chatId);
+            //console.log('Mutating chat data for chatId:', chatId);
             mutate(`${process.env.NEXT_PUBLIC_API_URL}/chats/${chatId}`);
         }
-        console.log('Mutating chats data');
+        //console.log('Mutating chats data');
         mutate(`${process.env.NEXT_PUBLIC_API_URL}/chats`);
         // mutate(`${process.env.NEXT_PUBLIC_API_URL}/chats/${chatId}`);
     }, 1000);
@@ -74,6 +76,18 @@ const Chatroom: React.FC = () => {
             }
         }
     };
+
+    const deleteMessage = async (message: Message) => {
+        if (chatId) {
+            try {
+                console.log('Deleting message:', message);
+                await MessageService.deleteMessage(Number(chatId), message);
+
+            } catch (error) {
+                console.error('Failed to delete message:', error);
+            }
+        }
+    }
 
     const selectChat = (chat: Chat) => {
         router.push(`/chats/${chat.id}`);

@@ -56,8 +56,7 @@ const postMessage = async (message: Message, chatId: number): Promise<Message> =
 };
 
 
-// DeleteMessage
-const deleteMessage = async (message: Message, chatId: number): Promise<Message> => {
+const deleteMessage = async (message: Message): Promise<void> => {
     try {
         const messagePrisma = await database.message.delete({
             where: {
@@ -67,7 +66,6 @@ const deleteMessage = async (message: Message, chatId: number): Promise<Message>
                 messenger: true,
             },
         });
-        return Message.from(messagePrisma);
     } catch (error) {
         console.error(error);
         throw new Error("Message couldn't be deleted. Check server log for details.");

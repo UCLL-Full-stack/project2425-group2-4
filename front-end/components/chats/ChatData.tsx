@@ -1,6 +1,7 @@
 import { User, Message, Chat } from '@types';
 import React, { useState, useEffect } from 'react';
 import styles from '@styles/home.module.css';
+import MessageService from '@services/MessageService';
 
 type Props = {
     chat: Chat;
@@ -9,15 +10,7 @@ type Props = {
 };
 
 const ChatRoomData: React.FC<Props> = ({ chat, messages, users }) => {
-    const [diddyFan, setDiddyFan] = useState<User | null>(null);
-    // console.log('Rendering messages:', messages);
-    // console.log('Rendering Chatroom');
     
-    // useEffect(() => {
-    //     setDiddyFan(JSON.parse(sessionStorage.getItem('diddyfan') || '')); // '' is correct what
-    //     //console.log(diddyFan);
-    // });
-
     return (
         <>
             {/* <h1 className={styles.chatroomName}>{chat.name}</h1> */}
@@ -29,6 +22,7 @@ const ChatRoomData: React.FC<Props> = ({ chat, messages, users }) => {
                             {new Date(message.timestamp).toLocaleString()}
                         </h2>
                         <p className={styles.chatMessages}>{message.text}</p>
+                        <button onClick={() => chat?.id !== undefined && MessageService.deleteMessage(Number(chat.id), message)}>Delete</button>
                     </section>
                 ))}
             </div>
