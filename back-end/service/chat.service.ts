@@ -38,9 +38,18 @@ const getChatById = async ({
     chatId: number;
 }): Promise<Chat> => {
     const chat = await chatDb.getChatById(chatId);
-    if (role === 'admin' || role === 'moderator' || role === 'user') {
-        if (!chat) {
-            throw new Error(`Chat with id ${chatId} does not exist.`);
+    if (!chat) {
+        throw new Error(`Chat with id ${chatId} does not exist.`);
+    }
+
+    if (role === 'admin' || role === 'moderator') {
+        return chat;
+    } else if (role === 'user') {
+        const userIsMember = chat.getUsers()?.some(user => user.username === username) ?? false;
+        if (!userIsMember) {
+            throw new UnauthorizedError('credentials_required', {
+                message: 'You are not authorized to access this resource.',
+            });
         }
         return chat;
     } else {
