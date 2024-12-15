@@ -88,6 +88,7 @@ chatRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
 chatRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const request = req as Request & { auth: { username: string; role: Role } };
+        console.log(request.auth);
         const { username, role } = request.auth;
         const chatId = Number(req.params.id);
         //const chatId = Number(req.params.id);

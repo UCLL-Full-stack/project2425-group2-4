@@ -41,14 +41,14 @@ const Chatrooms: React.FC = () => {
         }).then((res) => res.json());
     };
 
-    const { data: FriendRequestData, isLoading: isChatLoading, error: chatError } = useSWR(
+    const { data: FriendRequestData, isLoading: isFriendrequestLoading, error: friendrequestError } = useSWR(
         `${process.env.NEXT_PUBLIC_API_URL}/users/friendrequests`,
 
-        //fetcher
+        fetcher
     );
 
-    const { data: chatsData, isLoading: isChatsLoading, error: chatsError } = useSWR(
-        `${process.env.NEXT_PUBLIC_API_URL}/chats`,
+    const { data: friendsData, isLoading: isFriendsLoading, error: friendsError } = useSWR(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/friends`,
         fetcher
     );
 
@@ -80,13 +80,20 @@ const Chatrooms: React.FC = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {friendsData && friendsData.map((friend: User, index: number) => (
+                                        <>
+                                            <tr key={index}>
+                                                <td>{friend.username}</td>
+                                            </tr>
+                                        </>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div className={styles.chatRoomContentContainer}>
                         <div className={styles.chatRoomContent}>
-                            <p>Choose a Chatroom or make one for diddy.... Diddy will be happy if you do ;)</p>
+                            <p>Diddy loves making friends.... you might too ;)</p>
                         </div>
                     </div>
                 </div>

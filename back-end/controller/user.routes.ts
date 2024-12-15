@@ -58,6 +58,173 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
 
 /**
  * @swagger
+ * /user/friends:
+ *   get:
+ *   security:
+ *   - bearerAuth: []
+ *     summary: Get a list of all friends
+ *     responses:
+ *       200:
+ *         description: A list of friends.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                  $ref: '#/components/schemas/User'
+ */
+userRouter.get('/friends', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const request = req as Request & { auth: UserInput };
+        const { username } = request.auth;
+        const users = await userService.getAllFriends(username);
+        res.status(200).json(users);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /user/friendrequests:
+ *   get:
+ *   security:
+ *   - bearerAuth: []
+ *     summary: Get a list of all friends
+ *     responses:
+ *       200:
+ *         description: A list of friends.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                  $ref: '#/components/schemas/User'
+ */
+userRouter.get('/friendrequests', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const request = req as Request & { auth: UserInput };
+        const { username } = request.auth;
+        const friendrequests = await userService.showFriendRequests(username);
+        res.status(200).json(friendrequests);
+    } catch (error) {
+        next(error);
+    }
+});
+
+
+/**
+ * @swagger
+ * /user/friends:
+ *   get:
+ *   security:
+ *   - bearerAuth: []
+ *     summary: Accept or decline a friendrequest.
+ *     responses:
+ *       200:
+ *         description: Friendrequest.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                  $ref: '#/components/schemas/User'
+ */
+userRouter.post('/friendrequests', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const request = req as Request & { auth: UserInput };
+        const { username } = request.auth;
+        const { id, accepted } = req.body;
+        await userService.handleFriendRequest(username, id, accepted);
+        res.status(200).json("Friend request handled")
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /user/friends:
+ *   post:
+ *   security:
+ *   - bearerAuth: []
+ *     summary:send a new friendrequest
+ *     responses:
+ *       200:
+ *         description: new friendrequest.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                  $ref: '#/components/schemas/User'
+ */
+userRouter.post('/friends', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const request = req as Request & { auth: UserInput };
+        const { username } = request.auth;
+        const { friendUsername } = req.body;
+        await userService.sendFriendRequest(username, friendUsername);
+        res.status(200).json("Friend request sent");
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /user:
+ *   get:
+ *   security:
+ *   - bearerAuth: []
+ *     summary: Get a list of all users
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                  $ref: '#/components/schemas/User'
+ */
+userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const request = req as Request & { auth: UserInput };
+        const users = await userService.getAllUsers();
+        res.status(200).json(users);
+    } catch (error) {
+        next(error);
+    }
+});
+/**
+ * @swagger
+ * /user:
+ *   get:
+ *   security:
+ *   - bearerAuth: []
+ *     summary: Get a list of all users
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                  $ref: '#/components/schemas/User'
+ */
+userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const request = req as Request & { auth: UserInput };
+        const users = await userService.getAllUsers();
+        res.status(200).json(users);
+    } catch (error) {
+        next(error);
+    }
+});
+/**
+ * @swagger
  * /user/signup:
  *  post:
  *      summary: Sign a user up.
