@@ -77,9 +77,14 @@ const createChat = async ({ name, users: userInputs = [] }: ChatInput): Promise<
 
     return await chatDb.createChat({ name: name, users: users, messages: messages });
 };
+const updateChat = async ({ name, id }: ChatInput): Promise<Chat> => {
+
+    return await chatDb.updateChatname({ name: name, id });
+};
 
 export default {
     getChat,
     getChatById,
     createChat,
+    updateChat
 };

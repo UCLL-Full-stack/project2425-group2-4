@@ -92,6 +92,7 @@ const getUserById = async ({ id }: { id: number }): Promise<User | null> => {
 };
 
 
+
 export default {
     getAllUsers,
     getUserById,

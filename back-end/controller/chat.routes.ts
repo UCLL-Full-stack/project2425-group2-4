@@ -145,4 +145,45 @@ chatRouter.post('/', async (req: Request, res: Response, next: NextFunction) => 
     }
 });
 
+/**
+ * @swagger
+ * /chats:
+ *  patch:
+ *      security:
+ *         - bearerAuth: []
+ *      summary: update a chatroom.
+ *      tags: [Chat]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          name:
+ *                              type: string
+ *                              example: Untitled_Chatroom
+ *      responses:
+ *          200:
+ *              description: A User object.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Chat'
+ */
+
+chatRouter.patch('/', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const request = req as Request & { auth: { id: number, username: string, email: string, role: Role } };
+        const chatname = request.body.name;
+        const chatId = Number(request.body.id)
+        const result = await chatService.updateChat({ name: chatname, id: chatId })
+        console.log(result);
+        res.status(200).json(result);
+    } catch (error) {
+        const err = error as Error;
+        res.status(400).json({ status: 'error', errorMessage: err.message });
+    }
+});
+
 export { chatRouter };

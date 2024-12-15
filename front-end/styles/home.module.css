@@ -220,6 +220,17 @@
     width: 50px;
     height: 50px;
 }
+.editChatroomContainer {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    position: absolute;
+    width: 90%;
+    height: 60%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+}
 
 .createChatroomContainer {
     display: flex;
@@ -333,6 +344,22 @@
     border-width: 0;
 }
 
+.overviewTable > tbody {
+    display: grid;
+    justify-items:start;
+    justify-content: space-between;
+    grid: auto / auto auto;
+}
+
+.overviewTable > tbody > svg{
+    align-self: center;
+    width:28px;
+}
+
+.overviewTable > tbody > tr > td > svg {
+    width: 24px;
+    height: 24px;
+}
 .overviewTable > thead > tr > th {
     padding: 0.5rem 0.5rem;
     background-color: var(--bs-table-bg);
