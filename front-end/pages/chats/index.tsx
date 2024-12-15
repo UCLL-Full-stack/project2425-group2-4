@@ -17,11 +17,16 @@ import CreateChatroom from '@components/chats/CreateChatroom';
 import { Button } from '@headlessui/react';
 //import ChatData from '@components/chats/ChatData';
 
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { GetServerSidePropsContext } from 'next';
+
 const Chatrooms: React.FC = () => {
     const router = useRouter();
     const { chatId } = router.query;
     const [user, setUser] = useState<User | null>(null);
     const [newChatVisible, setNewChatVisible] = useState<Boolean>(false);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const storedUser = sessionStorage.getItem('diddyfan');
@@ -109,7 +114,7 @@ const Chatrooms: React.FC = () => {
                                     users={chatData?.users || []}
                                 />
                             ) : (
-                                <p>Choose a Chatroom or make one for diddy.... Diddy will be happy if you do ;)</p>
+                                <p>Choose a Chatroom or make one for diddy... Diddy will be happy if you do ;)</p>
                             )}
                         </div>
                         <div>
@@ -133,6 +138,16 @@ const Chatrooms: React.FC = () => {
             </main>
         </>
     );
+};
+
+export const getServerSideProps = async (context: GetServerSidePropsContext)  => {
+    const { locale } = context;
+
+    return {
+        props: {
+            ...(await serverSideTranslations(locale ?? "en", ["common"])),
+        },
+    };
 };
 
 export default Chatrooms;

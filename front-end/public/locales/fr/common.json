@@ -1,0 +1,102 @@
+{
+    "homepage": {
+        "title": "L'application préférée de Diddy ;)",
+        "h1": "Diddyscord",
+        "h5": "Diddyscord est une application de chat en temps réel conçue pour faciliter une communication fluide entre les utilisateurs.",
+        "p": "Avec Diddyscord, les utilisateurs peuvent s'inscrire, envoyer des demandes d'amis et participer à des chats privés ou de groupe. L'application garantit que les messages sont envoyés instantanément, permettant une communication immédiate. Les utilisateurs ont la possibilité de voir leur historique de chat, de gérer les demandes d'amis et de recevoir des alertes concernant les nouveaux messages et les demandes d'amis. Diddyscord s'efforce d'offrir une plateforme conviviale et efficace pour rester en contact avec des amis et des collègues."
+    },
+    "header": {
+        "diddyscord-logo": "Diddyscord",
+        "links": {
+            "home": "accueil",
+            "chats": "discussions",
+            "login": "connexion",
+            "logout": {
+                "anchor": "déconnexion",
+                "username": "en tant que"
+            }
+        }
+    },
+    "chats-components": {
+        "chatData": {
+            "button": "Supprimer"
+        },
+        "chatOverview": {
+            "chatName": "Nom du Chat"
+        },
+        "createChatroom": {
+            "label": {
+                "chatroomName": "Nom du Chatroom",
+                "users": "Utilisateurs"
+            },
+            "button": "Créer Chatroom"
+        },
+        "deleteMessage": {
+            "button": "Supprimer"
+        },
+        "postMessage": {
+            "error.message": "Échec de l'envoi du message",
+            "placeholder": "Tapez votre message et appuyez sur Entrée"
+        }
+    },
+    "chatId": {
+        "page": {
+            "title": "Le chat n'existe pas",
+            "h1": "Le chat n'existe pas",
+            "overview-chats": "Aucun chatroom actif.",
+            "overview-chat-content": "Aucun message à afficher."
+        }
+    },
+    "chats-index": {
+        "page": {
+            "title": "Chatrooms de Diddyscord",
+            "overview-chats": "Aucun chatroom actif.",
+            "overview-chat-content": "Choisissez un Chatroom ou créez-en un pour Diddy... Diddy sera heureux si vous le faites ;)",
+            "placeholder": "Tapez votre message et appuyez sur Entrée"
+        }
+    },
+    "login": {
+        "component": {
+            "header": "Connexion",
+            "labels": {
+                "username": "nom d'utilisateur",
+                "password": "mot de passe"
+            },
+            "button": "Connexion",
+            "signup-link": "S'inscrire",
+            "validation": {
+                "diddy.name.error": "Diddy n'est pas content... tapez un nom ou sinon...",
+                "diddy.password.error": "Diddy n'est pas content... tapez un mot de passe ou sinon...",
+                "diddy.login.fail": "Diddy est en colère. Diddy pourrait vous voir ce soir...",
+                "diddy.login.success": "Diddy vous a manqué. Redirection...",
+                "diddy.login.error": "Diddy est très en colère. Vous feriez mieux d'être prêt ce soir..."
+            }
+        },
+        "page": {
+            "title": "Connexion pour les fans de Diddy :)"
+        }
+    },
+    "signup": {
+        "component": {
+            "header": "S'inscrire",
+            "labels": {
+                "email": "email",
+                "username": "nom d'utilisateur",
+                "password": "mot de passe",
+                "confirmpassword": "Confirmer le mot de passe"
+            },
+            "button": "S'inscrire",
+            "login-link": "Connexion",
+            "validation": {
+                "diddy.email.error": "Tu es un boomer lmao",
+                "diddy.name.error": "Tu ne te souviens même pas de ton nom????",
+                "diddy.password.error": "Diddy sourit... Tu ne peux pas taper la même chose deux fois?",
+                "diddy.signup.success": "Diddy vous accueille à sa fête 😏. Redirection...",
+                "diddy.signup.error": "Diddy pense que tu es stupide, Diddy n'aime pas"
+            }
+        },
+        "page": {
+            "title": "Inscription pour les fans de Diddy :)"
+        }
+    }
+}

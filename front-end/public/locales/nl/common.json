@@ -1,0 +1,102 @@
+{
+    "homepage": {
+        "title": "Diddy's favoriete app ;)",
+        "h1": "Diddyscord",
+        "h5": "Diddyscord is een real-time chatapplicatie ontworpen om naadloze communicatie tussen gebruikers te vergemakkelijken.",
+        "p": "Met Diddyscord kunnen gebruikers zich registreren, vriendschapsverzoeken verzenden en deelnemen aan privé- of groepschats. De app garandeert dat berichten onmiddellijk worden verzonden, waardoor directe communicatie mogelijk is. Gebruikers kunnen hun chatgeschiedenis bekijken, vriendschapsverzoeken beheren en meldingen ontvangen over nieuwe berichten en vriendschapsverzoeken. Diddyscord streeft ernaar een platform te bieden dat zowel gebruiksvriendelijk als efficiënt is om in contact te blijven met vrienden en collega's."
+    },
+    "header": {
+        "diddyscord-logo": "Diddyscord",
+        "links": {
+            "home": "home",
+            "chats": "chats",
+            "login": "login",
+            "logout": {
+                "anchor": "logout",
+                "username": "als"
+            }
+        }
+    },
+    "chats-components": {
+        "chatData": {
+            "button": "Verwijderen"
+        },
+        "chatOverview": {
+            "chatName": "Chatnaam"
+        },
+        "createChatroom": {
+            "label": {
+                "chatroomName": "Chatroomnaam",
+                "users": "Gebruikers"
+            },
+            "button": "Chatroom aanmaken"
+        },
+        "deleteMessage": {
+            "button": "Verwijderen"
+        },
+        "postMessage": {
+            "error.message": "Bericht plaatsen mislukt",
+            "placeholder": "Typ je bericht en druk op Enter"
+        }
+    },
+    "chatId": {
+        "page": {
+            "title": "Chat bestaat niet",
+            "h1": "Chat bestaat niet",
+            "overview-chats": "Geen actieve chatrooms.",
+            "overview-chat-content": "Geen berichten om weer te geven."
+        }
+    },
+    "chats-index": {
+        "page": {
+            "title": "Diddyscord Chatrooms",
+            "overview-chats": "Geen actieve chatrooms.",
+            "overview-chat-content": "Kies een chatroom of maak er een voor Diddy... Diddy zal blij zijn als je dat doet ;)",
+            "placeholder": "Typ je bericht en druk op Enter"
+        }
+    },
+    "login": {
+        "component": {
+            "header": "Inloggen",
+            "labels": {
+                "username": "gebruikersnaam",
+                "password": "wachtwoord"
+            },
+            "button": "Inloggen",
+            "signup-link": "Aanmelden",
+            "validation": {
+                "diddy.name.error": "Diddy is niet blij... typ een naam in of anders...",
+                "diddy.password.error": "Diddy is niet blij... typ een wachtwoord in of anders...",
+                "diddy.login.fail": "Diddy boos. Diddy ziet je misschien vanavond...",
+                "diddy.login.success": "Diddy heeft je gemist schat. Omleiden...",
+                "diddy.login.error": "Diddy is erg boos. Je kunt maar beter voorbereid zijn vanavond..."
+            }
+        },
+        "page": {
+            "title": "Diddy fan connectie :)"
+        }
+    },
+    "signup": {
+        "component": {
+            "header": "Aanmelden",
+            "labels": {
+                "email": "e-mail",
+                "username": "gebruikersnaam",
+                "password": "wachtwoord",
+                "confirmpassword": "Bevestig wachtwoord"
+            },
+            "button": "Aanmelden",
+            "login-link": "Inloggen",
+            "validation": {
+                "diddy.email.error": "Je bent zo'n boomer lmao",
+                "diddy.name.error": "Je herinnert je je naam niet eens????",
+                "diddy.password.error": "Diddy grijnst... Je kunt niet twee keer hetzelfde typen?",
+                "diddy.signup.success": "Diddy verwelkomt je op zijn feestje 😏. Omleiding...",
+                "diddy.signup.error": "Diddy vindt je dom, diddy niet leuk"
+            }
+        },
+        "page": {
+            "title": "Diddy fan registratie :)"
+        }
+    }
+}

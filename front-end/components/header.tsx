@@ -5,10 +5,14 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { User } from "@types";
 
+import { useTranslation } from "next-i18next";
+import Language from './language/Language';
 
 const Header: React.FC = () => {
     const [diddyfan, setDiddyFan] = useState<User | null>(null);
     const router = useRouter();
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         const storedUser = sessionStorage.getItem('diddyfan');
@@ -45,18 +49,18 @@ const Header: React.FC = () => {
                                     className={styles.bannerlogo}
                                 />
                             </div>
-                            <a id={styles.diddyscordLogo}>Diddyscord</a>
+                            <a id={styles.diddyscordLogo}>{t("header.diddyscord-logo")}</a>
                         </li>
                         <li>
-                            <Link href="/">Home</Link>
+                            <Link href="/">{t("header.links.home")}</Link>
                         </li>
                         <li>
-                            <Link href="/chats">chats</Link>
+                            <Link href="/chats">{t("header.links.chats")}</Link>
                         </li>
                         <li>
                             {!diddyfan ? (
                                 <Link href="/login">
-                                    login
+                                    {t("header.links.login")}
                                 </Link>
                             ) : (
                                 <>
@@ -64,15 +68,16 @@ const Header: React.FC = () => {
                                         href="login"
                                         onClick={handleLogout}
                                     >
-                                        logout
+                                        {t("header.links.logout.anchor")}
                                     </a>
                                     <li>
-                                        as "{diddyfan?.username}"!
+                                        {t("header.links.logout.username")} "{diddyfan?.username}"!
                                     </li>
                                 </>
                             )}
                         </li>
                     </ul>
+                    <Language />
                 </div>
             </nav>
         </header>

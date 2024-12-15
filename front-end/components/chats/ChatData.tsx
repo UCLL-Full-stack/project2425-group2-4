@@ -2,6 +2,7 @@ import { User, Message, Chat } from '@types';
 import React, { useState, useEffect } from 'react';
 import styles from '@styles/home.module.css';
 import MessageService from '@services/MessageService';
+import { useTranslation } from "next-i18next";
 
 type Props = {
     chat: Chat;
@@ -10,6 +11,7 @@ type Props = {
 };
 
 const ChatRoomData: React.FC<Props> = ({ chat, messages, users }) => {
+    const { t } = useTranslation();
     
     return (
         <>

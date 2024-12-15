@@ -6,6 +6,7 @@ import { setTimeout } from 'timers'; // Timeout for asynchronous tasks
 import styles from '@styles/home.module.css';
 import { User } from '@types';
 import UserService from '@services/UserService';
+import { useTranslation } from "next-i18next";
 
 const DiddyFanSignup: React.FC = () => {
     const router = useRouter();
@@ -21,6 +22,8 @@ const DiddyFanSignup: React.FC = () => {
 
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
     // makes a list grouping up status messages, straight forward ex dee
+
+    const { t } = useTranslation();
 
     const noMoreErrorsPlz = () => {
         setNameError('');

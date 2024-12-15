@@ -5,6 +5,7 @@ import { useState } from 'react'; // react.js fun lol
 import { setTimeout } from 'timers'; // Timeout for asynchronous tasks
 import styles from '@styles/home.module.css';
 import UserService from '@services/UserService';
+import { useTranslation } from "next-i18next";
 
 const DiddyFanLogin: React.FC = () => {
     const [name, setName] = useState('');
@@ -17,6 +18,8 @@ const DiddyFanLogin: React.FC = () => {
 
     const router = useRouter();
     // makes a list grouping up status messages, straight forward ex dee
+
+    const { t } = useTranslation();
 
     const noMoreErrorsPlz = () => {
         setNameError('');
@@ -78,7 +81,7 @@ const DiddyFanLogin: React.FC = () => {
                 }, 2500);
             } else if (response.status === 401) {
                 setStatusMessages([
-                    { type: 'success', message: 'Diddy mad. Diddy might see you tonight...' },
+                    { type: 'error', message: 'Diddy mad. Diddy might see you tonight...' },
                 ]);
             }
         } catch (e) {
@@ -86,7 +89,7 @@ const DiddyFanLogin: React.FC = () => {
             setStatusMessages([
                 {
                     type: 'error',
-                    message: 'Diddy hella pissed. Diddy might see you tonight...'
+                    message: 'Diddy hella pissed. You better be strapped tonight. . .'
                 },
             ]);
         }

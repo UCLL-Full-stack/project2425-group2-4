@@ -1,0 +1,102 @@
+{
+    "homepage": {
+        "title": "דידי'ס באַליבסטע אַפּ ;)",
+        "h1": "דידיסקאָרד",
+        "h5": "דידיסקאָרד איז אַ פאַקטיש-צייט שמועס אַפּלאַקאַציע דיזיינד צו פאַסיליטירן סימלאַס קאָמוניקאַציע צווישן ניצערס.",
+        "p": "מיט דידיסקאָרד, קענען ניצערס רעגיסטרירן, שיקן פריינט בעטן, און אָנטייל נעמען אין פּריוואַט אָדער גרופּע שמועסן. די אַפּ גאַראַנטירן אַז אַרטיקלען זענען געשיקט גלייך, ענייבאַלינג מיד קאָמוניקאַציע. ניצערס האָבן די פיייקייט צו זען זייער שמועס געשיכטע, שעפּן פריינט בעטן, און באַקומען אַלערץ וועגן נייַע אַרטיקלען און פריינט בעטן. דידיסקאָרד שטרעבט צו פאָרשלאָגן אַ פּלאַטפאָרמע וואָס איז ביידע באַניצער-פרייַנדלעך און עפעקטיוו פֿאַר בלייבן אין קאָנטאַקט מיט פריינט און קאָלעגעס."
+    },
+    "header": {
+        "diddyscord-logo": "דידיסקאָרד",
+        "links": {
+            "home": "היים",
+            "chats": "שמועסן",
+            "login": "אַרײַנלאָגירן",
+            "logout": {
+                "anchor": "אַרויסלאָגירן",
+                "username": "ווי"
+            }
+        }
+    },
+    "chats-components": {
+        "chatData": {
+            "button": "אויסמעקן"
+        },
+        "chatOverview": {
+            "chatName": "שמועס נאָמען"
+        },
+        "createChatroom": {
+            "label": {
+                "chatroomName": "שמועס צימער נאָמען",
+                "users": "ניצערס"
+            },
+            "button": "שאַפֿן שמועס צימער"
+        },
+        "deleteMessage": {
+            "button": "אויסמעקן"
+        },
+        "postMessage": {
+            "error.message": "ניט אַנדערש צו פּאָסטן אַרטיקל",
+            "placeholder": "טייפּ דיין אַרטיקל און דרוק אַרײַנטרעטן"
+        }
+    },
+    "chatId": {
+        "page": {
+            "title": "שמועס עקזיסטירט נישט",
+            "h1": "שמועס עקזיסטירט נישט",
+            "overview-chats": "קיין אַקטיוו שמועס צימער.",
+            "overview-chat-content": "קיין אַרטיקלען צו ווייַזן."
+        }
+    },
+    "chats-index": {
+        "page": {
+            "title": "דידיסקאָרד שמועס צימער",
+            "overview-chats": "קיין אַקטיוו שמועס צימער.",
+            "overview-chat-content": "קלייַבן אַ שמועס צימער אָדער מאַכן איינער פֿאַר דידי... דידי וועט זיין צופרידן אויב איר טאָן ;)",
+            "placeholder": "טייפּ דיין אַרטיקל און דרוק אַרײַנטרעטן"
+        }
+    },
+    "login": {
+        "component": {
+            "header": "אַרײַנלאָגירן",
+            "labels": {
+                "username": "ניצער נאָמען",
+                "password": "פּאַראָל"
+            },
+            "button": "אַרײַנלאָגירן",
+            "signup-link": "רעגיסטרירן",
+            "validation": {
+                "diddy.name.error": "דידי איז נישט צופרידן... טייפּ אַ נאָמען אָדער אַנדערש...",
+                "diddy.password.error": "דידי איז נישט צופרידן... טייפּ אַ פּאַראָל אָדער אַנדערש...",
+                "diddy.login.fail": "דידי איז בייז. דידי קען זען איר הייַנט אָוונט...",
+                "diddy.login.success": "דידי האָט דיך פאַרמיסט, בייב. רידערעקטינג...",
+                "diddy.login.error": "דידי איז זייער בייז. איר בעסער זיין צוגעגרייט הייַנט אָוונט..."
+            }
+        },
+        "page": {
+            "title": "דידי פאָכער אַרײַנלאָגירן :)"
+        }
+    },
+    "signup": {
+        "component": {
+            "header": "רעגיסטרירן",
+            "labels": {
+                "email": "בליצפּאָסט",
+                "username": "ניצער נאָמען",
+                "password": "פּאַראָל",
+                "confirmpassword": "באַשטעטיקן פּאַראָל"
+            },
+            "button": "רעגיסטרירן",
+            "login-link": "אַרײַנלאָגירן",
+            "validation": {
+                "diddy.email.error": "איר זענט אַ בומער לאָל",
+                "diddy.name.error": "איר געדענקט נישט אַפֿילו אייער נאָמען????",
+                "diddy.password.error": "דידי שמייכלט... איר קענט נישט טייפּ די זעלבע זאַך צוויי מאָל?",
+                "diddy.signup.success": "דידי באַגריסט איר צו זיין פּאַרטיי 😏. רידערעקטינג...",
+                "diddy.signup.error": "דידי מיינט איר זענט נאַריש, דידי נישט ווי"
+            }
+        },
+        "page": {
+            "title": "דידי פאָכער רעגיסטרירן :)"
+        }
+    }
+}

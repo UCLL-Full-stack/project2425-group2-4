@@ -17,11 +17,16 @@ import DeleteMessage from '@components/chats/DeleteMessage';
 import useSWR, { mutate } from 'swr';
 import useInterval from 'use-interval';
 
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { GetServerSidePropsContext } from 'next';
+
 const Chatroom: React.FC = () => {
     //const [chat, setChat] = useState<Chat | null>(null);
     const router = useRouter();
     const { chatId } = router.query;
     const [user, setUser] = useState<User | null>(null);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const storedUser = sessionStorage.getItem('diddyfan');
@@ -141,6 +146,16 @@ const Chatroom: React.FC = () => {
             </main>
         </>
     );
+};
+
+export const getServerSideProps = async (context: GetServerSidePropsContext)  => {
+    const { locale } = context;
+
+    return {
+        props: {
+            ...(await serverSideTranslations(locale ?? "en", ["common"])),
+        },
+    };
 };
 
 export default Chatroom;

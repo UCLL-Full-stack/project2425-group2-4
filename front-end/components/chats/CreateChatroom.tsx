@@ -7,6 +7,7 @@ import styles from '@styles/home.module.css';
 import UserService from '@services/UserService';
 import ChatService from '@services/ChatService';
 import { Router, useRouter } from 'next/router';
+import { useTranslation } from "next-i18next";
 
 type props = {
 
@@ -18,6 +19,8 @@ const CreateChatroom: React.FC = () => {
     const [query, setQuery] = useState<string>('');
     const [selectedUser, setSelectedUser] = useState<User>();
     const [chatroomName, setChatroomName] = useState<string>("");
+
+    const { t } = useTranslation();
 
     const router = useRouter();
     useEffect(() => {

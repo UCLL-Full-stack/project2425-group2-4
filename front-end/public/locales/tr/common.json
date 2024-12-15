@@ -1,0 +1,112 @@
+{
+    "homepage": {
+        "title": "Diddy'nin favori uygulaması ;)",
+        "h1": "Diddyscord",
+        "h5": "Diddyscord, kullanıcılar arasında kesintisiz iletişimi kolaylaştırmak için tasarlanmış gerçek zamanlı bir sohbet uygulamasıdır.",
+        "p": "Diddyscord ile kullanıcılar kayıt olabilir, arkadaşlık istekleri gönderebilir ve özel veya grup sohbetlerine katılabilirler. Uygulama, mesajların anında gönderilmesini garanti eder ve anında iletişim sağlar. Kullanıcılar sohbet geçmişlerini görebilir, arkadaşlık isteklerini yönetebilir ve yeni mesajlar ve arkadaşlık istekleri hakkında bildirim alabilirler. Diddyscord, kullanıcı dostu ve verimli bir platform sunmayı amaçlamaktadır."
+    },
+
+    "header": {
+        "diddyscord-logo": "Diddyscord",
+        "links": {
+            "home": "ana sayfa",
+            "chats": "sohbetler",
+            "login": "giriş yap",
+            "logout": {
+                "anchor": "çıkış yap",
+                "username": "olarak"
+            }
+        }
+    },
+
+    "chats-components": {
+        "chatData": {
+            "button": "Sil"
+        },
+
+        "chatOverview": {
+            "chatName": "Sohbet Adı"
+        },
+
+        "createChatroom": {
+            "label": {
+                "chatroomName": "Sohbet Odası Adı",
+                "users": "Kullanıcılar"
+            },
+            "button": "Sohbet Odası Oluştur"
+        },
+
+        "deleteMessage": {
+            "button": "Sil"
+        },
+
+        "postMessage": {
+            "error.message": "Mesaj gönderilemedi",
+            "placeholder": "Mesajınızı yazın ve Enter'a basın"
+        }
+    },
+
+    "chatId": {
+        "page": {
+            "title": "Sohbet mevcut değil",
+            "h1": "Sohbet mevcut değil",
+            "overview-chats": "Aktif sohbet odası yok.",
+            "overview-chat-content": "Gösterilecek mesaj yok."
+        }
+    },
+
+    "chats-index": {
+        "page": {
+            "title": "Diddyscord Sohbet Odaları",
+            "overview-chats": "Aktif sohbet odası yok.",
+            "overview-chat-content": "Bir Sohbet Odası seçin veya diddy için bir tane oluşturun... Diddy mutlu olacak ;)",
+            "placeholder": "Mesajınızı yazın ve Enter'a basın"
+        }
+    },
+
+    "login": {
+        "component": {
+            "header": "Giriş Yap",
+            "labels": {
+                "username": "kullanıcı adı",
+                "password": "şifre"
+            },
+            "button": "Giriş Yap",
+            "signup-link": "Kaydol",
+            "validation": {
+                "diddy.name.error": "Diddy mutlu değil... bir isim yazın yoksa...",
+                "diddy.password.error": "Diddy mutlu değil... bir şifre yazın yoksa...",
+                "diddy.login.fail": "Diddy kızgın. Diddy bu gece seni görebilir...",
+                "diddy.login.success": "Diddy seni özledi bebeğim. Yönlendiriliyor...",
+                "diddy.login.error": "Diddy çok kızgın. Bu gece dikkatli olsan iyi olur..."
+            }
+        },
+        "page": {
+            "title": "Diddy hayran girişi :)"
+        }
+    },
+
+    "signup": {
+        "component": {
+            "header": "Kaydol",
+            "labels": {
+                "email": "e-posta",
+                "username": "kullanıcı adı",
+                "password": "şifre",
+                "confirmpassword": "Şifreyi Onayla"
+            },
+            "button": "Kaydol",
+            "login-link": "Giriş Yap",
+            "validation": {
+                "diddy.email.error": "Sen tam bir boomer'sın lmao",
+                "diddy.name.error": "Adını bile hatırlamıyor musun????",
+                "diddy.password.error": "Diddy gülümsüyor... Aynı şeyi iki kez yazamıyor musun?",
+                "diddy.signup.success": "Diddy seni partisine davet ediyor 😏. Yönlendiriliyor...",
+                "diddy.signup.error": "Diddy seni aptal sanıyor, diddy sevmiyor"
+            }
+        },
+        "page": {
+            "title": "Diddy hayran Kaydı :)"
+        }
+    }
+}

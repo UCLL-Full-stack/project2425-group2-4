@@ -1,0 +1,112 @@
+{
+    "homepage": {
+        "title": "Aplicativo favorito do Diddy ;)",
+        "h1": "Diddyscord",
+        "h5": "Diddyscord é um aplicativo de chat em tempo real projetado para facilitar a comunicação perfeita entre os usuários.",
+        "p": "Com o Diddyscord, os usuários podem se registrar, enviar solicitações de amizade e participar de chats privados ou em grupo. O aplicativo garante que as mensagens sejam enviadas instantaneamente, permitindo comunicação imediata. Os usuários têm a capacidade de ver seu histórico de chat, lidar com solicitações de amizade e receber alertas sobre novas mensagens e solicitações de amizade. O Diddyscord se esforça para oferecer uma plataforma que seja amigável e eficiente para manter contato com amigos e colegas."
+    },
+
+    "header": {
+        "diddyscord-logo": "Diddyscord",
+        "links": {
+            "home": "início",
+            "chats": "chats",
+            "login": "login",
+            "logout": {
+                "anchor": "sair",
+                "username": "como"
+            }
+        }
+    },
+
+    "chats-components": {
+        "chatData": {
+            "button": "Excluir"
+        },
+
+        "chatOverview": {
+            "chatName": "Nome do Chat"
+        },
+
+        "createChatroom": {
+            "label": {
+                "chatroomName": "Nome da Sala de Chat",
+                "users": "Usuários"
+            },
+            "button": "Criar Sala de Chat"
+        },
+
+        "deleteMessage": {
+            "button": "Excluir"
+        },
+
+        "postMessage": {
+            "error.message": "Falha ao postar mensagem",
+            "placeholder": "Digite sua mensagem e pressione Enter"
+        }
+    },
+
+    "chatId": {
+        "page": {
+            "title": "Chat não existe",
+            "h1": "Chat não existe",
+            "overview-chats": "Nenhuma sala de chat ativa.",
+            "overview-chat-content": "Nenhuma mensagem a ser exibida."
+        }
+    },
+
+    "chats-index": {
+        "page": {
+            "title": "Salas de Chat do Diddyscord",
+            "overview-chats": "Nenhuma sala de chat ativa.",
+            "overview-chat-content": "Escolha uma Sala de Chat ou crie uma para o Diddy... Diddy ficará feliz se você fizer ;)",
+            "placeholder": "Digite sua mensagem e pressione Enter"
+        }
+    },
+
+    "login": {
+        "component": {
+            "header": "Login",
+            "labels": {
+                "username": "nome de usuário",
+                "password": "senha"
+            },
+            "button": "Login",
+            "signup-link": "Inscrever-se",
+            "validation": {
+                "diddy.name.error": "Diddy não está feliz... digite um nome ou então...",
+                "diddy.password.error": "Diddy não está feliz... digite uma senha ou então...",
+                "diddy.login.fail": "Diddy está bravo. Diddy pode te ver esta noite...",
+                "diddy.login.success": "Diddy sentiu sua falta, querida. Redirecionando...",
+                "diddy.login.error": "Diddy está muito bravo. É melhor você estar preparado esta noite..."
+            }
+        },
+        "page": {
+            "title": "Login de fã do Diddy :)"
+        }
+    },
+
+    "signup": {
+        "component": {
+            "header": "Inscrever-se",
+            "labels": {
+                "email": "email",
+                "username": "nome de usuário",
+                "password": "senha",
+                "confirmpassword": "Confirmar Senha"
+            },
+            "button": "Inscrever-se",
+            "login-link": "Entrar",
+            "validation": {
+                "diddy.email.error": "Você é tão velho, lmao",
+                "diddy.name.error": "Você nem se lembra do seu nome????",
+                "diddy.password.error": "Diddy sorri... Você não consegue digitar a mesma coisa duas vezes?",
+                "diddy.signup.success": "Diddy te dá as boas-vindas à sua festa 😏. Redirecionando...",
+                "diddy.signup.error": "Diddy acha que você é burro, Diddy não gosta"
+            }
+        },
+        "page": {
+            "title": "Inscrição de fã do Diddy :)"
+        }
+    }
+}

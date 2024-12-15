@@ -1,0 +1,138 @@
+{
+    "homepage": {
+        "title": "Diddy's favorite app ;)",
+        "h1": "Diddyscord",
+        "h5": "Diddyscord is a real-time chat application designed to facilitate seamless communication between users.",
+        "p": "With Diddyscord, users can register, send friend requests, and engage in private or group chats. The app guarantees that messages are sent instantly, enabling immediate communication. Users have the ability to see their chat history, handle friend requests, and get alerts about new messages and friend requests. Diddyscord strives to offer a platform that is both user-friendly and efficient for keeping in touch with friends and colleagues."
+    },
+
+
+
+
+
+    "header": {
+        "diddyscord-logo": "Diddyscord",
+        "links": {
+            "home": "home",
+            "chats": "chats",
+            "login": "login",
+            "logout": {
+                "anchor": "logout",
+                "username": "as"
+            }
+        }
+    },
+
+
+
+
+
+    "chats-components": {
+        "chatData": {
+            "button": "Delete"
+        },
+
+        "chatOverview":  {
+            "chatName": "Chat Name"
+        },
+
+        "createChatroom": {
+            "label": {
+                "chatroomName": "Chatroom Name",
+                "users": "Users"
+            },
+            "button": "Create Chatroom"
+        },
+
+        "deleteMessage": {
+            "button": "Delete"
+        },
+
+
+        "postMessage": {
+            "error.message": "Failed to post message",
+            "placeholder": "Type your message and press Enter"
+        }
+    },
+
+
+
+
+
+    "chatId": {
+        "page": {
+            "title": "Chat does not exist",
+            "h1": "Chat does not exist",
+            "overview-chats": "No chatrooms active.",
+            "overview-chat-content": "No messages to be displayed."
+        }
+    },
+
+
+
+
+
+    "chats-index": {
+        "page": {
+            "title": "Diddyscord Chatrooms",
+            "overview-chats": "No chatrooms active.",
+            "overview-chat-content": "Choose a Chatroom or make one for diddy... Diddy will be happy if you do ;)",
+            "placeholder": "Type your message and press Enter"
+        }
+    },
+
+
+
+
+
+    "login": {
+        "component": {
+            "header": "Login",
+            "labels": {
+                "username": "username",
+                "password": "password"
+            },
+            "button": "Login",
+            "signup-link": "Sign up",
+            "validation": {
+                "diddy.name.error": "Diddy is not happy... type in a name or else...",
+                "diddy.password.error": "Diddy is not happy... type in a password or else...",
+                "diddy.login.fail": "Diddy mad. Diddy might see you tonight...",
+                "diddy.login.success": "Diddy has missed you babe. Redirecting...",
+                "diddy.login.error": "Diddy hella pissed. You better be strapped tonight. . ."
+            }
+        },
+        "page": {
+            "title": "Diddy fan login :)"
+        }
+    },
+    
+
+
+
+
+    "signup": {
+        "component": {
+            "header": "Sign Up",
+            "labels": {
+                "email": "email",
+                "username": "username",
+                "password": "password",
+                "confirmpassword": "Confirm Password"
+            },
+            "button": "Sign Up",
+            "login-link": "Log In",
+            "validation": {
+                "diddy.email.error": "Ur such a boomer lmao",
+                "diddy.name.error": "You don't even remember your name????",
+                "diddy.password.error": "Diddy smirks... You can't type the same thing twice?",
+                "diddy.signup.success": "Diddy welcomes you to his party 😏. Redirecting...",
+                "diddy.signup.error": "Diddy thinks ur dumb, diddy not like"
+            }
+        },
+        "page": {
+            "title": "Diddy fan Signup :)"
+        }
+    }
+
+}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Message, User } from '@types';
 import MessageService from '@services/MessageService';
 import styles from '@styles/home.module.css';
+import { useTranslation } from "next-i18next";
 
 type Props = {
     chatId: number;
@@ -12,6 +13,7 @@ type Props = {
 const DeleteMessage: React.FC<Props> = ({ chatId, className, message }) => {
     const [diddyFan, setDiddyFan] = useState<User | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const { t } = useTranslation();
     
     useEffect(() => {
         setDiddyFan(JSON.parse(sessionStorage.getItem('diddyfan') || ''));

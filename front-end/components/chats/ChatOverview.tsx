@@ -26,6 +26,7 @@
 import React, { useState, useEffect } from 'react';
 import { Chat, User } from '@types';
 import styles from '@styles/home.module.css';
+import { useTranslation } from "next-i18next";
 
 type Props = {
     chats: Chat[];
@@ -34,6 +35,7 @@ type Props = {
 
 const ChatOverviewData: React.FC<Props> = ({ chats, selectChat }: Props) => {
     const [diddyFan, setDiddyFan] = useState<User | null>(null);
+    const { t } = useTranslation();
 
     useEffect(() => {
         //setDiddyFan(JSON.parse(sessionStorage.getItem('diddyfan') || '')); // '' is correct what

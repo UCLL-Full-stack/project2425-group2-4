@@ -1,0 +1,102 @@
+{
+    "homepage": {
+        "title": "ディディのお気に入りのアプリ ;)",
+        "h1": "ディディスコード",
+        "h5": "ディディスコードは、ユーザー間のシームレスなコミュニケーションを促進するために設計されたリアルタイムチャットアプリケーションです。",
+        "p": "ディディスコードを使用すると、ユーザーは登録、友達リクエストの送信、プライベートチャットやグループチャットに参加できます。アプリはメッセージが即座に送信されることを保証し、即時のコミュニケーションを可能にします。ユーザーはチャット履歴を確認し、友達リクエストを処理し、新しいメッセージや友達リクエストの通知を受け取ることができます。ディディスコードは、友人や同僚と連絡を取り合うための使いやすく効率的なプラットフォームを提供することを目指しています。"
+    },
+    "header": {
+        "diddyscord-logo": "ディディスコード",
+        "links": {
+            "home": "ホーム",
+            "chats": "チャット",
+            "login": "ログイン",
+            "logout": {
+                "anchor": "ログアウト",
+                "username": "として"
+            }
+        }
+    },
+    "chats-components": {
+        "chatData": {
+            "button": "削除"
+        },
+        "chatOverview": {
+            "chatName": "チャット名"
+        },
+        "createChatroom": {
+            "label": {
+                "chatroomName": "チャットルーム名",
+                "users": "ユーザー"
+            },
+            "button": "チャットルームを作成"
+        },
+        "deleteMessage": {
+            "button": "削除"
+        },
+        "postMessage": {
+            "error.message": "メッセージの投稿に失敗しました",
+            "placeholder": "メッセージを入力してEnterキーを押してください"
+        }
+    },
+    "chatId": {
+        "page": {
+            "title": "チャットが存在しません",
+            "h1": "チャットが存在しません",
+            "overview-chats": "アクティブなチャットルームはありません。",
+            "overview-chat-content": "表示するメッセージはありません。"
+        }
+    },
+    "chats-index": {
+        "page": {
+            "title": "ディディスコードチャットルーム",
+            "overview-chats": "アクティブなチャットルームはありません。",
+            "overview-chat-content": "チャットルームを選択するか、ディディのために作成してください... ディディは喜ぶでしょう ;)",
+            "placeholder": "メッセージを入力してEnterキーを押してください"
+        }
+    },
+    "login": {
+        "component": {
+            "header": "ログイン",
+            "labels": {
+                "username": "ユーザー名",
+                "password": "パスワード"
+            },
+            "button": "ログイン",
+            "signup-link": "サインアップ",
+            "validation": {
+                "diddy.name.error": "ディディは満足していません... 名前を入力してください...",
+                "diddy.password.error": "ディディは満足していません... パスワードを入力してください...",
+                "diddy.login.fail": "ディディは怒っています。今夜あなたに会うかもしれません...",
+                "diddy.login.success": "ディディはあなたを恋しがっていました。リダイレクト中...",
+                "diddy.login.error": "ディディは非常に怒っています。今夜は準備しておいた方がいいでしょう..."
+            }
+        },
+        "page": {
+            "title": "ディディファンのログイン :)"
+        }
+    },
+    "signup": {
+        "component": {
+            "header": "サインアップ",
+            "labels": {
+                "email": "メール",
+                "username": "ユーザー名",
+                "password": "パスワード",
+                "confirmpassword": "パスワードを確認"
+            },
+            "button": "サインアップ",
+            "login-link": "ログイン",
+            "validation": {
+                "diddy.email.error": "あなたはブーマーです lmao",
+                "diddy.name.error": "自分の名前も覚えていないの????",
+                "diddy.password.error": "ディディはにやりと笑います... 同じことを2回入力できませんか?",
+                "diddy.signup.success": "ディディはあなたを彼のパーティーに歓迎します 😏. リダイレクト中...",
+                "diddy.signup.error": "ディディはあなたが愚かだと思っています、ディディは好きではありません"
+            }
+        },
+        "page": {
+            "title": "ディディファンのサインアップ :)"
+        }
+    }
+}

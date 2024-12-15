@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Message, User } from '@types';
 import MessageService from '@services/MessageService';
 import styles from '@styles/home.module.css';
+import { useTranslation } from "next-i18next";
 
 type Props = {
     chatId: number;
@@ -15,6 +16,8 @@ const PostMessage: React.FC<Props> = ({ chatId, className, onMessagePosted }) =>
     const [error, setError] = useState<string | null>(null);
     const [diddyFan, setDiddyFan] = useState<User | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false); // This prevents deduplicate calls with the state
+    
+    const { t } = useTranslation();
 
     useEffect(() => {
         setDiddyFan(JSON.parse(sessionStorage.getItem('diddyfan') || ''));
