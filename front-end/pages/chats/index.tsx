@@ -89,21 +89,21 @@ const Chatrooms: React.FC = () => {
             )
             }
             <Head>
-                <title>Diddyscord Chatrooms</title>
+                <title>{t("chats-index.page.title")}</title>
             </Head>
             <Header />
             <main className={styles.main}>
-                <h1 className={styles.chatroomName}>Diddyscord Chatrooms</h1>
+                <h1 className={styles.chatroomName}>{t("chats-index.page.title")}</h1>
                 <div className={styles.chatroomContainer}>
                     <div className={styles.chatRoomsOverviewContainer}>
                         <div className={styles.chatroomsOverviewList}>
                             {chatsData && chatsData.length > 0 ? (
                                 <ChatOverviewData chats={chatsData} selectChat={selectChat} />
                             ) : (
-                                <p>No chatrooms active.</p>
+                                <p>{t("chats-index.page.overview-chats")}</p>
                             )}
                         </div>
-                        <Button className={styles.addChatroomButton} onClick={toggleNewChatPopup}> <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="12" r="10" stroke="#ffffff" stroke-width="1.5"></circle> <path d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>Add ChatRoom</Button>
+                        <Button className={styles.addChatroomButton} onClick={toggleNewChatPopup}> <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="12" r="10" stroke="#ffffff" stroke-width="1.5"></circle> <path d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>{t("chats-index.page.add-button")}</Button>
                     </div>
                     <div className={styles.chatRoomContentContainer}>
                         <div className={styles.chatRoomContent}>
@@ -114,7 +114,7 @@ const Chatrooms: React.FC = () => {
                                     users={chatData?.users || []}
                                 />
                             ) : (
-                                <p>Choose a Chatroom or make one for diddy... Diddy will be happy if you do ;)</p>
+                                <p>{t("chats-index.page.overview-chat-content")}</p>
                             )}
                         </div>
                         <div>
@@ -127,7 +127,7 @@ const Chatrooms: React.FC = () => {
                                 <div>
                                     <input
                                         type="text"
-                                        placeholder="Type your message and press Enter"
+                                        placeholder={t("chats-index.page.placeholder")}
                                         className={styles.chatInput}
                                     />
                                 </div>

@@ -12,7 +12,7 @@ const Login: React.FC = () => {
     return (
         <>
             <Head>
-                <title>Diddy fan Signup :)</title>
+                <title>{t("signup.page.title")}</title>
             </Head>
             <Header />
             <main className={styles.main}>

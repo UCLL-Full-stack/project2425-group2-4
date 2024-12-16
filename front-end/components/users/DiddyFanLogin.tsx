@@ -1,11 +1,12 @@
 import { StatusMessage, User } from '@types';
+import Link from 'next/link';
 import classNames from 'classnames'; // CSS aka front-end usage
 import { useRouter } from 'next/router'; // proper usage of my routes within my back-end
 import { useState } from 'react'; // react.js fun lol
 import { setTimeout } from 'timers'; // Timeout for asynchronous tasks
 import styles from '@styles/home.module.css';
 import UserService from '@services/UserService';
-import { useTranslation } from "next-i18next";
+import { useTranslation } from 'next-i18next';
 
 const DiddyFanLogin: React.FC = () => {
     const [name, setName] = useState('');
@@ -17,13 +18,13 @@ const DiddyFanLogin: React.FC = () => {
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
 
     const router = useRouter();
-    // makes a list grouping up status messages, straight forward ex dee
+    const { locale } = router; // necessary for translated links
 
     const { t } = useTranslation();
 
     const noMoreErrorsPlz = () => {
         setNameError('');
-        setPasswordError(null);
+        setPasswordError('');
         //setNameError(null); is wrong???? WTF???????????????
         // ??????????????????????????????
         setStatusMessages([]);
@@ -33,19 +34,18 @@ const DiddyFanLogin: React.FC = () => {
         let result = true;
 
         if (!name && name.trim() === '') {
-            setNameError('Diddy is not happy... type in a name or else...');
+            setNameError(t('login.component.validation.diddy.name.error'));
             result = false;
         } else {
             setNameError('');
         }
 
         if (!password && password.trim() === '') {
-            setPasswordError('Diddy is not happy... type in a password or else...');
+            setPasswordError(t('login.component.validation.diddy.password.error'));
             result = false;
         } else {
             setPasswordError('');
         }
-
 
         return result;
     };
@@ -63,25 +63,31 @@ const DiddyFanLogin: React.FC = () => {
             const response = await UserService.loginDiddyFan(user);
             if (response.status === 200) {
                 const user = await response.json();
-                sessionStorage.setItem('diddyfan', JSON.stringify({
-                    token: user.token,
-                    fullname: user.fullname,
-                    username: user.username,
-                    role: user.role,
-                }));
+                sessionStorage.setItem(
+                    'diddyfan',
+                    JSON.stringify({
+                        token: user.token,
+                        fullname: user.fullname,
+                        username: user.username,
+                        role: user.role,
+                    })
+                );
                 // const user: User = await data.json();
                 // sessionStorage.setItem('diddyfan', user.username);
                 // sessionStorage.setItem('diddyId', user.id);
                 // sessionStorage.setItem('token', user.token);
                 setStatusMessages([
-                    { type: 'success', message: 'Diddy has missed you babe. Redirecting...' },
+                    {
+                        type: 'success',
+                        message: t('login.component.validation.diddy.login.success'),
+                    },
                 ]);
                 setTimeout(() => {
                     router.push('/');
                 }, 2500);
             } else if (response.status === 401) {
                 setStatusMessages([
-                    { type: 'error', message: 'Diddy mad. Diddy might see you tonight...' },
+                    { type: 'error', message: t('login.component.validation.diddy.login.fail') },
                 ]);
             }
         } catch (e) {
@@ -89,7 +95,7 @@ const DiddyFanLogin: React.FC = () => {
             setStatusMessages([
                 {
                     type: 'error',
-                    message: 'Diddy hella pissed. You better be strapped tonight. . .'
+                    message: t('login.component.validation.diddy.login.error'),
                 },
             ]);
         }
@@ -97,10 +103,9 @@ const DiddyFanLogin: React.FC = () => {
 
     return (
         <>
-            <h3 className={styles.loginHeader}>Login</h3>
+            <h3 className={styles.loginHeader}>{t('login.component.header')}</h3>
             <form className={styles.loginContainer} onSubmit={handleSubmission}>
                 <div className={styles.inputContainer}>
-
                     <input
                         id="nameInput"
                         type="text"
@@ -108,13 +113,14 @@ const DiddyFanLogin: React.FC = () => {
                         required
                         onChange={(event) => setName(event.target.value)}
                         className={styles.usernameInput}
-                    //className=
+                        //className=
                     />
                     {nameError && <p className={styles.errorMessage}>{nameError}</p>}
-                    <label className={styles.usernameLabel} htmlFor="nameInput">username</label>
+                    <label className={styles.usernameLabel} htmlFor="nameInput">
+                        {t('login.component.labels.username')}
+                    </label>
                 </div>
                 <div className={styles.inputContainer}>
-
                     <input
                         id="passwordInput"
                         type="password"
@@ -123,19 +129,20 @@ const DiddyFanLogin: React.FC = () => {
                         onChange={(event) => setPassword(event.target.value)}
                         className={styles.passwordInput}
                     />
-                    <label className={styles.passwordLabel} htmlFor="nameInput">password</label>
+                    <label className={styles.passwordLabel} htmlFor="nameInput">
+                        {t('login.component.labels.password')}
+                    </label>
                     {passwordError && <p className={styles.errorMessage}>{passwordError}</p>}
                 </div>
 
-                <button
-                    className={styles.submitButton}
-                    type="submit"
-                >
-                    Login
+                <button className={styles.submitButton} type="submit">
+                    {t('login.component.button')}
                 </button>
 
                 <div className={styles.signupLinkContainer}>
-                    <a href="/signup">Sign up</a>
+                    <Link href="/signup" locale={locale}>
+                        {t('login.component.signup-link')}
+                    </Link>
                 </div>
             </form>
         </>

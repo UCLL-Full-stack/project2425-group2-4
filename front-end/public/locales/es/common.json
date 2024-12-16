@@ -10,6 +10,7 @@
         "links": {
             "home": "inicio",
             "chats": "salas de chat",
+            "friends": "amigos",
             "login": "iniciar sesión",
             "logout": {
                 "anchor": "cerrar sesión",
@@ -19,7 +20,7 @@
     },
     "chats-components": {
         "chatData": {
-            "button": "Eliminar"
+            "delete-button": "Eliminar"
         },
         "chatOverview": {
             "chatName": "Nombre del Chat"
@@ -31,30 +32,62 @@
             },
             "button": "Crear Chatroom"
         },
-        "deleteMessage": {
-            "button": "Eliminar"
+        "editChatroom": {
+            "chatroom-name": "Nombre de la Sala de Chat",
+            "chatroom-edit": "Editar Sala de Chat"
         },
         "postMessage": {
             "error.message": "Error al publicar el mensaje",
             "placeholder": "Escribe tu mensaje y presiona Enter"
         }
     },
+
     "chatId": {
         "page": {
             "title": "El chat no existe",
             "h1": "El chat no existe",
-            "overview-chats": "No hay chatrooms activos.",
-            "overview-chat-content": "No hay mensajes para mostrar."
+            "overview-chats": "No hay salas de chat activas.",
+            "overview-chat-content": "No hay mensajes para mostrar.",
+            "posting-message": "Publicando mensaje:",
+            "fail-message": "Error al publicar el mensaje:"
         }
     },
     "chats-index": {
         "page": {
-            "title": "Chatrooms de Diddyscord",
-            "overview-chats": "No hay chatrooms activos.",
-            "overview-chat-content": "Elige un Chatroom o crea uno para Diddy... Diddy estará feliz si lo haces ;)",
-            "placeholder": "Escribe tu mensaje y presiona Enter"
+            "title": "Salas de Chat de Diddyscord",
+            "overview-chats": "No hay salas de chat activas.",
+            "overview-chat-content": "Elige una sala de chat o crea una para diddy... Diddy estará feliz si lo haces ;)",
+            "placeholder": "Escribe tu mensaje y presiona Enter",
+            "add-button": "Agregar Sala de Chat"
         }
     },
+    "friends": {
+        "component": {
+            "friend-request-box": {
+                "request-sender": "quiere agregarte como amigo",
+                "accept-button": "Aceptar",
+                "decline-button": "Rechazar"
+            },
+            "create-friend-request": {
+                "label-users": "Usuarios",
+                "button": "Enviar solicitud de amistad"
+            }
+        },
+        "page": {
+            "title": "Amigos",
+            "overview-table": "Amigos",
+            "loading": "Cargando. . .",
+            "error-loading": "Error al cargar amigos",
+            "no-friends": "No se encontraron amigos",
+            "add-friend-button": "Agregar Amigo",
+            "friend-request": {
+                "loading": "Cargando. . .",
+                "error-loading": "Ocurrió un error al obtener las solicitudes de amistad, inténtalo de nuevo más tarde.",
+                "text": "A Diddy le encanta hacer amigos. . . tal vez a ti también."
+            }
+        }
+    },
+
     "login": {
         "component": {
             "header": "Iniciar Sesión",
@@ -91,6 +124,7 @@
                 "diddy.email.error": "Eres un boomer lmao",
                 "diddy.name.error": "¿Ni siquiera recuerdas tu nombre????",
                 "diddy.password.error": "Diddy sonríe... ¿No puedes escribir lo mismo dos veces?",
+                "diddy.password.empty": "¿Cómo puedes olvidar esto...?",
                 "diddy.signup.success": "Diddy te da la bienvenida a su fiesta 😏. Redirigiendo...",
                 "diddy.signup.error": "Diddy piensa que eres tonto, a Diddy no le gusta"
             }

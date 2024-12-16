@@ -10,6 +10,7 @@
         "links": {
             "home": "accueil",
             "chats": "discussions",
+            "friends": "amis",
             "login": "connexion",
             "logout": {
                 "anchor": "déconnexion",
@@ -19,20 +20,21 @@
     },
     "chats-components": {
         "chatData": {
-            "button": "Supprimer"
+            "delete-button": "Supprimer"
         },
         "chatOverview": {
-            "chatName": "Nom du Chat"
+            "chatName": "Nom de la Discussion"
         },
         "createChatroom": {
             "label": {
-                "chatroomName": "Nom du Chatroom",
+                "chatroomName": "Nom de la Discussion",
                 "users": "Utilisateurs"
             },
             "button": "Créer Chatroom"
         },
-        "deleteMessage": {
-            "button": "Supprimer"
+        "editChatroom": {
+            "chatroom-name": "Nom de la discussion",
+            "chatroom-edit": "Modification de la discussion"
         },
         "postMessage": {
             "error.message": "Échec de l'envoi du message",
@@ -43,16 +45,45 @@
         "page": {
             "title": "Le chat n'existe pas",
             "h1": "Le chat n'existe pas",
-            "overview-chats": "Aucun chatroom actif.",
-            "overview-chat-content": "Aucun message à afficher."
+            "overview-chats": "Aucune chatroom active.",
+            "overview-chat-content": "Aucun message à afficher.",
+            "posting-message": "Publication du message:",
+            "fail-message": "Échec de la publication du message:"
         }
     },
     "chats-index": {
         "page": {
-            "title": "Chatrooms de Diddyscord",
-            "overview-chats": "Aucun chatroom actif.",
-            "overview-chat-content": "Choisissez un Chatroom ou créez-en un pour Diddy... Diddy sera heureux si vous le faites ;)",
-            "placeholder": "Tapez votre message et appuyez sur Entrée"
+            "title": "Chatrooms Diddyscord",
+            "overview-chats": "Aucune chatroom active.",
+            "overview-chat-content": "Choisissez une chatroom ou créez-en une pour diddy... Diddy sera heureux si vous le faites ;)",
+            "placeholder": "Tapez votre message et appuyez sur Entrée",
+            "add-button": "Ajouter une Chatroom"
+        }
+    },
+    "friends": {
+        "component": {
+            "friend-request-box": {
+                "request-sender": "voudrait vous ajouter comme ami",
+                "accept-button": "Accepter",
+                "decline-button": "Refuser"
+            },
+            "create-friend-request": {
+                "label-users": "Utilisateurs",
+                "button": "Envoyer une demande d'ami"
+            }
+        },
+        "page": {
+            "title": "Amis",
+            "overview-table": "Amis",
+            "loading": "Chargement. . .",
+            "error-loading": "Erreur de chargement des amis",
+            "no-friends": "Aucun ami trouvé",
+            "add-friend-button": "Ajouter un Ami",
+            "friend-request": {
+                "loading": "Chargement. . .",
+                "error-loading": "Une erreur s'est produite lors de la récupération des demandes d'amis, réessayez plus tard.",
+                "text": "Diddy aime se faire des amis. . . vous aussi peut-être."
+            }
         }
     },
     "login": {
@@ -91,6 +122,7 @@
                 "diddy.email.error": "Tu es un boomer lmao",
                 "diddy.name.error": "Tu ne te souviens même pas de ton nom????",
                 "diddy.password.error": "Diddy sourit... Tu ne peux pas taper la même chose deux fois?",
+                "diddy.password.empty": "Comment pouvez-vous même oublier cela...",
                 "diddy.signup.success": "Diddy vous accueille à sa fête 😏. Redirection...",
                 "diddy.signup.error": "Diddy pense que tu es stupide, Diddy n'aime pas"
             }

@@ -10,6 +10,7 @@
         "links": {
             "home": "home",
             "chats": "chats",
+            "friends": "vrienden",
             "login": "login",
             "logout": {
                 "anchor": "logout",
@@ -19,7 +20,7 @@
     },
     "chats-components": {
         "chatData": {
-            "button": "Verwijderen"
+            "delete-button": "Verwijderen"
         },
         "chatOverview": {
             "chatName": "Chatnaam"
@@ -31,8 +32,9 @@
             },
             "button": "Chatroom aanmaken"
         },
-        "deleteMessage": {
-            "button": "Verwijderen"
+        "editChatroom": {
+            "chatroom-name": "Chatnaam",
+            "chatroom-edit": "Chat Aanpassen"
         },
         "postMessage": {
             "error.message": "Bericht plaatsen mislukt",
@@ -43,16 +45,45 @@
         "page": {
             "title": "Chat bestaat niet",
             "h1": "Chat bestaat niet",
-            "overview-chats": "Geen actieve chatrooms.",
-            "overview-chat-content": "Geen berichten om weer te geven."
+            "overview-chats": "Geen chatrooms actief.",
+            "overview-chat-content": "Geen berichten om weer te geven.",
+            "posting-message": "Bericht plaatsen:",
+            "fail-message": "Bericht plaatsen mislukt:"
         }
     },
     "chats-index": {
         "page": {
             "title": "Diddyscord Chatrooms",
-            "overview-chats": "Geen actieve chatrooms.",
-            "overview-chat-content": "Kies een chatroom of maak er een voor Diddy... Diddy zal blij zijn als je dat doet ;)",
-            "placeholder": "Typ je bericht en druk op Enter"
+            "overview-chats": "Geen chatrooms actief.",
+            "overview-chat-content": "Kies een chatroom of maak er een voor diddy... Diddy zal blij zijn als je dat doet ;)",
+            "placeholder": "Typ je bericht en druk op Enter",
+            "add-button": "Chatroom Toevoegen"
+        }
+    },
+    "friends": {
+        "component": {
+            "friend-request-box": {
+                "request-sender": "wil je toevoegen als vriend",
+                "accept-button": "Accepteren",
+                "decline-button": "Weigeren"
+            },
+            "create-friend-request": {
+                "label-users": "Gebruikers",
+                "button": "Vriendschapsverzoek Verzenden"
+            }
+        },
+        "page": {
+            "title": "Vrienden",
+            "overview-table": "Vrienden",
+            "loading": "Laden. . .",
+            "error-loading": "Fout bij het laden van vrienden",
+            "no-friends": "Geen vrienden gevonden",
+            "add-friend-button": "Vriend Toevoegen",
+            "friend-request": {
+                "loading": "Laden. . .",
+                "error-loading": "Er is een fout opgetreden bij het ophalen van vriendschapsverzoeken, probeer het later opnieuw.",
+                "text": "Diddy houdt van vrienden maken. . . jij misschien ook."
+            }
         }
     },
     "login": {
@@ -91,6 +122,7 @@
                 "diddy.email.error": "Je bent zo'n boomer lmao",
                 "diddy.name.error": "Je herinnert je je naam niet eens????",
                 "diddy.password.error": "Diddy grijnst... Je kunt niet twee keer hetzelfde typen?",
+                "diddy.password.empty": "Hoe kun je dit zelfs vergeten...",
                 "diddy.signup.success": "Diddy verwelkomt je op zijn feestje 😏. Omleiding...",
                 "diddy.signup.error": "Diddy vindt je dom, diddy niet leuk"
             }

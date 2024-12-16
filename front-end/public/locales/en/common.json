@@ -15,6 +15,7 @@
         "links": {
             "home": "home",
             "chats": "chats",
+            "friends": "friends",
             "login": "login",
             "logout": {
                 "anchor": "logout",
@@ -29,7 +30,7 @@
 
     "chats-components": {
         "chatData": {
-            "button": "Delete"
+            "delete-button": "Delete"
         },
 
         "chatOverview":  {
@@ -44,10 +45,10 @@
             "button": "Create Chatroom"
         },
 
-        "deleteMessage": {
-            "button": "Delete"
+        "editChatroom": {
+            "chatroom-name": "Chatroom Name",
+            "chatroom-edit": "Edit Chatroom"
         },
-
 
         "postMessage": {
             "error.message": "Failed to post message",
@@ -64,7 +65,9 @@
             "title": "Chat does not exist",
             "h1": "Chat does not exist",
             "overview-chats": "No chatrooms active.",
-            "overview-chat-content": "No messages to be displayed."
+            "overview-chat-content": "No messages to be displayed.",
+            "posting-message": "Posting message:",
+            "fail-message": "Failed to post message:"
         }
     },
 
@@ -77,7 +80,38 @@
             "title": "Diddyscord Chatrooms",
             "overview-chats": "No chatrooms active.",
             "overview-chat-content": "Choose a Chatroom or make one for diddy... Diddy will be happy if you do ;)",
-            "placeholder": "Type your message and press Enter"
+            "placeholder": "Type your message and press Enter",
+            "add-button": "Add Chatroom"
+        }
+    },
+
+
+
+
+    "friends": {
+        "component": {
+            "friend-request-box": {
+                "request-sender": "would like to diddy you up",
+                "accept-button": "Accept",
+                "decline-button": "Decline"
+            },
+            "create-friend-request": {
+                "label-users": "Users",
+                "button": "Send friend request"
+            }
+        },
+        "page": {
+            "title": "Friends",
+            "overview-table": "Friends",
+            "loading": "Loading. . .",
+            "error-loading": "Error loading friends",
+            "no-friends": "No friends found",
+            "add-friend-button": "Add Friend",
+            "friend-request": {
+                "loading": "Loading. . .",
+                "error-loading": "An error occured fetching friend requests, try again later.",
+                "text": "Diddy loves making friends. . . you might too."
+            }
         }
     },
 
@@ -126,6 +160,7 @@
                 "diddy.email.error": "Ur such a boomer lmao",
                 "diddy.name.error": "You don't even remember your name????",
                 "diddy.password.error": "Diddy smirks... You can't type the same thing twice?",
+                "diddy.password.empty": "How do you even forget this...",
                 "diddy.signup.success": "Diddy welcomes you to his party 😏. Redirecting...",
                 "diddy.signup.error": "Diddy thinks ur dumb, diddy not like"
             }

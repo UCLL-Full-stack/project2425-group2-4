@@ -68,7 +68,7 @@ const ChatOverviewData: React.FC<Props> = ({ chats, selectChat }: Props) => {
                     {/*  */}
                     <thead>
                         <tr>
-                            <th scope="col">Chat Name</th>
+                            <th scope="col">{t("chats-components.chatOverview.chatName")}</th>
                         </tr>
                     </thead>
                     <tbody>

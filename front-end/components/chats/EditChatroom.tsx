@@ -7,6 +7,7 @@ import styles from '@styles/home.module.css';
 import UserService from '@services/UserService';
 import ChatService from '@services/ChatService';
 import { Router, useRouter } from 'next/router';
+import { useTranslation } from "next-i18next";
 
 type Props = {
     chatId: string;
@@ -15,6 +16,7 @@ type Props = {
 const EditChatroom: React.FC<Props> = ({ chatId }: Props) => {
 
     const [chatroomName, setChatroomName] = useState<string>("");
+    const { t } = useTranslation();
 
     useEffect(() => {
         const getChatroom = ChatService.getChatById(chatId)
@@ -55,9 +57,9 @@ const EditChatroom: React.FC<Props> = ({ chatId }: Props) => {
                         type="text"
                         required
                     />
-                    <label htmlFor='#ChatroomName'>Chatroom Name</label>
+                    <label htmlFor='#ChatroomName'>{t("chats-components.editChatroom.chatroom-name")}</label>
                 </div>
-                <button type="submit" > Edit Chatroom </button>
+                <button type="submit" > {t("chats-components.editChatroom.chatroom-edit")} </button>
             </form>
         </>
     );

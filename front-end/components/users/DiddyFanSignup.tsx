@@ -5,8 +5,9 @@ import { useState } from 'react'; // react.js fun lol
 import { setTimeout } from 'timers'; // Timeout for asynchronous tasks
 import styles from '@styles/home.module.css';
 import { User } from '@types';
+import Link from 'next/link';
 import UserService from '@services/UserService';
-import { useTranslation } from "next-i18next";
+import { useTranslation } from 'next-i18next';
 
 const DiddyFanSignup: React.FC = () => {
     const router = useRouter();
@@ -19,14 +20,17 @@ const DiddyFanSignup: React.FC = () => {
     const [passwordError, setPasswordError] = useState('');
 
     const [email, setEmail] = useState('');
+    const [emailError, setEmailError] = useState('');
 
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
     // makes a list grouping up status messages, straight forward ex dee
 
     const { t } = useTranslation();
+    const { locale } = useRouter(); // necessary for translated links
 
     const noMoreErrorsPlz = () => {
         setNameError('');
+        setEmailError('');
         //setNameError(null); is wrong???? WTF???????????????
         // ??????????????????????????????
         setStatusMessages([]);
@@ -34,36 +38,36 @@ const DiddyFanSignup: React.FC = () => {
 
     const checkPassword = (passwordToCheck: string) => {
         if (password !== passwordToCheck) {
-            setPasswordError('Diddy smirks... You can\'t type the same thing twice?');
-        }
-        else {
+            setPasswordError(t('signup.component.validation.diddy.password.error'));
+        } else {
             setPasswordError('');
             setVerifyPassword(passwordToCheck);
         }
-    }
+    };
 
     const validate = (): boolean => {
         let result = true;
 
         if (!name && name.trim() === '') {
-            setNameError('Diddy is not happy... type in a name or else...');
+            setNameError(t('signup.component.validation.diddy.name.error'));
             result = false;
         } else {
             setNameError('');
         }
 
-        if (!password && password.trim() === '') {
-            setPasswordError('Diddy is not happy... type in a password or else...');
-            result = false;
-        }
-        else if (password !== verifyPassword) {
-            checkPassword(verifyPassword);
-            return false;
-        }
-        else {
-            setPasswordError('');
+        if (!email && email.trim() === '') {
+            setEmailError(t('signup.component.validation.diddy.email.error'));
         }
 
+        if (!password && password.trim() === '') {
+            setPasswordError(t('signup.component.validation.diddy.password.empty'));
+            result = false;
+        } else if (password !== verifyPassword) {
+            checkPassword(verifyPassword);
+            return false;
+        } else {
+            setPasswordError('');
+        }
 
         return result;
     };
@@ -77,7 +81,7 @@ const DiddyFanSignup: React.FC = () => {
         }
 
         try {
-            const user = { 
+            const user = {
                 username: name,
                 password,
                 email,
@@ -93,42 +97,44 @@ const DiddyFanSignup: React.FC = () => {
             // if (user.id) sessionStorage.setItem('diddyid', user.id.toString());
             // if (user.token) sessionStorage.setItem('diddytoken', user.token);
             setStatusMessages([
-                { type: 'success', message: 'Diddy welcomes you to his party 😏. Redirecting...' },
+                { type: 'success', message: t('signup.component.validation.diddy.signup.success') },
             ]);
             setTimeout(() => {
                 router.push('/');
             }, 2500);
         } catch (e) {
+            setStatusMessages([
+                { type: 'error', message: t('signup.component.validation.diddy.signup.error') },
+            ]);
             console.log(e);
-            return
+            return e;
         }
     };
 
     return (
         <>
-            <h3 className={styles.loginHeader}>Sign Up</h3>
+            <h3 className={styles.loginHeader}>{t('signup.component.header')}</h3>
             {/* className= */}
             {statusMessages && (
                 <div>
-                    <ul>
-                    </ul>
+                    <ul></ul>
                 </div>
             )}
             <form className={styles.loginContainer} onSubmit={handleSubmission}>
                 <div className={styles.inputContainer}>
-
                     <input
                         id="nameInput"
                         type="email"
                         value={email}
                         required
                         onChange={(event) => setEmail(event.target.value)}
-                    //className=
+                        //className=
                     />
-                    <label className={styles.usernameLabel} htmlFor="nameInput">email</label>
+                    <label className={styles.usernameLabel} htmlFor="nameInput">
+                        {t('signup.component.labels.email')}
+                    </label>
                 </div>
                 <div className={styles.inputContainer}>
-
                     <input
                         id="nameInput"
                         type="text"
@@ -136,13 +142,14 @@ const DiddyFanSignup: React.FC = () => {
                         required
                         onChange={(event) => setName(event.target.value)}
                         className={styles.usernameInput}
-                    //className=
+                        //className=
                     />
                     {nameError && <p className={styles.errorMessage}>{nameError}</p>}
-                    <label className={styles.usernameLabel} htmlFor="nameInput">username</label>
+                    <label className={styles.usernameLabel} htmlFor="nameInput">
+                        {t('signup.component.labels.username')}
+                    </label>
                 </div>
                 <div className={styles.inputContainer}>
-
                     <input
                         id="nameInput"
                         type="password"
@@ -151,11 +158,12 @@ const DiddyFanSignup: React.FC = () => {
                         onChange={(event) => setPassword(event.target.value)}
                         className={styles.passwordInput}
                     />
-                    <label className={styles.passwordLabel} htmlFor="nameInput">password</label>
+                    <label className={styles.passwordLabel} htmlFor="nameInput">
+                        {t('signup.component.labels.password')}
+                    </label>
                     {passwordError && <p className={styles.errorMessage}>{passwordError}</p>}
                 </div>
                 <div className={styles.inputContainer}>
-
                     <input
                         id="nameInput"
                         type="password"
@@ -163,20 +171,20 @@ const DiddyFanSignup: React.FC = () => {
                         onChange={(event) => checkPassword(event.target.value)}
                         className={styles.passwordInput}
                     />
-                    <label className={styles.passwordLabel} >Confirm Password</label>
+                    <label className={styles.passwordLabel}>
+                        {t('signup.component.labels.confirmpassword')}
+                    </label>
                     {passwordError && <p className={styles.errorMessage}>{passwordError}</p>}
                 </div>
 
-
-                <button
-                    className={styles.submitButton}
-                    type="submit"
-                >
-                    Sign up
+                <button className={styles.submitButton} type="submit">
+                    {t('signup.component.button')}
                 </button>
 
                 <div className={styles.signupLinkContainer}>
-                    <a href="/login">Log In</a>
+                    <Link href="/login" locale={locale}>
+                        {t('signup.component.login-link')}
+                    </Link>
                 </div>
             </form>
         </>

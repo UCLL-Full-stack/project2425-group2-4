@@ -12,7 +12,6 @@ import styles from '@styles/home.module.css';
 import ChatOverviewData from '@components/chats/ChatOverview';
 import ChatData from '@components/chats/ChatData';
 import PostMessage from '@components/chats/PostMessage';
-import DeleteMessage from '@components/chats/DeleteMessage';
 
 import useSWR, { mutate } from 'swr';
 import useInterval from 'use-interval';
@@ -73,26 +72,14 @@ const Chatroom: React.FC = () => {
     const handleNewMessage = async (message: Message) => {
         if (chatId) {
             try {
-                console.log('Posting message:', message);
+                console.log(t("chatId.page.posting-message"), message);
                 await MessageService.postMessage(Number(chatId), message);
                 
             } catch (error) {
-                console.error('Failed to post message:', error);
+                console.error(t("chatId.page.fail-message"), error);
             }
         }
     };
-
-    const deleteMessage = async (message: Message) => {
-        if (chatId) {
-            try {
-                console.log('Deleting message:', message);
-                await MessageService.deleteMessage(Number(chatId), message);
-
-            } catch (error) {
-                console.error('Failed to delete message:', error);
-            }
-        }
-    }
 
     const selectChat = (chat: Chat) => {
         router.push(`/chats/${chat.id}`);
@@ -102,17 +89,17 @@ const Chatroom: React.FC = () => {
     return (
         <>
             <Head>
-                <title>{chatData ? chatData?.name : 'Chat does not exist'}</title>
+                <title>{chatData ? chatData?.name : t("chatId.page.title")}</title>
             </Head>
             <Header />
             <main className={styles.main}>
-                <h1 className={styles.chatroomName}>{chatData ? chatData.name : 'Chat does not exist'}</h1>
+                <h1 className={styles.chatroomName}>{chatData ? chatData.name : t("chatId.page.h1")}</h1>
                 <div className={styles.chatroomContainer}>
                     <div className={styles.chatRoomsOverviewContainer}>
                         {chatsData && chatsData.length > 0 ? (
                             <ChatOverviewData chats={chatsData} selectChat={selectChat} />
                         ) : (
-                            <p>No chatrooms active.</p>
+                            <p>{t("chatId.page.overview-chats")}</p>
                         )}
                     </div>
                     <div className={styles.chatRoomContentContainer}>
@@ -124,7 +111,7 @@ const Chatroom: React.FC = () => {
                                     users={chatData?.users || []}
                                 />
                             ) : (
-                                <p>No messages to be displayed.</p>
+                                <p>{t("chatId.page.overview-chat-content")}</p>
                             )}
                         </div>
                         <div>

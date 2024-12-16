@@ -7,6 +7,7 @@ import styles from '@styles/home.module.css';
 import UserService from '@services/UserService';
 import ChatService from '@services/ChatService';
 import { Router, useRouter } from 'next/router';
+import { useTranslation } from "next-i18next";
 
 type props = {
 
@@ -17,6 +18,8 @@ const CreateFriendRequest: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [query, setQuery] = useState<string>('');
     const [selectedUser, setSelectedUser] = useState<User>(users[0]);
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         getUsersWhoArentFriends();
@@ -84,9 +87,9 @@ const CreateFriendRequest: React.FC = () => {
                             ))}
                         </ComboboxOptions>
                     </Combobox>
-                    <label> Users</label>
+                    <label> {t("friends.component.create-friend-request.label-users")}</label>
                 </div>
-                <button type="submit" > Send friendrequest </button>
+                <button type="submit" >{t("friends.component.create-friend-request.button")}</button>
             </form>
         </>
     );

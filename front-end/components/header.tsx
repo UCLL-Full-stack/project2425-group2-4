@@ -60,7 +60,7 @@ const Header: React.FC = () => {
                                     <Link href="/chats">{t("header.links.chats")}</Link>
                                 </li>
                                 <li>
-                                    <Link href="/friends">friends</Link>
+                                    <Link href="/friends">{t("header.links.friends")}</Link>
                                 </li>
                             </>
                             )}

@@ -54,7 +54,7 @@ const PostMessage: React.FC<Props> = ({ chatId, className, onMessagePosted }) =>
                 await MessageService.postMessage(chatId, newMessage);
                 setText('');
             } catch (err) {
-                setError('Failed to post message');
+                setError(t("chats-components.postMessage.error-message"));
             } finally {
                 setIsSubmitting(false);
             }
@@ -68,7 +68,7 @@ const PostMessage: React.FC<Props> = ({ chatId, className, onMessagePosted }) =>
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Type your message and press Enter"
+                placeholder={t("chats-components.postMessage.placeholder")}
                 className={className}
             />
             {error && <p>{error}</p>}

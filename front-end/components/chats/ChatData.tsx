@@ -24,7 +24,7 @@ const ChatRoomData: React.FC<Props> = ({ chat, messages, users }) => {
                             {new Date(message.timestamp).toLocaleString()}
                         </h2>
                         <p className={styles.chatMessages}>{message.text}</p>
-                        <button onClick={() => chat?.id !== undefined && MessageService.deleteMessage(Number(chat.id), message)}>Delete</button>
+                        <button onClick={() => chat?.id !== undefined && MessageService.deleteMessage(Number(chat.id), message)}>{t("chats-components.chatData.delete-button")}</button>
                     </section>
                 ))}
             </div>

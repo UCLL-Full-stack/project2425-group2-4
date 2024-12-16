@@ -10,6 +10,7 @@
         "links": {
             "home": "ホーム",
             "chats": "チャット",
+            "friends": "友達",
             "login": "ログイン",
             "logout": {
                 "anchor": "ログアウト",
@@ -19,7 +20,7 @@
     },
     "chats-components": {
         "chatData": {
-            "button": "削除"
+            "delete-button": "削除"
         },
         "chatOverview": {
             "chatName": "チャット名"
@@ -31,30 +32,62 @@
             },
             "button": "チャットルームを作成"
         },
-        "deleteMessage": {
-            "button": "削除"
+        "editChatroom": {
+            "chatroom-name": "チャットルーム名",
+            "chatroom-edit": "チャットルームを編集"
         },
         "postMessage": {
             "error.message": "メッセージの投稿に失敗しました",
             "placeholder": "メッセージを入力してEnterキーを押してください"
         }
     },
+
     "chatId": {
         "page": {
             "title": "チャットが存在しません",
             "h1": "チャットが存在しません",
             "overview-chats": "アクティブなチャットルームはありません。",
-            "overview-chat-content": "表示するメッセージはありません。"
+            "overview-chat-content": "表示するメッセージはありません。",
+            "posting-message": "メッセージを投稿中:",
+            "fail-message": "メッセージの投稿に失敗しました:"
         }
     },
     "chats-index": {
         "page": {
-            "title": "ディディスコードチャットルーム",
+            "title": "Diddyscord チャットルーム",
             "overview-chats": "アクティブなチャットルームはありません。",
-            "overview-chat-content": "チャットルームを選択するか、ディディのために作成してください... ディディは喜ぶでしょう ;)",
-            "placeholder": "メッセージを入力してEnterキーを押してください"
+            "overview-chat-content": "チャットルームを選択するか、diddyのために作成してください... diddyは喜ぶでしょう ;)",
+            "placeholder": "メッセージを入力してEnterキーを押してください",
+            "add-button": "チャットルームを追加"
         }
     },
+    "friends": {
+        "component": {
+            "friend-request-box": {
+                "request-sender": "あなたを友達に追加したい",
+                "accept-button": "承認",
+                "decline-button": "拒否"
+            },
+            "create-friend-request": {
+                "label-users": "ユーザー",
+                "button": "友達リクエストを送信"
+            }
+        },
+        "page": {
+            "title": "友達",
+            "overview-table": "友達",
+            "loading": "読み込み中. . .",
+            "error-loading": "友達の読み込みエラー",
+            "no-friends": "友達が見つかりません",
+            "add-friend-button": "友達を追加",
+            "friend-request": {
+                "loading": "読み込み中. . .",
+                "error-loading": "友達リクエストの取得中にエラーが発生しました。後でもう一度お試しください。",
+                "text": "Diddyは友達を作るのが好きです. . . あなたもそうかもしれません。"
+            }
+        }
+    },
+
     "login": {
         "component": {
             "header": "ログイン",
@@ -91,6 +124,7 @@
                 "diddy.email.error": "あなたはブーマーです lmao",
                 "diddy.name.error": "自分の名前も覚えていないの????",
                 "diddy.password.error": "ディディはにやりと笑います... 同じことを2回入力できませんか?",
+                "diddy.password.empty": "これを忘れるなんてどういうことですか...",
                 "diddy.signup.success": "ディディはあなたを彼のパーティーに歓迎します 😏. リダイレクト中...",
                 "diddy.signup.error": "ディディはあなたが愚かだと思っています、ディディは好きではありません"
             }

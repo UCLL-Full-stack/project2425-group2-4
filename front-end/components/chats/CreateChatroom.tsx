@@ -69,7 +69,7 @@ const CreateChatroom: React.FC = () => {
                         type="text"
                         required
                     />
-                    <label htmlFor='#ChatroomName'>Chatroom Name</label>
+                    <label htmlFor='#ChatroomName'>{t("chats-components.createChatroom.label.chatroomName")}</label>
                 </div>
                 <div className={styles.createChatroomFormUsersContainer}>
                     <Combobox
@@ -89,10 +89,10 @@ const CreateChatroom: React.FC = () => {
                             ))}
                         </ComboboxOptions>
                     </Combobox>
-                    <label> Users</label>
+                    <label>{t("chats-components.createChatroom.label.users")}</label>
 
                 </div>
-                <button type="submit" > Create Chatroom </button>
+                <button type="submit" >{t("chats-components.createChatroom.button")} </button>
             </form>
         </>
     );
