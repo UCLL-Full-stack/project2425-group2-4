@@ -1,7 +1,7 @@
 import { Chat } from "../model/chat";
 import { Message } from "../model/message";
 import { User } from "../model/user";
-import { ChatInput } from "../types";
+import { ChatInput, UserInput } from "../types";
 import database from "./database";
 
 // To show all chats within the page
@@ -103,6 +103,22 @@ const updateChat = async ({ chat }: { chat: Chat; }): Promise<Chat | null> => {
     }
 };
 
+const updateChatname = async ({ name, id }: ChatInput): Promise<Chat> => {
+    try {
+        const chatPrisma = await database.chat.update({
+            where: { id: id },
+            data: { name: name },
+            include: {
+                users: true,
+                messages: true,
+            }
+        });
+        return Chat.from(chatPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Chat couldn\'t be updated. Check server log for details.')
+    }
+}
 
 export default {
     getAllChats,
@@ -110,4 +126,5 @@ export default {
     updateChat,
     createChat,
     getChatForUser,
+    updateChatname
 };

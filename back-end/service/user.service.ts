@@ -3,6 +3,7 @@ import { User } from '../model/user';
 import bcrypt from 'bcrypt';
 import { AuthenticationResponse, UserInput } from '../types';
 import { generateJwtToken } from '../util/jwt';
+import { FriendRequest } from '@prisma/client';
 
 //const getAllUsers = (): User[] => usersDb.getAllUsers();
 
@@ -76,4 +77,42 @@ const createUser = async ({
     return await usersDb.createUser(user);
 };
 
-export default { getAllUsers, getUserById, getUserByUsername, authenticate, createUser };
+const getAllFriends = async (username: string): Promise<User[]> => {
+    const user = await getUserByUsername({ username });
+    if (!user.id) { throw new Error('User does not exist.'); }
+    return await usersDb.getAllFriends({ id: user.id });
+};
+
+const sendFriendRequest = async (username: string, friendUsername: string): Promise<FriendRequest> => {
+    const user = await getUserByUsername({ username });
+    const friend = await getUserByUsername({ username: friendUsername });
+    if (!user.id) { throw new Error('User does not exist.'); }
+    if (!friend.id) { throw new Error('Friend does not exist.'); }
+    return await usersDb.sendFriendRequest({ senderId: user.id, receipientId: friend.id })
+};
+
+
+const handleFriendRequest = async (username: string, id: number, accepted: boolean): Promise<FriendRequest> => {
+    const receiver = await getUserByUsername({ username });
+    if (!receiver.id) { throw new Error('User does not exist.'); }
+    return usersDb.handleFriendRequest({ id, receiver, accepted });
+}
+const showFriendRequests = async (username: string): Promise<{ id: number, sender: UserInput }[]> => {
+    const user = await getUserByUsername({ username });
+    if (!user.id) { throw new Error('User does not exist.'); }
+    return await usersDb.showFriendRequests({ id: user.id });
+};
+
+
+
+export default {
+    getAllUsers,
+    getUserById,
+    getUserByUsername,
+    authenticate,
+    getAllFriends,
+    sendFriendRequest,
+    handleFriendRequest,
+    showFriendRequests,
+    createUser
+};

@@ -17,10 +17,8 @@ export type Message = {
 };
 
 export type FriendRequest = {
-    id?: number;
-    status: string;
-    sentAt: Date;
-    respondedAt: Date;
+    id: number;
+    sender: User;
 };
 
 export type Chat = {

@@ -32,5 +32,26 @@ model User {
   password String
   Chats    Chat[] //@relation(fields: [chatId], references: [id])
   messages Message[]
-  role     String   @default("User")
+  role     String    @default("User")
+
+  Friends Friends[]
+
+  OutgoingFriendRequests FriendRequest[] @relation(name: "sender")
+
+  IncomingFriendRequests FriendRequest[] @relation(name: "receiver")
+}
+
+model Friends {
+  id    Int    @id @default(autoincrement())
+  users User[]
+}
+
+model FriendRequest {
+  id         Int     @id @default(autoincrement())
+  sender     User    @relation(name: "sender", fields: [senderId], references: [id])
+  senderId   Int
+  receiver   User    @relation(name: "receiver", fields: [receiverId], references: [id])
+  receiverId Int
+  accepted   Boolean @default(false)
+  declined   Boolean @default(false)
 }

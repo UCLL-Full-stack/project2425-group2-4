@@ -5,9 +5,6 @@ import chatDb from "../repository/chat.db";
 import messagesDb from "../repository/messages.db";
 import usersDb from "../repository/users.db";
 import { ChatInput, MessageInput, Role } from "../types";
-// import messagesDb from "../repository/messages.db";
-// import usersDb from "../repository/users.db";
-// import { ChatInput, MessageInput, UserInput } from "../types"; // The "Input type" aka lab-03 reference
 
 const getChat = async ({
     username,
@@ -45,7 +42,7 @@ const getChatById = async ({
     if (role === 'admin' || role === 'moderator') {
         return chat;
     } else if (role === 'user') {
-        const userIsMember = chat.getUsers()?.some(user => user.username === username) ?? false;
+        const userIsMember = chatDb.getChatForUser({ username: username })
         if (!userIsMember) {
             throw new UnauthorizedError('credentials_required', {
                 message: 'You are not authorized to access this resource.',
@@ -77,9 +74,14 @@ const createChat = async ({ name, users: userInputs = [] }: ChatInput): Promise<
 
     return await chatDb.createChat({ name: name, users: users, messages: messages });
 };
+const updateChat = async ({ name, id }: ChatInput): Promise<Chat> => {
+
+    return await chatDb.updateChatname({ name: name, id });
+};
 
 export default {
     getChat,
     getChatById,
     createChat,
+    updateChat
 };

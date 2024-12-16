@@ -20,7 +20,7 @@ const Header: React.FC = () => {
             setDiddyFan(JSON.parse(storedUser));
         }
         console.log(diddyfan);
-      }, []);
+    }, []);
     //(event) is wrong... have to figure out why
     const handleLogout = async (event: React.MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
@@ -54,9 +54,16 @@ const Header: React.FC = () => {
                         <li>
                             <Link href="/">{t("header.links.home")}</Link>
                         </li>
-                        <li>
-                            <Link href="/chats">{t("header.links.chats")}</Link>
-                        </li>
+                        {!diddyfan ? (<> </>) :
+                            (<>
+                                <li>
+                                    <Link href="/chats">{t("header.links.chats")}</Link>
+                                </li>
+                                <li>
+                                    <Link href="/friends">friends</Link>
+                                </li>
+                            </>
+                            )}
                         <li>
                             {!diddyfan ? (
                                 <Link href="/login">

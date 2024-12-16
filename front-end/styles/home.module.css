@@ -121,6 +121,32 @@
     transition: 0.5s ease;
 }
 
+.FriendRequestContainer {
+    display: flex;
+    flex-direction:column;
+    border:solid;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.FriendRequestContainer section {
+}
+.FriendRequestContainerButtons {
+    display: flex;
+    justify-content:space-between;
+}
+
+.FriendRequestContainerButtons button{
+    background:#c9c6c5;
+    width: 20%;
+}
+.FriendRequestContainerButtons button:hover{
+    background:#fff;
+    width: 20%;
+}
+
 .inputContainer input:focus~label,
 .inputContainer input:valid~label {
     top: 1px;
@@ -220,6 +246,17 @@
     width: 50px;
     height: 50px;
 }
+.editChatroomContainer {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    position: absolute;
+    width: 90%;
+    height: 60%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+}
 
 .createChatroomContainer {
     display: flex;
@@ -313,6 +350,62 @@
     margin: 1rem;
     font-weight: 700;
 }
+.FriendsOverviewTable {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: var(--bs-table-color);
+    vertical-align: top;
+    border-collapse: collapse;
+    border-color: var(--bs-table-border-color);
+}
+
+.FriendsOverviewTable > thead {
+    vertical-align: bottom;
+}
+
+.FriendsOverviewTable > thead > tr {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+}
+
+.FriendsOverviewTable > tbody {
+    display: grid;
+    justify-items:start;
+    justify-content: space-between;
+    grid: auto / auto;
+}
+
+.FriendsOverviewTable > tbody > svg{
+    align-self: center;
+    width:28px;
+}
+
+.FriendsOverviewTable > tbody > tr > td > svg {
+    width: 24px;
+    height: 24px;
+}
+.FriendsOverviewTable > thead > tr > th {
+    padding: 0.5rem 0.5rem;
+    background-color: var(--bs-table-bg);
+    border-bottom-width: 1px;
+    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
+
+.FriendsOverviewTable tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+.FriendsOverviewTable th,
+.FriendsOverviewTable td {
+    padding: 0.75rem;
+    text-align: left;
+    border-top: 1px solid var(--bs-table-border-color);
+}
+
+
+
+
 
 .overviewTable {
     width: 100%;
@@ -333,6 +426,22 @@
     border-width: 0;
 }
 
+.overviewTable > tbody {
+    display: grid;
+    justify-items:start;
+    justify-content: space-between;
+    grid: auto / auto auto;
+}
+
+.overviewTable > tbody > svg{
+    align-self: center;
+    width:28px;
+}
+
+.overviewTable > tbody > tr > td > svg {
+    width: 24px;
+    height: 24px;
+}
 .overviewTable > thead > tr > th {
     padding: 0.5rem 0.5rem;
     background-color: var(--bs-table-bg);

@@ -47,7 +47,7 @@ test('given: valid values for chat, when: chat is created, then: chat is created
     expect(chat.getName()).toEqual(chatData.name);
     expect(chat.getCreatedAt()).toEqual(chatData.createdAt);
     expect(chat.getMessages()).toEqual(chatData.messages);
-    expect(chat.getUsers()).toEqual(chatData.users);
+
 });
 
 test('given: missing name, when: chat is created, then: an error is thrown', () => {
@@ -103,7 +103,6 @@ test('given: an existing chat, when: adding a message to chat, then: message is 
         name: 'Developer life',
         createdAt: set(new Date(), { year: 2023, month: 10, date: 3, hours: 10, minutes: 0 }),
         messages: [message1],
-        users: [user1, user2],
     });
     const newMessage = new Message({
         id: 2,
@@ -154,36 +153,4 @@ test('given: a chat with messages, when: getMessages is called, then: it returns
 
     // then
     expect(messages).toEqual([message1, message2]);
-});
-
-test('given: a chat with users, when: getUsers is called, then: it returns the correct users', () => {
-    // given
-    const user1 = new User({
-        id: 1,
-        username: 'yamaha46',
-        email: 'yamahalover46@gmail.com',
-        password: 'R6fan99',
-        role: 'admin'
-    });
-    const user2 = new User({
-        id: 2,
-        username: 'yamaha47',
-        email: 'yamahalover47@gmail.com',
-        password: 'R6fan100',
-        role: 'user'
-    });
-    const chatData = {
-        id: 1,
-        name: 'Chat 1',
-        createdAt: new Date('2023-11-18T10:00:00Z'),
-        messages: [],
-        users: [user1, user2],
-    };
-    const chat = new Chat(chatData);
-
-    // when
-    const users = chat.getUsers();
-
-    // then
-    expect(users).toEqual([user1, user2]);
 });
