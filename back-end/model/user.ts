@@ -13,7 +13,6 @@ export class User {
     readonly username: string;
     readonly email: string;
     readonly password: string;
-    readonly chats?: Chat[];
     readonly messages?: Message[];
     readonly role: Role;
 
@@ -22,7 +21,6 @@ export class User {
         username: string;
         email: string;
         password: string;
-        chats?: Chat[];
         messages?: Message[];
         role: Role;
     }) {
@@ -32,7 +30,6 @@ export class User {
         this.username = user.username;
         this.email = user.email;
         this.password = user.password;
-        this.chats = user.chats;
         this.messages = user.messages;
         this.role = user.role;
     }
@@ -51,10 +48,6 @@ export class User {
 
     getPassword(): string {
         return this.password;
-    }
-
-    getChats(): Chat[] | undefined {
-        return this.chats;
     }
 
     getMessages(): Message[] | undefined {
@@ -108,7 +101,6 @@ export class User {
             username,
             password,
             email,
-            chats: (chats || []).map(chat => new Chat(chat)),
             messages: (messages || []).map(message => new Message({
                 ...message,
                 messenger: new User({ id: message.userId, username: username, email: email, password: password, role: role as Role })

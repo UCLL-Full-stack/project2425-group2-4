@@ -12,14 +12,12 @@ export class Chat {
     private name: string;
     private createdAt: Date;
     private messages?: Message[];
-    private users?: User[];
 
     constructor(chat: {
         id?: number;
         name: string;
         createdAt: Date;
         messages?: Message[];
-        users?: User[];
     }) {
         this.validate(chat);
 
@@ -27,7 +25,6 @@ export class Chat {
         this.name = chat.name;
         this.createdAt = chat.createdAt;
         this.messages = chat.messages;
-        this.users = chat.users;
     }
 
     // see above
@@ -56,10 +53,6 @@ export class Chat {
         return this.messages;
     }
 
-    getUsers(): User[] | undefined {
-        return this.users;
-    }
-
     // Posting the messages within the chatroom
     addMessage(message: Message) {
         if (!this.messages) {
@@ -69,12 +62,6 @@ export class Chat {
     }
 
     equals(chat: Chat): boolean {
-        const usersEqual = (this.users?.length === chat.getUsers()?.length &&
-            this.users?.every((user, index) => {
-                const chatUser = chat.getUsers()?.[index];
-                return chatUser ? user.equals(chatUser) : false;
-            })) ?? false;
-
         const messagesEqual = (this.messages?.length === chat.getMessages()?.length &&
             this.messages?.every((message, index) => {
                 const chatMessage = chat.getMessages()?.[index];
@@ -88,7 +75,7 @@ export class Chat {
             this.id === chat.getId() &&
             this.name == chat.getName() &&
             this.createdAt === chat.getCreatedAt() &&
-            usersEqual && messagesEqual
+            messagesEqual
         );
     }
 
@@ -103,7 +90,6 @@ export class Chat {
         // console.log('Messages:', messages);
         return new Chat({
             id,
-            users: (users || []).map((user) => User.from(user)),
             name,
             createdAt,
             messages: (messages || []).map(message => {

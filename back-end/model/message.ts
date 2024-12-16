@@ -55,7 +55,6 @@ export class Message {
     equals(message: Message): boolean {
         return (
             this.text === message.getText() &&
-            // this.userId === message.getUserId() &&
             this.timestamp === message.getTimestamp() &&
             this.messenger === message.getMessenger()
         );
