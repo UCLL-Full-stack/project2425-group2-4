@@ -69,8 +69,8 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
+ *              type: array
+ *              items:
  *                  $ref: '#/components/schemas/User'
  */
 userRouter.get('/friends', async (req: Request, res: Response, next: NextFunction) => {
@@ -90,16 +90,16 @@ userRouter.get('/friends', async (req: Request, res: Response, next: NextFunctio
  *   get:
  *   security:
  *   - bearerAuth: []
- *     summary: Get a list of all friends
+ *     summary: Get a list of all friendrequests
  *     responses:
  *       200:
- *         description: A list of friends.
+ *         description: A list of friendrequests.
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                  $ref: '#/components/schemas/User'
+ *                  $ref: '#/components/schemas/Friendrequest'
  */
 userRouter.get('/friendrequests', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -115,20 +115,31 @@ userRouter.get('/friendrequests', async (req: Request, res: Response, next: Next
 
 /**
  * @swagger
- * /user/friends:
- *   get:
+ * /user/friendrequests:
+ *   post:
  *   security:
  *   - bearerAuth: []
  *     summary: Accept or decline a friendrequest.
+ *     requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          id:
+ *                              type: int
+ *                              example: 1
+ *                          accepted:
+ *                              type: bool
+ *                              example: true
  *     responses:
  *       200:
  *         description: Friendrequest.
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                  $ref: '#/components/schemas/User'
+ *               type: string
  */
 userRouter.post('/friendrequests', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -148,7 +159,17 @@ userRouter.post('/friendrequests', async (req: Request, res: Response, next: Nex
  *   post:
  *   security:
  *   - bearerAuth: []
- *     summary:send a new friendrequest
+ *     summary: Send a new friendrequest
+ *     requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          friendUsername:
+ *                              type: string
+ *                              example: john_doe
  *     responses:
  *       200:
  *         description: new friendrequest.

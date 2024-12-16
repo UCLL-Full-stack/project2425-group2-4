@@ -97,8 +97,7 @@ const handleFriendRequest = async (username: string, id: number, accepted: boole
     if (!receiver.id) { throw new Error('User does not exist.'); }
     return usersDb.handleFriendRequest({ id, receiver, accepted });
 }
-const showFriendRequests = async (username: string): Promise<FriendRequest[]> => {
-
+const showFriendRequests = async (username: string): Promise<{ id: number, sender: UserInput }[]> => {
     const user = await getUserByUsername({ username });
     if (!user.id) { throw new Error('User does not exist.'); }
     return await usersDb.showFriendRequests({ id: user.id });
