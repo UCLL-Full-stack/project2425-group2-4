@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from '@styles/home.module.css';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { User } from "@types";
 

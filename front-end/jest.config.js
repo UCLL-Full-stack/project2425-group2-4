@@ -1,13 +1,12 @@
 module.exports = {
   testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   transform: {
-    '\\.[jt]sx?$': 'esbuild-jest',  // Make sure esbuild-jest is used for JS/TS/TSX files
+    '\\.[jt]sx?$': 'esbuild-jest',
   },
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {
-    '^@components/(.*)$': '<rootDir>/components/$1',
-    '^@services/(.*)$': '<rootDir>/services/$1',
-    '^@types/(.*)$': '<rootDir>/types/$1',
-    '^@styles/(.*)$': '<rootDir>/styles/$1',
+    '^@styles/(.*)$': 'identity-obj-proxy', // Mock CSS modules
+    '^@services/(.*)$': '<rootDir>/services/$1', // Alias for services
+    '^@types$': '<rootDir>/types', // Alias for types
   },
 };
