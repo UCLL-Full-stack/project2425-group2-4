@@ -22,6 +22,13 @@
  *            password:
  *              type: number
  *              description: User's password.
+ *      AuthenticationResponse:
+ *          type: object
+ *          properties:
+ *            token:
+ *              type: string
+ *            user:
+ *              $ref: '#/components/schemas/User'
  */
 import express, { Request, Response, NextFunction } from 'express';
 import userService from '../service/user.service';

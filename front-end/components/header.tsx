@@ -83,8 +83,9 @@ const Header: React.FC = () => {
                                 </>
                             )}
                         </li>
+                        <Language />
                     </ul>
-                    <Language />
+                    
                 </div>
             </nav>
         </header>
