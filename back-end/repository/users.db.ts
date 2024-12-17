@@ -1,5 +1,6 @@
 import { User } from "../model/user";
-import { FriendRequest, User as UserPrisma } from '@prisma/client';
+import { FriendRequest } from "../model/friendrequest";
+import { FriendRequestInput, Status } from "../types";
 import database from './database';
 import { UserInput } from "../types";
 import { assert } from "console";
@@ -50,23 +51,6 @@ const getAllUsers = async (): Promise<User[]> => {
     }
 };
 
-// const checkUserExistsByUsername = async ({ username }: { username: string }): Promise<Boolean> => {
-//     try {
-//         const userPrisma = await database.user.findUnique({
-//             where: { username }
-//         });
-//         if (!userPrisma) return false;
-//         return true;
-
-//     } catch (error) {
-//         console.error(error);
-//         throw new Error('An error occured trying to fetch username: users.db::getUserByUsername');
-//     }
-
-
-//     return true;
-// }
-
 const getUserByUsername = async ({ username }: { username: string }): Promise<User | null> => {
     try {
         const userPrisma = await database.user.findFirst({
@@ -94,7 +78,7 @@ const getUserById = async ({ id }: { id: number }): Promise<User | null> => {
 
 const getAllFriends = async ({ id }: { id: number }): Promise<User[]> => {
     try {
-        const userPrisma = await database.friends.findMany({
+        const friendsPrisma = await database.friends.findMany({
             where: {
                 users: {
                     some: {
@@ -106,36 +90,67 @@ const getAllFriends = async ({ id }: { id: number }): Promise<User[]> => {
                 users: true
             }
         });
-        if (!userPrisma) throw new Error('User not found.');
 
-
-        const friends: Array<User> = [];
-
-
-        userPrisma.forEach(async (friendship) => {
-            const friendsFromDb = friendship.users;
-            console.log(id, friendsFromDb)
-            for (let i = 0; i < friendsFromDb.length; i++) {
-                const tempFriend = User.from(friendsFromDb[i])
-                console.log(id, tempFriend)
-                console.log((tempFriend.getId() !== id), tempFriend.id, tempFriend.getId(), id)
-
-                console.log(friends)
-                if (tempFriend.getId() !== id) {
-                    friends.push(tempFriend)
-                    console.log(friends)
-                }
-            }
-        })
-        console.log(friends)
-        return friends;
+        return friendsPrisma.flatMap(friendship => 
+            friendship.users.filter(user => user.id !== id).map(user => User.from(user))
+        );
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
 };
 
-const sendFriendRequest = async ({ senderId, receipientId }: { senderId: number, receipientId: number }): Promise<FriendRequest> => {
+const showFriendRequests = async ({ id }: { id: number }): Promise<FriendRequestInput[]> => {
+    try {
+        const friendRequestsFromDB = await database.friendRequest.findMany({
+            where: {
+                receiverId: id,
+                status: 'pending'
+            },
+            include: {
+                sender: true
+            }
+        });
+
+        return friendRequestsFromDB.map(friendRequest => ({
+            id: friendRequest.id,
+            sender: { userId: friendRequest.senderId },
+            receiver: { userId: friendRequest.receiverId },
+            status: friendRequest.status as Status,
+            timestamp: friendRequest.timestamp
+        }));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
+const updateFriendRequestStatus = async (id: number, status: Status): Promise<FriendRequestInput> => {
+    const friendRequest = await database.friendRequest.update({
+        where: { id },
+        data: { status },
+        include: { sender: true, receiver: true }
+    });
+    return {
+        id: friendRequest.id,
+        sender: { userId: friendRequest.senderId },
+        receiver: { userId: friendRequest.receiverId },
+        status: friendRequest.status as Status,
+        timestamp: friendRequest.timestamp
+    };
+};
+
+const createFriendship = async (senderId: number, receiverId: number): Promise<void> => {
+    await database.friends.create({
+        data: {
+            users: {
+                connect: [{ id: senderId }, { id: receiverId }]
+            }
+        }
+    });
+};
+
+const sendFriendRequest = async ({ senderId, receiverId }: { senderId: number, receiverId: number }): Promise<FriendRequestInput> => {
     try {
         const friendRequest = await database.friendRequest.create({
             data: {
@@ -143,103 +158,28 @@ const sendFriendRequest = async ({ senderId, receipientId }: { senderId: number,
                     connect: { id: senderId }
                 },
                 receiver: {
-                    connect: { id: receipientId }
-                }
+                    connect: { id: receiverId }
+                },
+                status: 'pending',
+                timestamp: new Date()
+            },
+            include: {
+                sender: true,
+                receiver: true
             }
         });
-        return friendRequest;
+        return {
+            id: friendRequest.id,
+            sender: { userId: friendRequest.senderId },
+            receiver: { userId: friendRequest.receiverId },
+            status: friendRequest.status as Status,
+            timestamp: friendRequest.timestamp
+        };
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
 };
-
-const handleFriendRequest = async ({ id, receiver, accepted }: { id: number, receiver: User, accepted: boolean }): Promise<FriendRequest> => {
-    try {
-        const friendRequest = await database.friendRequest.findFirst({
-            where: {
-                id
-            }
-        });
-
-
-        if (!friendRequest) throw new Error('Friend request not found.');
-        if (!friendRequest.senderId) throw new Error('Sender not found')
-
-
-        const sender = await getUserById({ id: friendRequest.senderId });
-
-
-        if (friendRequest.receiverId !== receiver.id) throw new Error('Unauthorized to handle this friend request.');
-
-
-        if (accepted) {
-            const updatedFriendRequest = await database.friendRequest.update({
-                where: { id: friendRequest.id },
-                data: {
-                    accepted: true,
-                    declined: false
-                }
-            });
-            console.log(updatedFriendRequest);
-
-            await database.friends.create({
-                data: {
-                    users: {
-                        connect: [{ id: sender?.id }, { id: receiver.id }]
-                    }
-                }
-            });
-            console.log(sender);
-            return updatedFriendRequest;
-        }
-        else {
-            const updatedFriendRequest = await database.friendRequest.update({
-                where: { id: friendRequest.id },
-                data: {
-                    accepted: false,
-                    declined: true
-                }
-            });
-            return updatedFriendRequest;
-        }
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error. See server log for details.');
-    }
-}
-
-const showFriendRequests = async ({ id }: { id: number }): Promise<{ id: number, sender: UserInput }[]> => {
-    try {
-        const friendRequestsFromDB = await database.friendRequest.findMany({
-            where: {
-                receiverId: id,
-                accepted: false,
-                declined: false
-            }
-        });
-
-        const friendRequests: Array<{ id: number, sender: UserInput }> = [];
-
-        for (let i = 0; i < friendRequestsFromDB.length; i++) {
-            const senderDB = await database.user.findUnique({
-                where: {
-                    id: friendRequestsFromDB[i].senderId
-                }
-            });
-            console.log(senderDB)
-            if (!senderDB) throw new Error("Database error.")
-            const sender: User = User.from(senderDB);
-            console.log(sender)
-            friendRequests.push({ id: friendRequestsFromDB[i].id, sender });
-            console.log(friendRequests)
-        }
-        return friendRequests;
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error. See server log for details.');
-    }
-}
 
 export default {
     getAllUsers,
@@ -247,7 +187,8 @@ export default {
     getUserByUsername,
     getAllFriends,
     sendFriendRequest,
-    handleFriendRequest,
+    updateFriendRequestStatus,
+    createFriendship,
     showFriendRequests,
     createUser
 };

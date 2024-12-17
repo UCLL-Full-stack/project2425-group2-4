@@ -27,6 +27,22 @@
  *              type: array
  *              items:
  *                  $ref: '#/components/schemas/User'
+ *      ChatInput:
+ *          type: object
+ *          properties:
+ *            id:
+ *              type: number
+ *              format: int64
+ *            name:
+ *              type: string
+ *            messages:
+ *              type: array
+ *              items:
+ *                  $ref: '#/components/schemas/MessageInput'
+ *            users:
+ *              type: array
+ *              items:
+ *                  $ref: '#/components/schemas/UserInput'
  */
 import express, { NextFunction, Request, Response } from 'express';
 import chatService from '../service/chat.service';
@@ -41,6 +57,7 @@ const chatRouter = express.Router();
  *     security:
  *         - bearerAuth: []
  *     summary: Get a list of all chats.
+ *     tags: [Chat]
  *     responses:
  *       200:
  *         description: A list of chats.
@@ -70,6 +87,7 @@ chatRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  *         - bearerAuth: []
  * 
  *      summary: Get a Chat by id.
+ *      tags: [Chat]
  *      parameters:
  *          - in: path
  *            name: id

@@ -1,5 +1,7 @@
 type Role = 'admin' | 'moderator' | 'user';
 
+type Status = 'accepted' | 'declined' | 'pending';
+
 type ChatInput = {
     id?: number;
     name: string;
@@ -22,6 +24,14 @@ type UserInput = {
     role: Role;
 }
 
+type FriendRequestInput = {
+    id?: number;
+    sender: { userId: number };
+    receiver: { userId: number };
+    status: Status;
+    timestamp: Date;
+}
+
 type AuthenticationResponse = {
     token: string;
     username: string;
@@ -32,8 +42,10 @@ type AuthenticationResponse = {
 
 export {
     Role,
+    Status,
     ChatInput,
     MessageInput,
     UserInput,
+    FriendRequestInput,
     AuthenticationResponse
 }

@@ -52,6 +52,6 @@ model FriendRequest {
   senderId   Int
   receiver   User    @relation(name: "receiver", fields: [receiverId], references: [id])
   receiverId Int
-  accepted   Boolean @default(false)
-  declined   Boolean @default(false)
+  status     String
+  timestamp  DateTime @default(now())
 }

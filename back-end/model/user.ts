@@ -2,18 +2,18 @@ import {
     User as UserPrisma,
     Chat as ChatPrisma,
     Message as MessagePrisma,
+    Friends as FriendsPrisma,
 } from '@prisma/client';
 
 import { Role } from '../types';
-import { Chat } from './chat';
 import { Message } from './message';
+import { FriendRequest } from './friendrequest';
 
 export class User {
     readonly id?: number;
     readonly username: string;
     readonly email: string;
     readonly password: string;
-    readonly messages?: Message[];
     readonly role: Role;
 
     constructor(user: {
@@ -21,7 +21,6 @@ export class User {
         username: string;
         email: string;
         password: string;
-        messages?: Message[];
         role: Role;
     }) {
         this.validate(user);
@@ -30,7 +29,6 @@ export class User {
         this.username = user.username;
         this.email = user.email;
         this.password = user.password;
-        this.messages = user.messages;
         this.role = user.role;
     }
 
@@ -48,10 +46,6 @@ export class User {
 
     getPassword(): string {
         return this.password;
-    }
-
-    getMessages(): Message[] | undefined {
-        return this.messages;
     }
 
     getRole(): Role {
@@ -92,19 +86,13 @@ export class User {
         username,
         password,
         email,
-        chats,
-        messages,
         role
-    }: UserPrisma & { chats?: ChatPrisma[]; messages?: MessagePrisma[] }): User {
+    }: UserPrisma & { chats?: ChatPrisma[]; messages?: MessagePrisma[]; friends?: FriendRequest[] }): User {
         return new User({
             id,
             username,
             password,
             email,
-            messages: (messages || []).map(message => new Message({
-                ...message,
-                messenger: new User({ id: message.userId, username: username, email: email, password: password, role: role as Role })
-            })),
             role: role as Role,
         });
     }

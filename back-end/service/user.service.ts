@@ -1,23 +1,19 @@
 import usersDb from '../repository/users.db';
 import { User } from '../model/user';
+import { FriendRequest } from '../model/friendrequest';
+import { FriendRequestInput, Status } from '../types';
 import bcrypt from 'bcrypt';
 import { AuthenticationResponse, UserInput } from '../types';
 import { generateJwtToken } from '../util/jwt';
-import { FriendRequest } from '@prisma/client';
 
 //const getAllUsers = (): User[] => usersDb.getAllUsers();
 
 const getAllUsers = async (): Promise<User[]> => {
     const usersFromDB = await usersDb.getAllUsers();
-    const usersToReturn: User[] = [];
-
-    usersFromDB.forEach((user) => {
-        const userToPush: User = new User({ username: user.username, id: user.id, email: user.email, role: user.role, password: user.password })
-        usersToReturn.push(userToPush)
-    })
-
-
-    return usersToReturn;
+    if (!usersFromDB) {
+        throw new Error('No users to be found.');
+    }
+    return usersFromDB;
 };
 
 const getUserById = async (id: number): Promise<User> => {
@@ -78,32 +74,35 @@ const createUser = async ({
 };
 
 const getAllFriends = async (username: string): Promise<User[]> => {
-    const user = await getUserByUsername({ username });
-    if (!user.id) { throw new Error('User does not exist.'); }
-    return await usersDb.getAllFriends({ id: user.id });
+    const user = await usersDb.getUserByUsername({ username });
+    if (!user || !user.getId()) { throw new Error(`${username} does not exist.`); }
+    return await usersDb.getAllFriends({ id: user.getId()! });
 };
 
-const sendFriendRequest = async (username: string, friendUsername: string): Promise<FriendRequest> => {
-    const user = await getUserByUsername({ username });
-    const friend = await getUserByUsername({ username: friendUsername });
-    if (!user.id) { throw new Error('User does not exist.'); }
-    if (!friend.id) { throw new Error('Friend does not exist.'); }
-    return await usersDb.sendFriendRequest({ senderId: user.id, receipientId: friend.id })
+const showFriendRequests = async (username: string): Promise<FriendRequestInput[]> => {
+    const user = await usersDb.getUserByUsername({ username });
+    if (!user || !user.getId()) { throw new Error('User does not exist.'); }
+    return await usersDb.showFriendRequests({ id: user.getId()! });
 };
 
-
-const handleFriendRequest = async (username: string, id: number, accepted: boolean): Promise<FriendRequest> => {
-    const receiver = await getUserByUsername({ username });
-    if (!receiver.id) { throw new Error('User does not exist.'); }
-    return usersDb.handleFriendRequest({ id, receiver, accepted });
-}
-const showFriendRequests = async (username: string): Promise<{ id: number, sender: UserInput }[]> => {
-    const user = await getUserByUsername({ username });
-    if (!user.id) { throw new Error('User does not exist.'); }
-    return await usersDb.showFriendRequests({ id: user.id });
+const handleFriendRequest = async (username: string, id: number, status: Status): Promise<FriendRequestInput> => {
+    const receiver = await usersDb.getUserByUsername({ username });
+    if (!receiver || !receiver.getId()) { throw new Error('User does not exist.'); }
+    
+    const friendRequest = await usersDb.updateFriendRequestStatus(id, status);
+    if (status === 'accepted') {
+        await usersDb.createFriendship(friendRequest.sender.userId, friendRequest.receiver.userId);
+    }
+    return friendRequest;
 };
 
-
+const sendFriendRequest = async (username: string, friendUsername: string): Promise<FriendRequestInput> => {
+    const user = await usersDb.getUserByUsername({ username });
+    const friend = await usersDb.getUserByUsername({ username: friendUsername });
+    if (!user || !user.getId()) { throw new Error('User does not exist.'); }
+    if (!friend || !friend.getId()) { throw new Error('Friend does not exist.'); }
+    return await usersDb.sendFriendRequest({ senderId: user.getId()!, receiverId: friend.getId()! });
+};
 
 export default {
     getAllUsers,
