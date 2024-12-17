@@ -12,13 +12,30 @@ type Props = {
 
 const FriendRequestBox: React.FC<Props> = ({ friendrequest }) => {
     const { t } = useTranslation();
+    const [senderUsername, setSenderUsername] = useState<string>('');
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const users = await UserService.getAllUsers();
+                const sender = users.find(user => user.id === friendrequest.sender.userId);
+                if (sender) {
+                    setSenderUsername(sender.username);
+                }
+            } catch (error) {
+                console.error('Failed to fetch users', error);
+            }
+        };
+
+        fetchUsers();
+    }, [friendrequest.sender.userId]);
 
     const acceptRequest = async () => {
-        await UserService.handleFriendRequest(friendrequest, true)
+        await UserService.handleFriendRequest(friendrequest, 'accepted')
         window.location.reload();
     }
     const declineRequest = async () => {
-        await UserService.handleFriendRequest(friendrequest, false)
+        await UserService.handleFriendRequest(friendrequest, 'declined')
         window.location.reload();
     }
 
@@ -28,7 +45,7 @@ const FriendRequestBox: React.FC<Props> = ({ friendrequest }) => {
             {/* <h1 className={styles.chatroomName}>{chat.name}</h1> */}
             <div className={styles.FriendRequestContainer}>
                 <section key={friendrequest.id} className={styles.chatSection}>
-                    <p>{friendrequest.sender.username} {t("friends.component.friend-request-box.request-sender")}</p>
+                    <p>{senderUsername} {t("friends.component.friend-request-box.request-sender")}</p>
                 </section>
                 <div className={styles.FriendRequestContainerButtons}>
                     <button onClick={acceptRequest}>{t("friends.component.friend-request-box.accept-button")}</button>

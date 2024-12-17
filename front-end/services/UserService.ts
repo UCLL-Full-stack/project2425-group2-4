@@ -40,7 +40,7 @@ const sendFriendRequest = async ({ friendUsername }: { friendUsername: string })
     const body = {
         friendUsername
     }
-    await fetch(process.env.NEXT_PUBLIC_API_URL + '/user/friends', {
+    return fetch(process.env.NEXT_PUBLIC_API_URL + '/user/friends', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -50,21 +50,27 @@ const sendFriendRequest = async ({ friendUsername }: { friendUsername: string })
     })
 }
 
-const handleFriendRequest = async (friendRequest: FriendRequest, accepted: Boolean) => {
+const handleFriendRequest = async (friendRequest: FriendRequest, status: string) => {
     const token = JSON.parse(sessionStorage.getItem('diddyfan') || '{}')?.token;
     const body = {
         id: friendRequest.id,
-        accepted
-    }
-    await fetch(process.env.NEXT_PUBLIC_API_URL + '/user/friendrequests', {
+        status: status
+    };
+    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + '/user/friendrequests', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(body)
-    })
-}
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to handle friend request');
+    }
+
+    return response.json();
+};
 
 const getAllFriends = async (): Promise<User[]> => {
     const token = JSON.parse(sessionStorage.getItem('diddyfan') || '{}')?.token;

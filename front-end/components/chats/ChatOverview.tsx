@@ -1,28 +1,3 @@
-// import { Chat } from '@types';
-// import React from 'react';
-// import styles from '@styles/home.module.css';
-
-// type Props = {
-//     chats: Chat[];
-// };
-
-// const ChatOverviewData: React.FC<Props> = ({ chats }) => {
-//     return (
-//         <div className={styles.chatRoomContainer}>
-//             {chats.map((chat, index) => (
-//                 <section key={index} className={styles.chatSection}>
-//                     <h2 className={styles.userName}>
-//                         {chats.find((u) => u.id === chat.id)?.id}
-//                     </h2>
-//                     <h2 className={styles.dateTime}>{new Date(chat.createdAt).toLocaleString()}</h2>
-//                 </section>
-//             ))}
-//         </div>
-//     );
-// };
-
-// export default ChatOverviewData;
-
 import React, { useState, useEffect } from 'react';
 import { Chat, User } from '@types';
 import styles from '@styles/home.module.css';

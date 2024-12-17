@@ -18,7 +18,10 @@ export type Message = {
 
 export type FriendRequest = {
     id: number;
-    sender: User;
+    sender: { userId: number };
+    receiver: { userId: number };
+    status?: string;
+    timestamp: Date;
 };
 
 export type Chat = {
