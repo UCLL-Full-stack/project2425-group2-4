@@ -1,18 +1,12 @@
-const { compilerOptions } = require('./tsconfig.json');
-
 module.exports = {
-  testEnvironment: 'jest-environment-jsdom',
-  setupFilesAfterEnv: ['@testing-library/jest-dom'],
-  moduleNameMapper: {
-    '^@services/(.*)$': '<rootDir>/services/$1',
-    '^@components/(.*)$': '<rootDir>/components/$1',
-    '^@styles/(.*)$': '<rootDir>/styles/$1',
-    '\\.(css|less|scss|sss|styl)$': 'identity-obj-proxy',
-  },
+  testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
+    '\\.[jt]sx?$': 'esbuild-jest',
   },
-  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
+  moduleNameMapper: {
+    '^@styles/(.*)$': 'identity-obj-proxy', // Mock CSS modules
+    '^@services/(.*)$': '<rootDir>/services/$1', // Alias for services
+    '^@types$': '<rootDir>/types', // Alias for types
+  },
 };
-
-

@@ -1,49 +1,102 @@
-import React from 'react';
+import * as React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import FriendRequestBox from '@components/friends/FriendRequestBox';
+import '@testing-library/jest-dom';
+import FriendRequestBox from '../components/friends/FriendRequestBox'; // Adjust path as necessary
 import UserService from '@services/UserService';
-import { FriendRequest, User } from '@types';
+import { User } from '@types';
+import { useTranslation } from 'next-i18next';
 
-// Mock UserService
+// Mocking UserService and useTranslation
 jest.mock('@services/UserService', () => ({
     handleFriendRequest: jest.fn(),
 }));
+jest.mock('next-i18next', () => ({
+    useTranslation: jest.fn(() => ({
+        t: (key: string) => key, // Mock translation function
+    })),
+}));
 
-describe('FriendRequestBox', () => {
-    const friendRequest: FriendRequest = {
-        id: 1,
-        sender: { id: 1, username: 'senderUser' },
-    };
+describe('FriendRequestBox Component', () => {
+    const mockFriendRequest = {
+        id: 123,
+        sender: { id: 456, username: "TestUser" },
+    }
 
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
-    it('renders the friend request box with sender username', () => {
-        render(<FriendRequestBox friendrequest={friendRequest} />);
+    test('renders the friend request details', () => {
+        render(<FriendRequestBox friendrequest={mockFriendRequest} />);
 
-        expect(screen.getByText('senderUser friends.component.friend-request-box.request-sender')).toBeInTheDocument();
+        // Assert that sender's username and static text are rendered
+        expect(screen.getByText('TestUser friends.component.friend-request-box.request-sender')).toBeInTheDocument();
+
+        // Assert that buttons are rendered
         expect(screen.getByText('friends.component.friend-request-box.accept-button')).toBeInTheDocument();
         expect(screen.getByText('friends.component.friend-request-box.decline-button')).toBeInTheDocument();
     });
 
-    it('calls handleFriendRequest with accept when accept button is clicked', async () => {
-        render(<FriendRequestBox friendrequest={friendRequest} />);
+    test('calls acceptRequest when the accept button is clicked', async () => {
+        render(<FriendRequestBox friendrequest={mockFriendRequest} />);
 
-        fireEvent.click(screen.getByText('friends.component.friend-request-box.accept-button'));
+        const acceptButton = screen.getByText('friends.component.friend-request-box.accept-button');
+        fireEvent.click(acceptButton);
 
+        // Wait for the handleFriendRequest to be called
         await waitFor(() => {
-            expect(UserService.handleFriendRequest).toHaveBeenCalledWith(friendRequest, true);
+            expect(UserService.handleFriendRequest).toHaveBeenCalledWith(mockFriendRequest, true);
         });
     });
 
-    it('calls handleFriendRequest with decline when decline button is clicked', async () => {
-        render(<FriendRequestBox friendrequest={friendRequest} />);
+    test('calls declineRequest when the decline button is clicked', async () => {
+        render(<FriendRequestBox friendrequest={mockFriendRequest} />);
 
-        fireEvent.click(screen.getByText('friends.component.friend-request-box.decline-button'));
+        const declineButton = screen.getByText('friends.component.friend-request-box.decline-button');
+        fireEvent.click(declineButton);
 
+        // Wait for the handleFriendRequest to be called
         await waitFor(() => {
-            expect(UserService.handleFriendRequest).toHaveBeenCalledWith(friendRequest, false);
+            expect(UserService.handleFriendRequest).toHaveBeenCalledWith(mockFriendRequest, false);
+        });
+    });
+
+    test('reloads the page after accepting a friend request', async () => {
+        // Mock `window.location.reload`
+        const reloadMock = jest.fn();
+        Object.defineProperty(window, 'location', {
+            value: { reload: reloadMock },
+            writable: true,
+        });
+
+        render(<FriendRequestBox friendrequest={mockFriendRequest} />);
+
+        const acceptButton = screen.getByText('friends.component.friend-request-box.accept-button');
+        fireEvent.click(acceptButton);
+
+        // Wait for the page to reload
+        await waitFor(() => {
+            expect(reloadMock).toHaveBeenCalled();
+        });
+    });
+
+    test('reloads the page after declining a friend request', async () => {
+        // Mock `window.location.reload`
+        const reloadMock = jest.fn();
+        Object.defineProperty(window, 'location', {
+            value: { reload: reloadMock },
+            writable: true,
+        });
+
+        render(<FriendRequestBox friendrequest={mockFriendRequest} />);
+
+        const declineButton = screen.getByText('friends.component.friend-request-box.decline-button');
+        fireEvent.click(declineButton);
+
+        // Wait for the page to reload
+        await waitFor(() => {
+            expect(reloadMock).toHaveBeenCalled();
         });
     });
 });
+
