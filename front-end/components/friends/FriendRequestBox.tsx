@@ -13,12 +13,13 @@ type Props = {
 const FriendRequestBox: React.FC<Props> = ({ friendrequest }) => {
     const { t } = useTranslation();
     const [senderUsername, setSenderUsername] = useState<string>('');
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
                 const users = await UserService.getAllUsers();
-                const sender = users.find(user => user.id === friendrequest.sender.userId);
+                const sender = users.find(user => user.id === friendrequest.sender.id);
                 if (sender) {
                     setSenderUsername(sender.username);
                 }
@@ -28,11 +29,16 @@ const FriendRequestBox: React.FC<Props> = ({ friendrequest }) => {
         };
 
         fetchUsers();
-    }, [friendrequest.sender.userId]);
+    }, [friendrequest.sender.id]);
 
     const acceptRequest = async () => {
-        await UserService.handleFriendRequest(friendrequest, 'accepted')
-        window.location.reload();
+        try {
+            await UserService.handleFriendRequest(friendrequest, 'accepted')
+            window.location.reload();
+        } catch (e) {
+            setError(t("friends.component.friend-request-box.error-message"));
+        }
+
     }
     const declineRequest = async () => {
         await UserService.handleFriendRequest(friendrequest, 'declined')
@@ -44,6 +50,7 @@ const FriendRequestBox: React.FC<Props> = ({ friendrequest }) => {
         <>
             {/* <h1 className={styles.chatroomName}>{chat.name}</h1> */}
             <div className={styles.FriendRequestContainer}>
+                {error && <p className={styles.errorMessage}>{error}</p>}
                 <section key={friendrequest.id} className={styles.chatSection}>
                     <p>{senderUsername} {t("friends.component.friend-request-box.request-sender")}</p>
                 </section>

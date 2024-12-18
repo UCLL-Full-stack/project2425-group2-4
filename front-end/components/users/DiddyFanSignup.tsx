@@ -22,7 +22,7 @@ const DiddyFanSignup: React.FC = () => {
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
 
-    const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
+    const [statusMessage, setStatusMessage] = useState<StatusMessage>();
     // makes a list grouping up status messages, straight forward ex dee
 
     const { t } = useTranslation();
@@ -33,7 +33,7 @@ const DiddyFanSignup: React.FC = () => {
         setEmailError('');
         //setNameError(null); is wrong???? WTF???????????????
         // ??????????????????????????????
-        setStatusMessages([]);
+        setStatusMessage({ type: 'success', message: '' })
     };
 
     const checkPassword = (passwordToCheck: string) => {
@@ -96,16 +96,35 @@ const DiddyFanSignup: React.FC = () => {
             // sessionStorage.setItem('diddyfan', user.username);
             // if (user.id) sessionStorage.setItem('diddyid', user.id.toString());
             // if (user.token) sessionStorage.setItem('diddytoken', user.token);
-            setStatusMessages([
+
+            if (response.status !== 200) {
+                setStatusMessage(
+                    { type: 'error', message: t('signup.component.validation.diddy.signup.error') },
+                );
+                return;
+            }
+            const data = await response.json();
+
+            sessionStorage.setItem(
+                'diddyfan',
+                JSON.stringify({
+                    token: data.token,
+                    username: data.username,
+                    role: data.role,
+                })
+            );
+
+            setStatusMessage(
                 { type: 'success', message: t('signup.component.validation.diddy.signup.success') },
-            ]);
+            );
+
             setTimeout(() => {
                 router.push('/');
             }, 2500);
         } catch (e) {
-            setStatusMessages([
+            setStatusMessage(
                 { type: 'error', message: t('signup.component.validation.diddy.signup.error') },
-            ]);
+            );
             console.log(e);
             return e;
         }
@@ -115,10 +134,17 @@ const DiddyFanSignup: React.FC = () => {
         <>
             <h3 className={styles.loginHeader}>{t('signup.component.header')}</h3>
             {/* className= */}
-            {statusMessages && (
-                <div>
-                    <ul></ul>
-                </div>
+            {statusMessage?.type === 'success' ? (
+                <p>{statusMessage.message}</p>
+
+            ) : statusMessage?.type === 'error' ? (
+                <p
+                    className={styles.errorMessage}
+                >
+                    {statusMessage.message}
+                </p>
+            ) : !statusMessage && (
+                null
             )}
             <form className={styles.loginContainer} onSubmit={handleSubmission}>
                 <div className={styles.inputContainer}>
@@ -128,7 +154,7 @@ const DiddyFanSignup: React.FC = () => {
                         value={email}
                         required
                         onChange={(event) => setEmail(event.target.value)}
-                        //className=
+                    //className=
                     />
                     <label className={styles.usernameLabel} htmlFor="nameInput">
                         {t('signup.component.labels.email')}
@@ -142,7 +168,7 @@ const DiddyFanSignup: React.FC = () => {
                         required
                         onChange={(event) => setName(event.target.value)}
                         className={styles.usernameInput}
-                        //className=
+                    //className=
                     />
                     {nameError && <p className={styles.errorMessage}>{nameError}</p>}
                     <label className={styles.usernameLabel} htmlFor="nameInput">

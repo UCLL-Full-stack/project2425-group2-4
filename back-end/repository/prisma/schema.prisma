@@ -47,10 +47,10 @@ model Friends {
 }
 
 model FriendRequest {
-  id         Int     @id @default(autoincrement())
-  sender     User    @relation(name: "sender", fields: [senderId], references: [id])
+  id         Int      @id @default(autoincrement())
+  sender     User     @relation(name: "sender", fields: [senderId], references: [id])
   senderId   Int
-  receiver   User    @relation(name: "receiver", fields: [receiverId], references: [id])
+  receiver   User     @relation(name: "receiver", fields: [receiverId], references: [id])
   receiverId Int
   status     String
   timestamp  DateTime @default(now())

@@ -16,6 +16,7 @@ type Props = {
 const EditChatroom: React.FC<Props> = ({ chatId }: Props) => {
 
     const [chatroomName, setChatroomName] = useState<string>("");
+    const [error, setError] = useState<string | null>(null);
     const { t } = useTranslation();
 
     useEffect(() => {
@@ -41,14 +42,20 @@ const EditChatroom: React.FC<Props> = ({ chatId }: Props) => {
         if (!validate()) {
             return;
         }
+        try {
+            ChatService.updateChatroom({ id: chatId, name: chatroomName })
+        } catch (e) {
+            setError(t("chats-components.createChatroom.error"));
+        }
 
-        ChatService.updateChatroom({ id: chatId, name: chatroomName })
+
     }
 
 
     return (
         <>
             <form className={styles.createChatroomForm} onSubmit={handleSubmission}>
+                {error && <p className={styles.errorMessage}>{error}</p>}
                 <div className={styles.createChatroomFormNameContainer}>
                     <input
                         id='ChatroomName'

@@ -21,6 +21,7 @@ type props = {};
 const CreateFriendRequest: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [query, setQuery] = useState<string>('');
+    const [error, setError] = useState<string | null>(null);
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
     const { t } = useTranslation();
@@ -56,18 +57,24 @@ const CreateFriendRequest: React.FC = () => {
         query === ''
             ? users
             : users.filter((user) => {
-                  return user.username.toLowerCase().includes(query.toLowerCase());
-              });
+                return user.username.toLowerCase().includes(query.toLowerCase());
+            });
 
     const handleSubmission = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         if (selectedUser === undefined || selectedUser === null) {
+            setError(t('friends.component.create-friend-request.error'));
             return;
         }
 
         if (selectedUser) {
-            await UserService.sendFriendRequest({ friendUsername: selectedUser.username });
+            try {
+                await UserService.sendFriendRequest({ friendUsername: selectedUser.username });
+            } catch (e) {
+                setError(t('friends.component.create-friend-request.error'));
+                return e;
+            }
         }
         window.location.reload();
     };
@@ -75,6 +82,7 @@ const CreateFriendRequest: React.FC = () => {
     return (
         <>
             <form className={styles.createChatroomForm} onSubmit={handleSubmission}>
+                {error && <p className={styles.errorMessage}>{error}</p>}
                 <div className={styles.createChatroomFormUsersContainer}>
                     <Combobox value={selectedUser} onChange={setSelectedUser}>
                         <ComboboxInput

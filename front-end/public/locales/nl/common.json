@@ -26,6 +26,7 @@
             "chatName": "Chatnaam"
         },
         "createChatroom": {
+            "error": "Gefaald om chatroom aan te maken",
             "label": {
                 "chatroomName": "Chatroomnaam",
                 "users": "Gebruikers"
@@ -33,6 +34,7 @@
             "button": "Chatroom aanmaken"
         },
         "editChatroom": {
+            "error": "Kan chatroom niet bewerken",
             "chatroom-name": "Chatnaam",
             "chatroom-edit": "Chat Aanpassen"
         },
@@ -63,11 +65,13 @@
     "friends": {
         "component": {
             "friend-request-box": {
+                "error-message": "Fout bij het laden van vriendverzoeken",
                 "request-sender": "wil je toevoegen als vriend",
                 "accept-button": "Accepteren",
                 "decline-button": "Weigeren"
             },
             "create-friend-request": {
+                "error": "Geen vriendschapsverzoek verzonden",
                 "label-users": "Gebruikers",
                 "button": "Vriendschapsverzoek Verzenden"
             }

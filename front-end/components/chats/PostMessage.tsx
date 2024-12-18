@@ -16,7 +16,7 @@ const PostMessage: React.FC<Props> = ({ chatId, className, onMessagePosted }) =>
     const [error, setError] = useState<string | null>(null);
     const [diddyFan, setDiddyFan] = useState<User | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false); // This prevents deduplicate calls with the state
-    
+
     const { t } = useTranslation();
 
     useEffect(() => {
@@ -39,18 +39,18 @@ const PostMessage: React.FC<Props> = ({ chatId, className, onMessagePosted }) =>
         if (e.key === 'Enter') {
             if (isSubmitting) return; // Prevent duplicate submissions by turning on the state
             setIsSubmitting(true);
-    
+
             try {
                 e.preventDefault(); // It's most definitely thanks to this.
                 if (!validate()) return;
-    
+
                 const newMessage: Message = {
                     text,
                     messenger: { username: diddyFan?.username || '' },
                     timestamp: new Date(),
                     chatId: Number(chatId),
                 };
-    
+
                 await MessageService.postMessage(chatId, newMessage);
                 setText('');
             } catch (err) {
@@ -71,7 +71,7 @@ const PostMessage: React.FC<Props> = ({ chatId, className, onMessagePosted }) =>
                 placeholder={t("chats-components.postMessage.placeholder")}
                 className={className}
             />
-            {error && <p>{error}</p>}
+            {error && <p className={styles.errorMessage}>{error}</p>}
         </div>
     );
 };

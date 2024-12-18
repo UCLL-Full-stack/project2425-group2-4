@@ -26,6 +26,7 @@
             "chatName": "Nom de la Discussion"
         },
         "createChatroom": {
+            "error": "Échec de la création de la discussion",
             "label": {
                 "chatroomName": "Nom de la Discussion",
                 "users": "Utilisateurs"
@@ -33,6 +34,7 @@
             "button": "Créer Chatroom"
         },
         "editChatroom": {
+            "error": "Échec de la modification de la discussion",
             "chatroom-name": "Nom de la discussion",
             "chatroom-edit": "Modification de la discussion"
         },
@@ -63,11 +65,13 @@
     "friends": {
         "component": {
             "friend-request-box": {
+                "error-message": "Erreur de chargement des demandes d'amis",
                 "request-sender": "voudrait vous ajouter comme ami",
                 "accept-button": "Accepter",
                 "decline-button": "Refuser"
             },
             "create-friend-request": {
+                "error": "Échec de l'envoi de la demande d'amitié",
                 "label-users": "Utilisateurs",
                 "button": "Envoyer une demande d'ami"
             }

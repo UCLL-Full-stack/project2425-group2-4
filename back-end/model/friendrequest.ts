@@ -32,7 +32,7 @@ export class FriendRequest {
         this.timestamp = friendRequest.timestamp;
     }
 
-    validate(friendRequest: { sender: User; receiver: User; timestamp:Date }) {
+    validate(friendRequest: { sender: User; receiver: User; timestamp: Date }) {
         if (!friendRequest.sender) {
             throw new Error('Friend request requires a sender.')
         }
@@ -43,7 +43,7 @@ export class FriendRequest {
             throw new Error('Timestamp of the friend request is invalid');
         }
     }
-    
+
     equals(friendRequest: FriendRequest): boolean {
         return (this.id == friendRequest.id &&
             this.sender == friendRequest.sender &&

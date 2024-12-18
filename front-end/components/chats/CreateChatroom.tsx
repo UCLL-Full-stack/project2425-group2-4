@@ -69,6 +69,7 @@ const CreateChatroom: React.FC = () => {
     return (
         <>
             <form className={styles.createChatroomForm} onSubmit={handleSubmission}>
+                {error && <p className={styles.errorMessage}>{error}</p>}
                 <div className={styles.createChatroomFormNameContainer}>
                     <input
                         id="ChatroomName"

@@ -38,6 +38,7 @@
         },
 
         "createChatroom": {
+            "error": "Failed to create chatroom",
             "label": {
                 "chatroomName": "Chatroom Name",
                 "users": "Users"
@@ -46,6 +47,7 @@
         },
 
         "editChatroom": {
+            "error": "Failed to edit chatroom",
             "chatroom-name": "Chatroom Name",
             "chatroom-edit": "Edit Chatroom"
         },
@@ -91,11 +93,13 @@
     "friends": {
         "component": {
             "friend-request-box": {
+                "error-message": "Error loading friend requests",
                 "request-sender": "would like to diddy you up",
                 "accept-button": "Accept",
                 "decline-button": "Decline"
             },
             "create-friend-request": {
+                "error": "Failed to send friend request",
                 "label-users": "Users",
                 "button": "Send friend request"
             }

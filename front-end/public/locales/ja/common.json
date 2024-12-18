@@ -26,6 +26,7 @@
             "chatName": "チャット名"
         },
         "createChatroom": {
+            "error": "チャットルームの作成に失敗しました",
             "label": {
                 "chatroomName": "チャットルーム名",
                 "users": "ユーザー"
@@ -33,6 +34,7 @@
             "button": "チャットルームを作成"
         },
         "editChatroom": {
+            "error": "チャットルームの編集に失敗しました",
             "chatroom-name": "チャットルーム名",
             "chatroom-edit": "チャットルームを編集"
         },
@@ -64,11 +66,13 @@
     "friends": {
         "component": {
             "friend-request-box": {
+                "error-message": "友達リクエストの読み込みエラー",
                 "request-sender": "あなたを友達に追加したい",
                 "accept-button": "承認",
                 "decline-button": "拒否"
             },
             "create-friend-request": {
+                "error": "友達リクエストの送信に失敗しました",
                 "label-users": "ユーザー",
                 "button": "友達リクエストを送信"
             }

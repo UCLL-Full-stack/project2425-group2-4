@@ -15,7 +15,7 @@ const DiddyFanLogin: React.FC = () => {
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState<string | null>(null);
 
-    const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
+    const [statusMessage, setStatusMessage] = useState<StatusMessage>();
 
     const router = useRouter();
     const { locale } = router; // necessary for translated links
@@ -27,7 +27,7 @@ const DiddyFanLogin: React.FC = () => {
         setPasswordError('');
         //setNameError(null); is wrong???? WTF???????????????
         // ??????????????????????????????
-        setStatusMessages([]);
+        setStatusMessage(undefined)
     };
 
     const validate = (): boolean => {
@@ -67,7 +67,6 @@ const DiddyFanLogin: React.FC = () => {
                     'diddyfan',
                     JSON.stringify({
                         token: user.token,
-                        fullname: user.fullname,
                         username: user.username,
                         role: user.role,
                     })
@@ -76,35 +75,47 @@ const DiddyFanLogin: React.FC = () => {
                 // sessionStorage.setItem('diddyfan', user.username);
                 // sessionStorage.setItem('diddyId', user.id);
                 // sessionStorage.setItem('token', user.token);
-                setStatusMessages([
+                setStatusMessage(
                     {
                         type: 'success',
                         message: t('login.component.validation.diddy.login.success'),
                     },
-                ]);
+                );
                 setTimeout(() => {
                     router.push('/');
                 }, 2500);
-            } else if (response.status === 401) {
-                setStatusMessages([
+            } else {
+                setStatusMessage(
                     { type: 'error', message: t('login.component.validation.diddy.login.fail') },
-                ]);
+                );
             }
         } catch (e) {
             console.log(e);
-            setStatusMessages([
+            setStatusMessage(
                 {
                     type: 'error',
                     message: t('login.component.validation.diddy.login.error'),
                 },
-            ]);
+            );
         }
     };
 
     return (
         <>
             <h3 className={styles.loginHeader}>{t('login.component.header')}</h3>
-            <form className={styles.loginContainer} onSubmit={handleSubmission}>
+            {statusMessage?.type === 'success' ? (
+                <p>{statusMessage.message}</p>
+
+            ) : statusMessage?.type === 'error' ? (
+                <p
+                    className={styles.errorMessage}
+                >
+                    {statusMessage.message}
+                </p>
+            ) : !statusMessage && (
+                null
+            )}
+            < form className={styles.loginContainer} onSubmit={handleSubmission}>
                 <div className={styles.inputContainer}>
                     <input
                         id="nameInput"
@@ -113,7 +124,7 @@ const DiddyFanLogin: React.FC = () => {
                         required
                         onChange={(event) => setName(event.target.value)}
                         className={styles.usernameInput}
-                        //className=
+                    //className=
                     />
                     {nameError && <p className={styles.errorMessage}>{nameError}</p>}
                     <label className={styles.usernameLabel} htmlFor="nameInput">
@@ -138,7 +149,6 @@ const DiddyFanLogin: React.FC = () => {
                 <button className={styles.submitButton} type="submit">
                     {t('login.component.button')}
                 </button>
-
                 <div className={styles.signupLinkContainer}>
                     <Link href="/signup" locale={locale}>
                         {t('login.component.signup-link')}
