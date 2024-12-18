@@ -19,7 +19,9 @@ jest.mock('next-i18next', () => ({
 describe('FriendRequestBox Component', () => {
     const mockFriendRequest = {
         id: 123,
-        sender: { id: 456, username: 'TestUser' },
+        sender: { userId: 456, username: 'TestUser' },
+        receiver: { userId: 789, username: 'ReceiverUser' }, // Add receiver property
+        timestamp: new Date(), // Add timestamp property
     };
 
     beforeEach(() => {
@@ -31,7 +33,7 @@ describe('FriendRequestBox Component', () => {
 
         // Assert that sender's username and static text are rendered
         expect(
-            screen.getByText('TestUser friends.component.friend-request-box.request-sender')
+            screen.getByText('friends.component.friend-request-box.request-sender')
         ).toBeInTheDocument();
 
         // Assert that buttons are rendered
@@ -51,7 +53,7 @@ describe('FriendRequestBox Component', () => {
 
         // Wait for the handleFriendRequest to be called
         await waitFor(() => {
-            expect(UserService.handleFriendRequest).toHaveBeenCalledWith(mockFriendRequest, true);
+            expect(UserService.handleFriendRequest).toHaveBeenCalledWith(mockFriendRequest, 'accepted');
         });
     });
 
@@ -65,7 +67,10 @@ describe('FriendRequestBox Component', () => {
 
         // Wait for the handleFriendRequest to be called
         await waitFor(() => {
-            expect(UserService.handleFriendRequest).toHaveBeenCalledWith(mockFriendRequest, false);
+            expect(UserService.handleFriendRequest).toHaveBeenCalledWith(
+                mockFriendRequest,
+                'declined'
+            );
         });
     });
 
