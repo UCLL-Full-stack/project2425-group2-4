@@ -57,23 +57,22 @@ const getChatById = async ({
 };
 
 const createChat = async ({ name, users: userInputs = [] }: ChatInput): Promise<Chat> => {
-    console.log(userInputs);
+    //console.log(userInputs);
     const users = await Promise.all(userInputs.map(async userInput => {
-        if (userInput.username === undefined) {
-            console.log('Username is undefined');
-            throw new Error('Username id is undefined');
-        }
         const user = await usersDb.getUserByUsername({ username: userInput.username })
-        if (!user) throw new Error(`User with username ${userInput.username} not found`);
+        if (!user) {
+            throw new Error(`User with username ${userInput.username} not found`);
+        };
         return user;
     }));
 
-    console.log(users);
+    //console.log(users);
 
     const messages = new Array<MessageInput>();
 
     return await chatDb.createChat({ name: name, users: users, messages: messages });
 };
+
 const updateChat = async ({ name, id }: ChatInput): Promise<Chat> => {
 
     return await chatDb.updateChatname({ name: name, id });
