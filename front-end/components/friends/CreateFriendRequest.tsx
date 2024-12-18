@@ -50,7 +50,7 @@ const CreateFriendRequest: React.FC = () => {
             }
             if (!exists) usersToPush.push(allUsers[i]);
         }
-        setUsers(allFriends);
+        setUsers(usersToPush);
     };
 
     const filteredUsers =

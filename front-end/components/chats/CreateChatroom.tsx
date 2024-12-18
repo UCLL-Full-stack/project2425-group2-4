@@ -83,7 +83,7 @@ const CreateChatroom: React.FC = () => {
                     </label>
                 </div>
                 <div className={styles.createChatroomFormUsersContainer}>
-                    <Combobox value={selectedUser} onChange={setSelectedUser}>
+                    <Combobox value={selectedUser} onChange={(value) => setSelectedUser(value ?? undefined)}>
                         <ComboboxInput
                             aria-label="Assignee"
                             displayValue={(user: User) => user?.username}
