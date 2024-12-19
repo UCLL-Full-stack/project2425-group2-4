@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import styles from "@styles/home.module.css";
 import React from "react";
 
 const Language: React.FC = () => {
@@ -12,7 +13,7 @@ const Language: React.FC = () => {
   };
 
   return (
-    <div className="ml-6">
+    <div className={styles.languageDiv}>
       <label htmlFor="language" className="text-white">
         Language
       </label>

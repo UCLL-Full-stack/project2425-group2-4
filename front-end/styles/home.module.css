@@ -301,6 +301,17 @@
     cursor: pointer;
 }
 
+.languageDiv select{
+    border-radius: 5px;
+    margin-left: .3rem;
+    background-color: #111111;
+    color: #adadad;
+}
+.languageDiv select:hover{
+    background-color: #1f1f1f;
+    color: white;
+}
+
 .createChatroomFormNameContainer {
     display: flex;
     gap: 1rem;
