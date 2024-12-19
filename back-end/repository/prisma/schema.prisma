@@ -12,7 +12,7 @@ model Chat {
   name      String
   createdAt DateTime  @default(now())
   messages  Message[]
-  users     User[]
+  users     User[]    @relation("ChatToUser")
 }
 
 model Message {
@@ -20,38 +20,35 @@ model Message {
   text      String
   timestamp DateTime @default(now())
   userId    Int
-  messenger User     @relation(fields: [userId], references: [id])
   chatId    Int
   chat      Chat     @relation(fields: [chatId], references: [id])
+  messenger User     @relation(fields: [userId], references: [id])
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  username String    @unique
-  email    String    @unique
-  password String
-  Chats    Chat[] //@relation(fields: [chatId], references: [id])
-  messages Message[]
-  role     String    @default("User")
-
-  Friends Friends[]
-
-  OutgoingFriendRequests FriendRequest[] @relation(name: "sender")
-
-  IncomingFriendRequests FriendRequest[] @relation(name: "receiver")
+  id                     Int             @id @default(autoincrement())
+  username               String          @unique
+  email                  String          @unique
+  password               String
+  role                   String          @default("User")
+  IncomingFriendRequests FriendRequest[] @relation("receiver")
+  OutgoingFriendRequests FriendRequest[] @relation("sender")
+  messages               Message[]
+  Chats                  Chat[]          @relation("ChatToUser")
+  Friends                Friends[]       @relation("FriendsToUser")
 }
 
 model Friends {
   id    Int    @id @default(autoincrement())
-  users User[]
+  users User[] @relation("FriendsToUser")
 }
 
 model FriendRequest {
   id         Int      @id @default(autoincrement())
-  sender     User     @relation(name: "sender", fields: [senderId], references: [id])
   senderId   Int
-  receiver   User     @relation(name: "receiver", fields: [receiverId], references: [id])
   receiverId Int
   status     String
   timestamp  DateTime @default(now())
+  receiver   User     @relation("receiver", fields: [receiverId], references: [id])
+  sender     User     @relation("sender", fields: [senderId], references: [id])
 }

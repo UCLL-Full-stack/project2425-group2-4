@@ -1,19 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Chat, User } from '@types';
-import {
-    Combobox,
-    ComboboxButton,
-    ComboboxInput,
-    ComboboxOption,
-    ComboboxOptions,
-    Label,
-} from '@headlessui/react';
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
-
+import { User } from '@types';
 import styles from '@styles/home.module.css';
 import UserService from '@services/UserService';
-import ChatService from '@services/ChatService';
-import { Router, useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 type props = {};
@@ -98,6 +86,7 @@ const CreateFriendRequest: React.FC = () => {
                 </div>
                 <select
                     name={t('friends.component.create-friend-request.label-users')}
+                    required
                     onChange={(e) => {
                         const thisUser = users.find((user) => user.id === Number(e.target.value));
                         if (thisUser) {

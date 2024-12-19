@@ -19,7 +19,8 @@ const FriendRequestBox: React.FC<Props> = ({ friendrequest }) => {
         const fetchUsers = async () => {
             try {
                 const users = await UserService.getAllUsers();
-                const sender = users.find(user => user.id === friendrequest.sender.id);
+                if (users === undefined) throw new Error('No users found');
+                const sender = users.find(user => user.id === friendrequest.sender.userId);
                 if (sender) {
                     setSenderUsername(sender.username);
                 }
@@ -29,7 +30,8 @@ const FriendRequestBox: React.FC<Props> = ({ friendrequest }) => {
         };
 
         fetchUsers();
-    }, [friendrequest.sender.id]);
+    }, [friendrequest.sender.userId])
+
 
     const acceptRequest = async () => {
         try {

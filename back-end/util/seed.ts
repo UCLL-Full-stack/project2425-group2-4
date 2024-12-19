@@ -4,9 +4,11 @@ import bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 
 const main = async () => {
-    await prisma.user.deleteMany({});
-    await prisma.chat.deleteMany({});
+    await prisma.friends.deleteMany({});
+    await prisma.friendRequest.deleteMany({});
     await prisma.message.deleteMany({});
+    await prisma.chat.deleteMany({});
+    await prisma.user.deleteMany({});
 
     // await prisma.user.createMany({
     //     data: [
@@ -52,6 +54,205 @@ const main = async () => {
         }
     });
 
+    const frans = await prisma.user.create({
+        data: {
+            username: "Frans",
+            email: "frans69@frans.be",
+            password: await bcrypt.hash('frans123', 12),
+            role: 'user'
+        }
+    });
+
+    const jan = await prisma.user.create({
+        data: {
+            username: "Jan",
+            email: "SuperRizzler@hotmail.com",
+            password: await bcrypt.hash('jan123', 12),
+            role: 'moderator'
+        }
+    });
+
+    const frits = await prisma.user.create({
+        data: {
+            username: "Frits",
+            email: "FritsW@yahoo.com",
+            password: await bcrypt.hash('frits123', 12),
+            role: 'user'
+        }
+    })
+
+    const admin = await prisma.user.create({
+        data: {
+            username: "admin",
+            email: "admin@diddyscord.com",
+            password: await bcrypt.hash('admin123', 12),
+            role: 'admin',
+        }
+    });
+
+    const diddy = await prisma.user.create({
+        data: {
+            username: "Diddy",
+            email: "Diddy@diddyscord.com",
+            password: await bcrypt.hash('diddy123', 12),
+            role: 'admin'
+        }
+    });
+
+    await prisma.friends.create({
+        data: {
+            users: {
+                connect: [{ id: diddy.id }, { id: yamaha46.id }]
+            }
+        }
+    });
+
+    await prisma.friends.create({
+        data: {
+            users: {
+                connect: [{ id: diddy.id }, { id: jan.id }]
+            }
+        }
+    });
+
+    await prisma.friends.create({
+        data: {
+            users: {
+                connect: [{ id: diddy.id }, { id: frits.id }]
+            }
+        }
+    });
+    await prisma.friends.create({
+        data: {
+            users: {
+                connect: [{ id: diddy.id }, { id: admin.id }]
+            }
+        }
+    });
+    await prisma.friends.create({
+        data: {
+            users: {
+                connect: [{ id: admin.id }, { id: yamaha46.id }]
+            }
+        }
+    });
+    await prisma.friends.create({
+        data: {
+            users: {
+                connect: [{ id: jan.id }, { id: yamaha46.id }]
+            }
+        }
+    });
+    await prisma.friends.create({
+        data: {
+            users: {
+                connect: [{ id: frits.id }, { id: yamaha46.id }]
+            }
+        }
+    });
+    await prisma.friends.create({
+        data: {
+            users: {
+                connect: [{ id: gentleman43.id }, { id: frits.id }]
+            }
+        }
+    });
+    await prisma.friends.create({
+        data: {
+            users: {
+                connect: [{ id: broski21.id }, { id: frits.id }]
+            }
+        }
+    });
+
+
+
+    await prisma.friendRequest.create({
+        data: {
+            sender: {
+                connect: { id: yamaha46.id }
+            },
+            receiver: {
+                connect: { id: frans.id }
+            },
+            status: 'pending',
+            timestamp: new Date()
+        },
+    });
+    await prisma.friendRequest.create({
+        data: {
+            sender: {
+                connect: { id: broski21.id }
+            },
+            receiver: {
+                connect: { id: frans.id }
+            },
+            status: 'pending',
+            timestamp: new Date()
+        },
+    });
+    await prisma.friendRequest.create({
+        data: {
+            sender: {
+                connect: { id: diddy.id }
+            },
+            receiver: {
+                connect: { id: frans.id }
+            },
+            status: 'pending',
+            timestamp: new Date()
+        },
+    });
+    await prisma.friendRequest.create({
+        data: {
+            sender: {
+                connect: { id: gentleman43.id }
+            },
+            receiver: {
+                connect: { id: frans.id }
+            },
+            status: 'pending',
+            timestamp: new Date()
+        },
+    });
+    await prisma.friendRequest.create({
+        data: {
+            sender: {
+                connect: { id: frits.id }
+            },
+            receiver: {
+                connect: { id: frans.id }
+            },
+            status: 'pending',
+            timestamp: new Date()
+        },
+    });
+    await prisma.friendRequest.create({
+        data: {
+            sender: {
+                connect: { id: admin.id }
+            },
+            receiver: {
+                connect: { id: frans.id }
+            },
+            status: 'pending',
+            timestamp: new Date()
+        },
+    });
+    await prisma.friendRequest.create({
+        data: {
+            sender: {
+                connect: { id: jan.id }
+            },
+            receiver: {
+                connect: { id: frans.id }
+            },
+            status: 'pending',
+            timestamp: new Date()
+        },
+    });
+
+
     await prisma.chat.create({
         data: {
             name: 'Developer life',
@@ -61,6 +262,10 @@ const main = async () => {
                     { id: yamaha46.id },
                     { id: broski21.id },
                     { id: gentleman43.id },
+                    { id: jan.id },
+                    { id: frits.id },
+                    { id: admin.id },
+                    { id: diddy.id },
                 ],
             },
             messages: {
@@ -98,6 +303,7 @@ const main = async () => {
                 connect: [
                     { id: yamaha46.id },
                     { id: broski21.id },
+                    { id: jan.id },
                 ],
             },
             messages: {

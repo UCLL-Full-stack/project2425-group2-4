@@ -20,14 +20,14 @@ const CreateChatroom: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [query, setQuery] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
-    const [selectedUser, setSelectedUser] = useState<User>();
     const [chatroomName, setChatroomName] = useState<string>('');
+    const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
 
     const { t } = useTranslation();
     const router = useRouter();
 
     const fetchUsers = async () => {
-        const users = await UserService.getAllUsers();
+        const users = await UserService.getAllFriends();
         setUsers(users);
     };
 
@@ -41,7 +41,7 @@ const CreateChatroom: React.FC = () => {
             : users.filter((user) => user.username.toLowerCase().includes(query.toLowerCase()));
 
     const validate = (): boolean => {
-        if (chatroomName.trim() !== '' && selectedUser?.username) {
+        if (chatroomName.trim() !== '') {
             return true;
         }
         setError(t('chats-components.createChatroom.error'));
@@ -51,16 +51,17 @@ const CreateChatroom: React.FC = () => {
     const handleSubmission = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
+
         if (!validate()) {
             return;
         }
-        if (selectedUser === undefined) {
+        if (selectedUsers.length === 0) {
             return;
         }
 
         await ChatService.createChatroom({
             name: chatroomName,
-            users: [selectedUser],
+            users: selectedUsers,
             messages: [],
         });
         router.push('/chats');
@@ -82,27 +83,65 @@ const CreateChatroom: React.FC = () => {
                         {t('chats-components.createChatroom.label.chatroomName')}
                     </label>
                 </div>
+                <label style={{ alignSelf: 'end' }}> {t('friends.component.create-friend-request.label-users')}</label>
                 <div className={styles.createChatroomFormUsersContainer}>
-                    <Combobox value={selectedUser} onChange={setSelectedUser}>
-                        <ComboboxInput
-                            aria-label="Assignee"
-                            displayValue={(user: User) => user?.username}
-                            onChange={(event) => setQuery(event.target.value)}
-                        />
-                        <ComboboxOptions anchor="bottom" className="border empty:invisible">
-                            {filteredUsers.map((user) => (
-                                <ComboboxOption
-                                    key={user.id}
-                                    value={user}
-                                    className={styles.createChatroomFormUsersOption}
-                                >
-                                    {user.username}
-                                </ComboboxOption>
-                            ))}
-                        </ComboboxOptions>
-                    </Combobox>
-                    <label>{t('chats-components.createChatroom.label.users')}</label>
+                    <input
+                        type="text"
+                        style={{ width: '100%' }}
+                        onChange={(e) => setQuery(e.target.value)}
+                    />
                 </div>
+
+                <select
+                    name={t('friends.component.create-friend-request.label-users')}
+                    multiple
+                    onChange={(e) => {
+                        const thisUser = users.find((user) => user.id === Number(e.target.value));
+                        if (thisUser) {
+                            setSelectedUsers([...selectedUsers, thisUser]);
+                            users.splice(users.indexOf(thisUser), 1);
+                            setUsers(users);
+                        }
+                    }}
+                    size={10}
+                >
+                    {
+                        filteredUsers.map((user) => (
+                            <option
+                                key={user.id}
+                                value={user.id}
+                            >
+                                {user.username}
+                            </option>
+                        ))
+                    }
+                </select>
+
+                <label style={{ alignSelf: 'end' }}> {t('friends.component.create-friend-request.label-users')}</label>
+                <select
+                    name={t('friends.component.create-friend-request.label-selected-users')}
+                    multiple
+                    onChange={(e) => {
+                        const thisUser = selectedUsers.find((user) => user.id === Number(e.target.value));
+                        if (thisUser) {
+                            setUsers([...users, thisUser]);
+                            selectedUsers.splice(selectedUsers.indexOf(thisUser), 1);
+                            setSelectedUsers(selectedUsers);
+                        }
+                    }}
+                    size={10}
+                >
+                    {
+                        selectedUsers.map((user) => (
+                            <option
+                                key={user.id}
+                                value={user.id}
+                            >
+                                {user.username}
+                            </option>
+                        ))
+                    }
+                </select>
                 <button type="submit">{t('chats-components.createChatroom.button')}</button>
             </form>
         </>
