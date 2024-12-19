@@ -132,26 +132,45 @@ test('given a missing password, when authenticate is called, then an error is th
     await expect(authenticate).rejects.toThrow('Password is required.');
 });
 
-test('when createUser is called with valid data, then the user is created successfully', async () => {
-    // given
-    const userInput: UserInput = {
-        username: 'newUser',
-        email: 'newuser@gmail.com',
-        password: 'password',
-        role: 'user'
-    };
-    (usersDb.getUserByUsername as jest.Mock).mockResolvedValue(null);
+test('createUser should create a new user and return an authentication response', async () => {
+    // Mock the getUserByUsername to return null initially and then return the created user
+    (usersDb.getUserByUsername as jest.Mock)
+        .mockResolvedValueOnce(null) // First call returns null (user does not exist)
+        .mockResolvedValueOnce({     // Second call returns the created user
+            username: 'createdUser',
+            email: 'new@example.com',
+            password: 'hashedPassword',
+            role: 'user',
+            getPassword: jest.fn().mockReturnValue('hashedPassword'), // Mock getPassword method
+            getRole: jest.fn().mockReturnValue('user'), // Mock getRole method
+            getEmail: jest.fn().mockReturnValue('new@example.com'), // Mock getEmail method
+        });
     (bcrypt.hash as jest.Mock).mockResolvedValue('hashedPassword');
-    (usersDb.createUser as jest.Mock).mockResolvedValue(user1);
+    (bcrypt.compare as jest.Mock).mockResolvedValue(true); // Mock bcrypt.compare to return true
+    (usersDb.createUser as jest.Mock).mockResolvedValue(true);
+    (generateJwtToken as jest.Mock).mockReturnValue('mockedToken');
 
-    // when
-    const result = await userService.createUser(userInput);
+    const response = await userService.createUser({
+        username: 'createdUser',
+        email: 'new@example.com',
+        password: 'newPassword',
+        role: 'user',
+    });
 
-    // then
-    expect(result).toEqual(user1);
-    expect(usersDb.getUserByUsername).toHaveBeenCalledWith({ username: 'newUser' });
-    expect(bcrypt.hash).toHaveBeenCalledWith('password', 15);
-    expect(usersDb.createUser).toHaveBeenCalledWith(expect.any(User));
+    expect(usersDb.getUserByUsername).toHaveBeenCalledWith({ username: 'createdUser' });
+    expect(bcrypt.hash).toHaveBeenCalledWith('newPassword', 15);
+    expect(usersDb.createUser).toHaveBeenCalledWith(expect.objectContaining({
+        username: 'createdUser',
+        password: 'hashedPassword',
+        email: 'new@example.com',
+        role: 'user',
+    }));
+    expect(response).toEqual({
+        token: 'mockedToken',
+        username: 'createdUser',
+        email: 'new@example.com',
+        role: 'user',
+    });
 });
 
 test('when createUser is called with an existing username, then an error is thrown', async () => {
