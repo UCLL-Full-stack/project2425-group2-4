@@ -32,25 +32,28 @@ const CreateFriendRequest: React.FC = () => {
     }, []);
 
     const getUsersWhoArentFriends = async () => {
-        const allUsers = await UserService.getAllUsers();
-        const allFriends = await UserService.getAllFriends();
+        try {
+            const allUsers = await UserService.getAllUsers();
+            const allFriends = await UserService.getAllFriends();
 
-        const usersToPush: Array<User> = [];
-        console.log(allUsers);
-        console.log(allFriends);
+            const usersToPush: Array<User> = [];
 
-        for (let i = 0; i < allUsers.length; i++) {
-            console.log(allUsers[i]);
-            console.log(usersToPush);
-            let exists = false;
-            for (let j = 0; j < allFriends.length; j++) {
-                if (allUsers[i].id === allFriends[j].id) {
-                    exists = true;
+            for (let i = 0; i < allUsers.length; i++) {
+                let exists = false;
+                for (let j = 0; j < allFriends.length; j++) {
+                    console.log(allUsers[i]);
+                    if (allUsers[i].id === allFriends[j].id) {
+                        exists = true;
+                    }
                 }
+                if (!exists) usersToPush.push(allUsers[i]);
             }
-            if (!exists) usersToPush.push(allUsers[i]);
+            setUsers(usersToPush);
+            console.log(usersToPush)
+        } catch (e) {
+            console.log(e);
+            setError(t('friends.component.create-friend-request.fetchError'));
         }
-        setUsers(allFriends);
     };
 
     const filteredUsers =
@@ -82,28 +85,39 @@ const CreateFriendRequest: React.FC = () => {
     return (
         <>
             <form className={styles.createChatroomForm} onSubmit={handleSubmission}>
+                <h3>{t('friends.component.create-friend-request.title')}</h3>
                 {error && <p className={styles.errorMessage}>{error}</p>}
                 <div className={styles.createChatroomFormUsersContainer}>
-                    <Combobox value={selectedUser} onChange={setSelectedUser}>
-                        <ComboboxInput
-                            aria-label="Assignee"
-                            displayValue={(user: User) => user?.username}
-                            onChange={(event) => setQuery(event.target.value)}
-                        />
-                        <ComboboxOptions anchor="bottom" className="border empty:invisible">
-                            {filteredUsers.map((user) => (
-                                <ComboboxOption
-                                    key={user.id}
-                                    value={user}
-                                    className={styles.createChatroomFormUsersOption}
-                                >
-                                    {user.username}
-                                </ComboboxOption>
-                            ))}
-                        </ComboboxOptions>
-                    </Combobox>
                     <label> {t('friends.component.create-friend-request.label-users')}</label>
+                    <input
+                        type="text"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                    />
+
                 </div>
+                <select
+                    name={t('friends.component.create-friend-request.label-users')}
+                    onChange={(e) => {
+                        const thisUser = users.find((user) => user.id === Number(e.target.value));
+                        if (thisUser) {
+                            setSelectedUser(thisUser)
+                            setQuery(thisUser.username)
+                        }
+                    }}
+                    size={10}
+                >
+                    {
+                        filteredUsers.map((user) => (
+                            <option
+                                key={user.id}
+                                value={user.id}
+                            >
+                                {user.username}
+                            </option>
+                        ))
+                    }
+                </select>
                 <button type="submit">{t('friends.component.create-friend-request.button')}</button>
             </form>
         </>

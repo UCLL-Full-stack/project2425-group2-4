@@ -277,12 +277,18 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 25%;
-    height: 25%;
     background-color: #111111;
     padding:1rem;
     gap: 1rem;
 }
+.createChatroomForm select {
+    color: white;
+    background-color: #111111;
+    padding: 0.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: #1f1f1f #111111;
+}
+
 
 .createChatroomFormNameContainer {
     display: flex;
