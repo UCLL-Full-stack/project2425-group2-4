@@ -37,14 +37,14 @@ const postMessage = async (chatId: number, {
     const messenger = await usersDb.getUserByUsername({ username: userInput.username });
 
     if (!messenger) {
-        console.error(`User with id ${userInput.username} not found`);
+        //console.error(`User with id ${userInput.username} not found`);
         throw new Error('User not found');
     }
 
     const chat = await chatDb.getChatById(chatId);
 
     if (!chat) {
-        console.error(`Chat with id ${chatId} not found`);
+        //console.error(`Chat with id ${chatId} not found`);
         throw new Error('Chat not found');
     }
 
@@ -66,14 +66,14 @@ const deleteMessage = async (chatId: number, messageId: number): Promise<string>
     const chat = await chatDb.getChatById(chatId);
 
     if (!chat) {
-        console.error(`Chat with id ${chatId} not found`);
+        //console.error(`Chat with id ${chatId} not found`);
         throw new Error('Chat not found');
     }
 
     const existingMessage = await messagesDb.getMessageById({ id: messageId });
 
     if (!existingMessage) {
-        console.error(`Message with id ${messageId} not found`);
+        //console.error(`Message with id ${messageId} not found`);
         throw new Error('Message not found');
     }
 

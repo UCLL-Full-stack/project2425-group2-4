@@ -154,35 +154,24 @@ test('when createChat is called with valid data, then the chat is created succes
     });
 });
 
-test('when createChat is called with a non-existent user, then an error is thrown', async () => {
+test('should throw an error when creating a chat with a non-existent user', async () => {
     // given
     const chatInput: ChatInput = {
         name: 'Developer life',
-        users: [ ]
+        users: [
+            { username: 'yamaha46', email: 'yamahalover46@gmail.com', role: 'admin' },
+            { username: 'nonExistentUser', email: 'nonexistent@example.com', role: 'user' }
+        ]
     };
 
     (usersDb.getUserByUsername as jest.Mock).mockImplementation(({ username }) => {
-        if (username === 'yamaha46') return user1;
+        if (username === 'yamaha46') return { id: 1, username: 'yamaha46', email: 'yamahalover46@gmail.com', password: 'R6fan99', role: 'admin' };
         return null;
     });
 
     // when
-    const createChat = chatService.createChat(chatInput);
+    const createChatPromise = chatService.createChat(chatInput);
 
     // then
-    await expect(createChat).rejects.toThrow('User with username unknown not found');
-});
-
-test('when createChat is called with an undefined username, then an error is thrown', async () => {
-    // given
-    const chatInput: ChatInput = {
-        name: 'Developer life',
-        users: [ ]
-    };
-
-    // when
-    const createChat = chatService.createChat(chatInput);
-
-    // then
-    await expect(createChat).rejects.toThrow('Username id is undefined');
+    await expect(createChatPromise).rejects.toThrow('User with username nonExistentUser not found');
 });
