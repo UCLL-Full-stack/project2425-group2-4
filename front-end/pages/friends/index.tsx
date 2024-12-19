@@ -66,6 +66,7 @@ const Friends: React.FC = () => {
 
     useInterval(() => {
         mutate(`${process.env.NEXT_PUBLIC_API_URL}/user/friends`);
+        mutate(`${process.env.NEXT_PUBLIC_API_URL}/user/friendrequests`);
     }, 1000);
 
     return (
