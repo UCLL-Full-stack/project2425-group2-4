@@ -99,7 +99,9 @@
                 "decline-button": "Decline"
             },
             "create-friend-request": {
+                "title": "Send friend request",
                 "error": "Failed to send friend request",
+                "fetchError": "Failed to fetch users",
                 "label-users": "Users",
                 "button": "Send friend request"
             }

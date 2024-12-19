@@ -71,7 +71,9 @@
                 "decline-button": "Refuser"
             },
             "create-friend-request": {
+                "title": "Envoyer une demande d'ami",
                 "error": "Échec de l'envoi de la demande d'amitié",
+                "fetchError": "Erreur de chargement des utilisateurs",
                 "label-users": "Utilisateurs",
                 "button": "Envoyer une demande d'ami"
             }

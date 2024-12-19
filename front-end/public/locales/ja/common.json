@@ -72,7 +72,9 @@
                 "decline-button": "拒否"
             },
             "create-friend-request": {
+                "title": "友達リクエスト",
                 "error": "友達リクエストの送信に失敗しました",
+                "fetchError": "友達リクエストの取得に失敗しました",
                 "label-users": "ユーザー",
                 "button": "友達リクエストを送信"
             }

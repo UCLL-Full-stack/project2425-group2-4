@@ -71,7 +71,9 @@
                 "decline-button": "Weigeren"
             },
             "create-friend-request": {
+                "title": "Vriend Toevoegen",
                 "error": "Geen vriendschapsverzoek verzonden",
+                "fetchError": "Fout bij het laden van gebruikers",
                 "label-users": "Gebruikers",
                 "button": "Vriendschapsverzoek Verzenden"
             }
