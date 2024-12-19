@@ -31,9 +31,8 @@ const DiddyFanSignup: React.FC = () => {
     const noMoreErrorsPlz = () => {
         setNameError('');
         setEmailError('');
-        //setNameError(null); is wrong???? WTF???????????????
-        // ??????????????????????????????
-        setStatusMessage({ type: 'success', message: '' })
+        setPasswordError('');
+        setStatusMessage(undefined);
     };
 
     const checkPassword = (passwordToCheck: string) => {
@@ -48,30 +47,33 @@ const DiddyFanSignup: React.FC = () => {
     const validate = (): boolean => {
         let result = true;
 
-        if (!name && name.trim() === '') {
+        if (!name || name.trim() === '') {
             setNameError(t('signup.component.validation.diddy.name.error'));
             result = false;
         } else {
             setNameError('');
         }
 
-        if (!email && email.trim() === '') {
+        if (!email || email.trim() === '') {
             setEmailError(t('signup.component.validation.diddy.email.error'));
+            result = false;
+        } else {
+            setEmailError('');
         }
 
-        if (!password && password.trim() === '') {
+        if (!password || password.trim() === '') {
             setPasswordError(t('signup.component.validation.diddy.password.empty'));
             result = false;
         } else if (password !== verifyPassword) {
             checkPassword(verifyPassword);
-            return false;
+            result = false;
         } else {
             setPasswordError('');
         }
 
         return result;
     };
-    //(event) IS WRONG???? BECAUSE IT HAS ANY TYPE?? WHAT
+
     const handleSubmission = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         noMoreErrorsPlz();
@@ -126,7 +128,7 @@ const DiddyFanSignup: React.FC = () => {
 
             setTimeout(() => {
                 router.push('/');
-            }, 2500);
+            }, 1500);
         } catch (e) {
             setStatusMessage(
                 { type: 'error', message: t('signup.component.validation.diddy.signup.error') },
@@ -158,28 +160,29 @@ const DiddyFanSignup: React.FC = () => {
                         id="nameInput"
                         type="email"
                         value={email}
-                        required
+                        //required
                         onChange={(event) => setEmail(event.target.value)}
                     //className=
                     />
                     <label className={styles.usernameLabel} htmlFor="nameInput">
                         {t('signup.component.labels.email')}
                     </label>
+                    {emailError && <p className={styles.errorMessage}>{emailError}</p>}
                 </div>
                 <div className={styles.inputContainer}>
                     <input
                         id="nameInput"
                         type="text"
                         value={name}
-                        required
+                        //required
                         onChange={(event) => setName(event.target.value)}
                         className={styles.usernameInput}
                     //className=
                     />
-                    {nameError && <p className={styles.errorMessage}>{nameError}</p>}
                     <label className={styles.usernameLabel} htmlFor="nameInput">
                         {t('signup.component.labels.username')}
                     </label>
+                    {nameError && <p className={styles.errorMessage}>{nameError}</p>}
                 </div>
                 <div className={styles.inputContainer}>
                     <input
