@@ -3,7 +3,7 @@ import { Message } from '@types';
 const postMessage = async (chatId: number, message: Message): Promise<Message> => {
     console.log('API call made for:', message); // Debugging
     console.log(JSON.stringify(message));
-    const token = JSON.parse(sessionStorage.getItem('diddyfan') || '{}')?.token;
+    const token = JSON.parse(sessionStorage.getItem('token') || '{}')?.token;
 
     const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `/chats/${chatId}`, {
         method: 'POST',
@@ -24,7 +24,7 @@ const postMessage = async (chatId: number, message: Message): Promise<Message> =
 
 const deleteMessage = async (chatId: number, message: Message): Promise<Message> => {
     console.log(JSON.stringify(message)); // debugging
-    const token = JSON.parse(sessionStorage.getItem('diddyfan') || '{}')?.token;
+    const token = JSON.parse(sessionStorage.getItem('token') || '{}')?.token;
 
     const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `/chats/${chatId}`, {
         method: 'DELETE',

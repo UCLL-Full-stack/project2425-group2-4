@@ -83,7 +83,7 @@ const CreateChatroom: React.FC = () => {
                         {t('chats-components.createChatroom.label.chatroomName')}
                     </label>
                 </div>
-                <label style={{ alignSelf: 'end' }}> {t('friends.component.create-friend-request.label-users')}</label>
+                <label style={{ alignSelf: 'end' }}> {t('chats-components.createChatroom.label.users')}</label>
                 <div className={styles.createChatroomFormUsersContainer}>
                     <input
                         type="text"
@@ -93,7 +93,7 @@ const CreateChatroom: React.FC = () => {
                 </div>
 
                 <select
-                    name={t('friends.component.create-friend-request.label-users')}
+                    name={t('chats-components.createChatroom.label.users')}
                     multiple
                     onChange={(e) => {
                         const thisUser = users.find((user) => user.id === Number(e.target.value));
@@ -117,9 +117,8 @@ const CreateChatroom: React.FC = () => {
                     }
                 </select>
 
-                <label style={{ alignSelf: 'end' }}> {t('friends.component.create-friend-request.label-users')}</label>
+                <label style={{ alignSelf: 'end' }}> {t('chats-components.createChatroom.label.users')}</label>
                 <select
-                    name={t('friends.component.create-friend-request.label-selected-users')}
                     multiple
                     onChange={(e) => {
                         const thisUser = selectedUsers.find((user) => user.id === Number(e.target.value));

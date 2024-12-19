@@ -56,9 +56,7 @@ const Header: React.FC = () => {
                         <li>
                             <Link href="/">{t('header.links.home')}</Link>
                         </li>
-                        {!diddyfan ? (
-                            <> </>
-                        ) : (
+                        {diddyfan ? (
                             <>
                                 <li>
                                     <Link href="/chats">{t('header.links.chats')}</Link>
@@ -66,23 +64,21 @@ const Header: React.FC = () => {
                                 <li>
                                     <Link href="/friends">{t('header.links.friends')}</Link>
                                 </li>
-                            </>
-                        )}
-                        <li>
-                            {!diddyfan ? (
-                                <Link href="/login">{t('header.links.login')}</Link>
-                            ) : (
-                                <>
+                                <li>
                                     <a href="login" onClick={handleLogout}>
                                         {t('header.links.logout.anchor')}
                                     </a>
-                                    <li>
-                                        {t('header.links.logout.username')} "{diddyfan?.username}"!
-                                    </li>
-                                </>
-                            )}
+                                    {t('header.links.logout.username')} "{diddyfan?.username}"!
+                                </li>
+                            </>
+                        ) : (
+                            <li>
+                                <Link href="/login">{t('header.links.login')}</Link>
+                            </li>
+                        )}
+                        <li>
+                            <Language />
                         </li>
-                        <Language />
                     </ul>
                 </div>
             </nav>

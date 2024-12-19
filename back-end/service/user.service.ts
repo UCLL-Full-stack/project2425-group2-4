@@ -56,7 +56,7 @@ const createUser = async ({
     email,
     password,
     role,
-}: UserInput): Promise<User> => {
+}: UserInput): Promise<AuthenticationResponse> => {
     const existingUser = await usersDb.getUserByUsername({ username });
 
     if (password === undefined) {
@@ -69,8 +69,11 @@ const createUser = async ({
 
     const hashedPassword = await bcrypt.hash(password, 15);
     const user = new User({ username, password: hashedPassword, email, role });
-
-    return await usersDb.createUser(user);
+    const createdUser = await usersDb.createUser(user);
+    if (!createdUser) {
+        throw new Error(`Failed to create user ${username}.`)
+    }
+    return authenticate({ username, password, email, role });
 };
 
 const getAllFriends = async (username: string): Promise<User[]> => {

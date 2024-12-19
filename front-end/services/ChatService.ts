@@ -1,7 +1,7 @@
 import { Chat } from '@types';
 
 const getChats = async () => {
-    const token = JSON.parse(sessionStorage.getItem('diddyfan') || '{}')?.token; // I FUCKING HATE THIS
+    const token = JSON.parse(sessionStorage.getItem('token') || '{}')?.token;
 
     return fetch(
         process.env.NEXT_PUBLIC_API_URL + "/chats",
@@ -15,7 +15,7 @@ const getChats = async () => {
 };
 
 const getChatById = async (chatId: string) => {
-    const token = JSON.parse(sessionStorage.getItem('diddyfan') || '{}')?.token; // I FUCKING HATE THIS
+    const token = JSON.parse(sessionStorage.getItem('token') || '{}')?.token;
     const result = await fetch(
         process.env.NEXT_PUBLIC_API_URL + `/chats/${chatId}`,
         {
@@ -30,7 +30,7 @@ const getChatById = async (chatId: string) => {
 };
 
 const createChatroom = async ({ name, users }: Chat): Promise<Chat> => {
-    const token = JSON.parse(sessionStorage.getItem('diddyfan') || '{}')?.token;
+    const token = JSON.parse(sessionStorage.getItem('token') || '{}')?.token;
 
     const chat = await fetch(
         process.env.NEXT_PUBLIC_API_URL + "/chats",
@@ -48,7 +48,7 @@ const createChatroom = async ({ name, users }: Chat): Promise<Chat> => {
 }
 
 const updateChatroom = async ({ name, id }: { name: string, id: string }): Promise<Chat> => {
-    const token = JSON.parse(sessionStorage.getItem('diddyfan') || '{}')?.token;
+    const token = JSON.parse(sessionStorage.getItem('token') || '{}')?.token;
 
     const chat = await fetch(
         process.env.NEXT_PUBLIC_API_URL + `/chats/`,

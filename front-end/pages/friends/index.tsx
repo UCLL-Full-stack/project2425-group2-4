@@ -17,9 +17,9 @@ import CreateChatroom from '@components/chats/CreateChatroom';
 import { Button } from '@headlessui/react';
 import FriendRequestBox from '@components/friends/FriendRequestBox';
 import CreateFriendRequest from '@components/friends/CreateFriendRequest';
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { GetServerSidePropsContext } from "next";
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { GetServerSidePropsContext } from 'next';
 
 const Friends: React.FC = () => {
     const router = useRouter();
@@ -37,11 +37,11 @@ const Friends: React.FC = () => {
 
     const toggleNewFriendPopup = () => {
         newFriendVisible ? setNewFriendVisible(false) : setNewFriendVisible(true);
-
-    }
+    };
 
     const fetcher = (url: string) => {
-        const token = JSON.parse(sessionStorage.getItem('diddyfan') || '{}')?.token;
+        const token = JSON.parse(sessionStorage.getItem('token') || '{}')?.token;
+
         if (!token) {
             throw new Error('No token found');
         }
@@ -53,60 +53,70 @@ const Friends: React.FC = () => {
         }).then((res) => res.json());
     };
 
-    const { data: friendRequestData, isLoading: isFriendrequestLoading, error: friendrequestError } = useSWR(
+    const {
+        data: friendRequestData,
+        isLoading: isFriendrequestLoading,
+        error: friendrequestError,
+    } = useSWR(
         `${process.env.NEXT_PUBLIC_API_URL}/user/friendrequests`,
 
         fetcher
     );
 
-    const { data: friendsData, isLoading: isFriendsLoading, error: friendsError } = useSWR(
-        `${process.env.NEXT_PUBLIC_API_URL}/user/friends`,
-        fetcher
-    );
+    const {
+        data: friendsData,
+        isLoading: isFriendsLoading,
+        error: friendsError,
+    } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}/user/friends`, fetcher);
 
     useInterval(() => {
         mutate(`${process.env.NEXT_PUBLIC_API_URL}/user/friends`);
         mutate(`${process.env.NEXT_PUBLIC_API_URL}/user/friendrequests`);
     }, 1000);
 
+    if (!user) {
+        return <p className={styles.errorMessage}>{t("denied.access")}</p>
+    }
+    
     return (
         <>
             {newFriendVisible ? (
-
-                <div className={styles.createChatroomContainer} onClick={(e) => {
-                    if (e.target === e.currentTarget) {
-                        toggleNewFriendPopup();
-                    }
-                }}>
+                <div
+                    className={styles.createChatroomContainer}
+                    onClick={(e) => {
+                        if (e.target === e.currentTarget) {
+                            toggleNewFriendPopup();
+                        }
+                    }}
+                >
                     <CreateFriendRequest />
                 </div>
             ) : (
                 <div></div>
-            )
-            }
+            )}
             <Head>
-                <title>{t("friends.page.title")}</title>
+                <title>{t('friends.page.title')}</title>
             </Head>
             <Header />
             <main className={styles.main}>
-                <h1 className={styles.chatroomName}>{t("friends.page.title")}</h1>
+                <h1 className={styles.chatroomName}>{t('friends.page.title')}</h1>
                 <div className={styles.chatroomContainer}>
                     <div className={styles.chatRoomsOverviewContainer}>
                         <div className={styles.chatroomsOverviewList}>
                             <table className={styles.FriendsOverviewTable}>
                                 <thead>
                                     <tr>
-                                        <th scope="col">{t("friends.page.overview-table")}</th>
+                                        <th scope="col">{t('friends.page.overview-table')}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {isFriendsLoading ? (
                                         <tr>
-                                            <td>{t("friends.page.loading")}</td>
+                                            <td>{t('friends.page.loading')}</td>
                                         </tr>
                                     ) : friendsError ? (
                                         <tr>
-                                            <td>{t("friends.page.error-loading")}</td>
+                                            <td>{t('friends.page.error-loading')}</td>
                                         </tr>
                                     ) : friendsData && friendsData.length > 0 ? (
                                         friendsData.map((friend: User) => (
@@ -116,28 +126,54 @@ const Friends: React.FC = () => {
                                         ))
                                     ) : (
                                         <tr>
-                                            <td>{t("friends.page.no-friends")}</td>
+                                            <td>{t('friends.page.no-friends')}</td>
                                         </tr>
                                     )}
                                 </tbody>
                             </table>
                         </div>
-                        <Button className={styles.addChatroomButton} onClick={toggleNewFriendPopup}> <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="12" r="10" stroke="#ffffff" stroke-width="1.5"></circle> <path d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>{t("friends.page.add-friend-button")}</Button>
+                        <Button className={styles.addChatroomButton} onClick={toggleNewFriendPopup}>
+                            {' '}
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g
+                                    id="SVGRepo_tracerCarrier"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                ></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    {' '}
+                                    <circle
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="#ffffff"
+                                        stroke-width="1.5"
+                                    ></circle>{' '}
+                                    <path
+                                        d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15"
+                                        stroke="#ffffff"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                    ></path>{' '}
+                                </g>
+                            </svg>
+                            {t('friends.page.add-friend-button')}
+                        </Button>
                     </div>
                     <div className={styles.chatRoomContentContainer}>
                         <div className={styles.chatRoomContent}>
                             {isFriendrequestLoading ? (
-                                <p>{t("friends.page.friend-request.loading")}</p>
+                                <p>{t('friends.page.friend-request.loading')}</p>
                             ) : friendrequestError ? (
-                                <p>{t("friends.page.friend-request.error-loading")}</p>
+                                <p>{t('friends.page.friend-request.error-loading')}</p>
                             ) : friendRequestData && friendRequestData.length > 0 ? (
                                 friendRequestData.map((friendrequest: FriendRequest) => (
                                     <FriendRequestBox friendrequest={friendrequest} />
                                 ))
                             ) : (
-                                <p>{t("friends.page.friend-request.text")}</p>
-                            )
-                            }
+                                <p>{t('friends.page.friend-request.text')}</p>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -146,12 +182,12 @@ const Friends: React.FC = () => {
     );
 };
 
-export const getServerSideProps = async (context: GetServerSidePropsContext)  => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
     const { locale } = context;
 
     return {
         props: {
-            ...(await serverSideTranslations(locale ?? "en", ["common"])),
+            ...(await serverSideTranslations(locale ?? 'en', ['common'])),
         },
     };
 };

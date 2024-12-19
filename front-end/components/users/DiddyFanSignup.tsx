@@ -108,11 +108,17 @@ const DiddyFanSignup: React.FC = () => {
             sessionStorage.setItem(
                 'diddyfan',
                 JSON.stringify({
-                    token: data.token,
                     username: data.username,
                     role: data.role,
                 })
             );
+            sessionStorage.setItem(
+                'token',
+                JSON.stringify({
+                    token: data.token,
+                })
+            );
+            console.log(data.token);
 
             setStatusMessage(
                 { type: 'success', message: t('signup.component.validation.diddy.signup.success') },

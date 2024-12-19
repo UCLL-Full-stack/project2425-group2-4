@@ -36,7 +36,7 @@ const Chatroom: React.FC = () => {
 
     const fetcher = async (url: string) => {
         //console.log('Fetching data from:', url);
-        const token = user?.token;
+        const token = JSON.parse(sessionStorage.getItem('token') || '{}')?.token;
         if (!token) {
             throw new Error('No token found');
         }
@@ -85,6 +85,10 @@ const Chatroom: React.FC = () => {
         router.push(`/chats/${chat.id}`);
         //setChat(chat);
     };
+    
+    if (!user) {
+        return <p className={styles.errorMessage}>{t("denied.access")}</p>
+    }
 
     return (
         <>

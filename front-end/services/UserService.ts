@@ -22,7 +22,7 @@ const signupDiddyFan = (diddy: User) => {
 }
 
 const getAllUsers = async (): Promise<User[]> => {
-    const token = JSON.parse(sessionStorage.getItem('diddyfan') || '{}')?.token;
+    const token = JSON.parse(sessionStorage.getItem('token') || '{}')?.token;
     const users = await fetch(process.env.NEXT_PUBLIC_API_URL + '/user', {
         method: 'GET',
         headers: {
@@ -36,7 +36,7 @@ const getAllUsers = async (): Promise<User[]> => {
 }
 
 const sendFriendRequest = async ({ friendUsername }: { friendUsername: string }) => {
-    const token = JSON.parse(sessionStorage.getItem('diddyfan') || '{}')?.token;
+    const token = JSON.parse(sessionStorage.getItem('token') || '{}')?.token;
     const body = {
         friendUsername
     }
@@ -51,7 +51,7 @@ const sendFriendRequest = async ({ friendUsername }: { friendUsername: string })
 }
 
 const handleFriendRequest = async (friendRequest: FriendRequest, status: string) => {
-    const token = JSON.parse(sessionStorage.getItem('diddyfan') || '{}')?.token;
+    const token = JSON.parse(sessionStorage.getItem('token') || '{}')?.token;
     const body = {
         id: friendRequest.id,
         status: status
@@ -73,8 +73,8 @@ const handleFriendRequest = async (friendRequest: FriendRequest, status: string)
 };
 
 const getAllFriends = async (): Promise<User[]> => {
-    const token = JSON.parse(sessionStorage.getItem('diddyfan') || '{}')?.token;
-
+    const token = JSON.parse(sessionStorage.getItem('token') || '{}')?.token;
+    console.log(token);
     const result = await fetch(process.env.NEXT_PUBLIC_API_URL + '/user/friends', {
         method: 'GET',
         headers: {

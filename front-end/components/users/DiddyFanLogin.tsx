@@ -66,15 +66,16 @@ const DiddyFanLogin: React.FC = () => {
                 sessionStorage.setItem(
                     'diddyfan',
                     JSON.stringify({
-                        token: user.token,
                         username: user.username,
                         role: user.role,
                     })
                 );
-                // const user: User = await data.json();
-                // sessionStorage.setItem('diddyfan', user.username);
-                // sessionStorage.setItem('diddyId', user.id);
-                // sessionStorage.setItem('token', user.token);
+                sessionStorage.setItem(
+                    'token',
+                    JSON.stringify({
+                        token: user.token
+                    })
+                );
                 setStatusMessage(
                     {
                         type: 'success',
