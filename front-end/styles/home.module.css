@@ -20,6 +20,21 @@
     color: rgb(255, 255, 255);
 }
 
+.userTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.userTable th, .userTable td {
+    border: 1px solid #ffffff;
+    padding: 8px;
+}
+
+.userTable th {
+    background-color: #000000;
+    text-align: left;
+}
+
 #diddyscordLogo:hover {
     color: rgb(255, 255, 255) !important;
     transform: none !important;

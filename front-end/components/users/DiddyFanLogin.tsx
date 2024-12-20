@@ -101,6 +101,17 @@ const DiddyFanLogin: React.FC = () => {
         }
     };
 
+    // Table for logging in purposes
+    const users = [
+        { username: 'frans', password: 'frans123', role: 'user' },
+        { username: 'jan', password: 'jan123', role: 'moderator' },
+        { username: 'frits', password: 'frits123', role: 'user' },
+        { username: 'admin', password: 'admin123', role: 'admin' },
+        { username: 'yamaha46', password: 'R6fan99', role: 'admin'},
+        { username: 'broski21', password: 'nuggetslovr6', role: 'moderator'},
+        { username: 'gentleman43', password: 'test123', role: 'user'},
+    ];
+
     return (
         <>
             <h3 className={styles.loginHeader}>{t('login.component.header')}</h3>
@@ -156,6 +167,25 @@ const DiddyFanLogin: React.FC = () => {
                     </Link>
                 </div>
             </form>
+
+            <table className={styles.userTable}>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                {users.map((user, index) => (
+                    <tr key={index}>
+                        <td>{user.username}</td>
+                        <td>{user.password}</td>
+                        <td>{user.role}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
         </>
     );
 };
